@@ -1,0 +1,4 @@
+bin
+.env
+gotrue.env
+main_test.go
