@@ -5,7 +5,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
-	"github.com/hiumesh/dynamic-portfolio-REST-API/models"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/pkg"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/routes"
 	"github.com/sirupsen/logrus"
@@ -40,7 +39,10 @@ func SetupRouter() *gin.Engine {
 	app.Use(helmet.Default())
 	app.Use(gzip.Gzip(gzip.BestCompression))
 
-	routes.InitCommonRoutes(db, app)
+	router := app.Group("/api/v1")
+
+	routes.InitCommonRoutes(db, router)
+	routes.InitUserProfileRoutes(db, router)
 
 	return app
 }
@@ -57,14 +59,14 @@ func SetupDatabase() *gorm.DB {
 		logrus.Info("Connect into Database Successfully")
 	}
 
-	err = db.AutoMigrate(
-		&models.ModelPortfolios{},
-	)
+	// err = db.AutoMigrate(
+	// 	&models.Portfolio{},
+	// )
 
-	if err != nil {
-		defer logrus.Info("Auto Migration Failed")
-		logrus.Fatal(err.Error())
-	}
+	// if err != nil {
+	// 	defer logrus.Info("Auto Migration Failed")
+	// 	logrus.Fatal(err.Error())
+	// }
 
 	return db
 }

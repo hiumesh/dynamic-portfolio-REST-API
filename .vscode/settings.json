@@ -2,10 +2,13 @@
   "cSpell.words": [
     "danielkov",
     "datatypes",
+    "envconfig",
     "godotenv",
     "gonic",
     "hiumesh",
     "logrus",
-    "sirupsen"
+    "mapstructure",
+    "sirupsen",
+    "Upsert"
   ]
 }

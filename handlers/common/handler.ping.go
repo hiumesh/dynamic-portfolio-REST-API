@@ -18,5 +18,5 @@ func NewHandlerPing(service services.ServicePing) *handlerPing {
 
 func (h *handlerPing) PingHandler(ctx *gin.Context) {
 	res := h.service.PingService()
-	helpers.APIResponse(ctx, res, http.StatusOK, http.MethodPost, nil)
+	helpers.APIResponse(ctx, res, http.StatusOK, ctx.Request.Method, res)
 }

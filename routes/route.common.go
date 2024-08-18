@@ -8,13 +8,15 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitCommonRoutes(db *gorm.DB, route *gin.Engine) {
+func InitCommonRoutes(db *gorm.DB, router *gin.RouterGroup) {
 
 	pingRepository := repositories.NewRepositoryPing(db)
 	pingService := services.NewPingService(pingRepository)
 	pingHandler := handlers.NewHandlerPing(pingService)
 
-	groupRoute := route.Group("/api/v1")
-	groupRoute.GET("/ping", pingHandler.PingHandler)
+	groupRoute := router.Group("/common")
+	{
+		groupRoute.GET("/ping", pingHandler.PingHandler)
+	}
 
 }

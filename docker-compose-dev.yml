@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   gotrue:
     image: gotrue
@@ -28,20 +28,9 @@ services:
       - DB_NAMESPACE=auth
     networks:
       - restapi_network
-  app: 
-    build:
-      context: .
-      dockerfile: app/Dockerfile
-    container_name: app
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - 4000:4000
-    networks:
-      - restapi_network
-    depends_on:
-      - gotrue
+
+volumes:
+  gotrue_postgres_volume:
 
 networks:
   restapi_network:

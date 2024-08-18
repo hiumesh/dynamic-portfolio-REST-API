@@ -1,50 +1,36 @@
 package pkg
 
 import (
-	"context"
+	"errors"
+	"regexp"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/hiumesh/dynamic-portfolio-REST-API/config"
 )
 
-type AMREntry struct {
-	Method    string `json:"method"`
-	Timestamp int64  `json:"timestamp"`
-	Provider  string `json:"provider,omitempty"`
-}
+var bearerRegexp = regexp.MustCompile(`^(?:B|b)earer (\S+$)`)
 
-type AccessTokenClaims struct {
-	jwt.StandardClaims
-	Email                         string                 `json:"email"`
-	Phone                         string                 `json:"phone"`
-	AppMetaData                   map[string]interface{} `json:"app_metadata"`
-	UserMetaData                  map[string]interface{} `json:"user_metadata"`
-	Role                          string                 `json:"role"`
-	AuthenticatorAssuranceLevel   string                 `json:"aal,omitempty"`
-	AuthenticationMethodReference []AMREntry             `json:"amr,omitempty"`
-	SessionId                     string                 `json:"session_id,omitempty"`
-}
-
-func extractBearerToken(ctx *gin.Context) (string, *utils.HTTPError) {
+func ExtractBearerToken(ctx *gin.Context) (string, error) {
 	authHeader := ctx.Request.Header.Get("Authorization")
 	matches := bearerRegexp.FindStringSubmatch(authHeader)
 	if len(matches) != 2 {
-		return "", utils.UnauthorizedError("This endpoint requires a Bearer token")
+		return "", errors.New("This endpoint requires a Bearer token")
 	}
 
 	return matches[1], nil
 }
 
-func parseJWTClaims(bearer string, ctx *gin.Context) (context.Context, *utils.HTTPError) {
-	config := a.config
+func ParseJWTClaims(bearer string, ctx *gin.Context, claims interface{}) (*jwt.Token, error) {
+	secret := GodotEnv("GO_JWT_SECRET")
 
 	p := jwt.Parser{ValidMethods: []string{jwt.SigningMethodHS256.Name}}
-	token, err := p.ParseWithClaims(bearer, &AccessTokenClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.JWT.Secret), nil
+	token, err := p.ParseWithClaims(bearer, &config.AccessTokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secret), nil
 	})
 	if err != nil {
-		return ctx, utils.UnauthorizedError("invalid JWT: unable to parse or verify signature, %v", err)
+		return nil, errors.New("Invalid JWT: token may be expired or system is unable to parse and verify signature")
 	}
-	utils.WithToken(ctx, token)
-	return ctx, nil
+
+	return token, nil
 }
