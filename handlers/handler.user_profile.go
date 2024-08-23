@@ -6,14 +6,38 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/helpers"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/schemas"
-	services "github.com/hiumesh/dynamic-portfolio-REST-API/services/user_profile"
+	"github.com/hiumesh/dynamic-portfolio-REST-API/services"
 )
 
-type handlerUpsertProfile struct {
-	service services.ServiceUpsertProfile
+type handlerUserProfile struct {
+	service services.ServiceUserProfile
 }
 
-func (h *handlerUpsertProfile) UpsertProfileHandler(ctx *gin.Context) {
+func (h *handlerUserProfile) Get(ctx *gin.Context) {
+	userId := helpers.GetClaims(ctx).Subject
+
+	res, err := h.service.Get(userId)
+
+	if err != nil {
+		if dbErr, ok := err.(*helpers.DatabaseError); ok {
+			switch dbErr.Type {
+			case "ErrRecordNotFound":
+				helpers.APIErrorResponse(ctx, &helpers.HTTPError{StatusCode: http.StatusNotFound, Method: ctx.Request.Method, Message: "Profile Not Found"})
+				return
+			default:
+				helpers.APIErrorResponse(ctx, &helpers.HTTPError{StatusCode: http.StatusInternalServerError, Method: ctx.Request.Method, Message: "Database Error"})
+				return
+			}
+		}
+
+		helpers.APIErrorResponse(ctx, &helpers.HTTPError{StatusCode: http.StatusInternalServerError, Method: ctx.Request.Method, Message: err.Error()})
+		return
+	}
+
+	helpers.APIResponse(ctx, "Profile Data Successfully Fetched", http.StatusOK, ctx.Request.Method, res)
+}
+
+func (h *handlerUserProfile) Upsert(ctx *gin.Context) {
 	userId := helpers.GetClaims(ctx).Subject
 
 	var data schemas.SchemaProfileBasic
@@ -27,7 +51,7 @@ func (h *handlerUpsertProfile) UpsertProfileHandler(ctx *gin.Context) {
 		return
 	}
 
-	err := h.service.UpsertProfileService(userId, &data)
+	err := h.service.Upsert(userId, &data)
 
 	if err != nil {
 		if dbErr, ok := err.(*helpers.DatabaseError); ok {
@@ -46,8 +70,8 @@ func (h *handlerUpsertProfile) UpsertProfileHandler(ctx *gin.Context) {
 
 }
 
-func NewUpsertProfileHandler(service services.ServiceUpsertProfile) *handlerUpsertProfile {
-	return &handlerUpsertProfile{
+func NewUserProfileHandler(service services.ServiceUserProfile) *handlerUserProfile {
+	return &handlerUserProfile{
 		service: service,
 	}
 }
