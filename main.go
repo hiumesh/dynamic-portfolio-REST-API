@@ -43,6 +43,7 @@ func SetupRouter() *gin.Engine {
 
 	routes.InitCommonRoutes(db, router)
 	routes.InitUserProfileRoutes(db, router)
+	routes.InitUserEducationRoutes(db, router)
 
 	return app
 }
@@ -60,7 +61,7 @@ func SetupDatabase() *gorm.DB {
 	}
 
 	// err = db.AutoMigrate(
-	// 	&models.Portfolio{},
+	// 	&models.UserEducation{},
 	// )
 
 	// if err != nil {

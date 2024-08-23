@@ -161,10 +161,34 @@ func SocialPlatformValidator(f1 validator.FieldLevel) bool {
 
 func CollageDegreeValidator(f1 validator.FieldLevel) bool {
 	predefinedCollageDegrees := map[string]bool{
-		"B.Com":  true,
-		"BCA":    true,
-		"B.Tech": true,
-		"MCA":    true,
+		"B. Voc":                      true,
+		"B.A.":                        true,
+		"B.Arch":                      true,
+		"B.B.A.":                      true,
+		"B.C.A.":                      true,
+		"B.Com.":                      true,
+		"B.E.":                        true,
+		"B.F.Tech.":                   true,
+		"B.Pharm.":                    true,
+		"B.S.":                        true,
+		"B.Sc.":                       true,
+		"B.Tech":                      true,
+		"B.Tech + M.Tech":             true,
+		"Bachelor of Fine Arts (BFA)": true,
+		"Diploma":                     true,
+		"M. Voc":                      true,
+		"M.Arch":                      true,
+		"M.B.A.":                      true,
+		"M.C.A.":                      true,
+		"M.Com.":                      true,
+		"M.Des.":                      true,
+		"M.E.":                        true,
+		"M.Ed.":                       true,
+		"M.F.Tech":                    true,
+		"M.S.":                        true,
+		"M.Sc.":                       true,
+		"M.Tech":                      true,
+		"PG Diploma":                  true,
 	}
 
 	degree := f1.Field().String()
