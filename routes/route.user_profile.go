@@ -16,6 +16,7 @@ func InitUserProfileRoutes(db *gorm.DB, router *gin.RouterGroup) {
 	groupRoute := router.Group("/users").Use(middlewares.Auth())
 	{
 		groupRoute.GET("/profile", handler.Get)
+		groupRoute.PUT("/profile-setup", handler.ProfileSetup)
 		groupRoute.PUT("/profile", handler.Upsert)
 	}
 

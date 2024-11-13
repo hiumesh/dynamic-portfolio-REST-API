@@ -10,6 +10,7 @@ import (
 type ServiceUserProfile interface {
 	Get(userId string) (*models.UserProfile, error)
 	Upsert(userId string, profile *schemas.SchemaProfileBasic) error
+	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
 }
 
 type serviceUserProfile struct {
@@ -24,6 +25,15 @@ func (s *serviceUserProfile) Get(userId string) (*models.UserProfile, error) {
 		return nil, err
 	}
 	return res, nil
+}
+
+func (s *serviceUserProfile) ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error {
+	repository := repositories.NewUserProfileRepository(s.db)
+
+	if err := repository.ProfileSetup(userId, profile); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *serviceUserProfile) Upsert(userId string, profile *schemas.SchemaProfileBasic) error {

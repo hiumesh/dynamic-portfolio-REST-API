@@ -8,9 +8,11 @@ create table
   public.user_profiles (
     user_id uuid not null,
     email text not null,
+    full_name text,
+    avatar_url text,
     slug text,
     portfolio_status user_profiles_portfolio_status_enum not null default 'DRAFT',
-    attributes jsonb,
+    attributes jsonb not null default '{}',
     created_at timestamptz not null,
     updated_at timestamptz not null,
     deleted_at timestamptz,
@@ -30,7 +32,7 @@ begin
     
     return NEW;
 end;
-$$ language plpgsql;
+$$ language plpgsql security definer;
 
 -- triggers
 

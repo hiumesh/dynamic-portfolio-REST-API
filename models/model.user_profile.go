@@ -19,6 +19,8 @@ const (
 type UserProfile struct {
 	UserId          uuid.UUID       `json:"user_id" gorm:"primaryKey"`
 	Email           string          `json:"email" gorm:"uniqueIndex"`
+	FullName        *string         `json:"full_name"`
+	AvatarUrl       *string         `json:"avatar_url"`
 	Slug            string          `json:"slug" gorm:"uniqueIndex"`
 	PortfolioStatus Status          `json:"status" gorm:"type:user_profiles_portfolio_status_enum"`
 	Attributes      *datatypes.JSON `json:"attributes"`
