@@ -9,9 +9,10 @@ import (
 
 type ServiceUserEducation interface {
 	GetAll(userId string) (*models.UserEducations, error)
-	Create(userId string, data *schemas.SchemaUserEducation) error
-	Update(userId string, id string, data *schemas.SchemaUserEducation) error
+	Create(userId string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
+	Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
 	Reorder(userId string, id string, newIndex int) error
+	Delete(userId string, id string) error
 }
 
 type serviceUserEducation struct {
@@ -29,24 +30,26 @@ func (s *serviceUserEducation) GetAll(userId string) (*models.UserEducations, er
 	return res, nil
 }
 
-func (s *serviceUserEducation) Create(userId string, data *schemas.SchemaUserEducation) error {
+func (s *serviceUserEducation) Create(userId string, data *schemas.SchemaUserEducation) (*models.UserEducation, error) {
 	userEducationRepository := repositories.NewUserEducationRepository(s.db)
 
-	if err := userEducationRepository.Create(userId, data); err != nil {
-		return err
+	edu, err := userEducationRepository.Create(userId, data)
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return edu, nil
 }
 
-func (s *serviceUserEducation) Update(userId string, id string, data *schemas.SchemaUserEducation) error {
+func (s *serviceUserEducation) Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error) {
 	userEducationRepository := repositories.NewUserEducationRepository(s.db)
 
-	if err := userEducationRepository.Update(userId, id, data); err != nil {
-		return err
+	edu, err := userEducationRepository.Update(userId, id, data)
+	if err != nil {
+		return nil, err
 	}
 
-	return nil
+	return edu, nil
 }
 
 func (s *serviceUserEducation) Reorder(userId string, id string, newIndex int) error {
@@ -67,6 +70,24 @@ func (s *serviceUserEducation) Reorder(userId string, id string, newIndex int) e
 
 	return nil
 
+}
+
+func (s *serviceUserEducation) Delete(userId string, id string) error {
+	err := s.db.Transaction(func(tx *gorm.DB) error {
+		userEducationRepository := repositories.NewUserEducationRepository(tx)
+
+		if err := userEducationRepository.Delete(userId, id); err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func NewUserEducationService(db *gorm.DB) *serviceUserEducation {

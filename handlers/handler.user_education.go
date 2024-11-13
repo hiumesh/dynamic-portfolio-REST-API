@@ -51,7 +51,7 @@ func (h *handlerUserEducation) Create(ctx *gin.Context) {
 		return
 	}
 
-	err := h.service.Create(userId, &data)
+	res, err := h.service.Create(userId, &data)
 
 	if err != nil {
 		if dbErr, ok := err.(*helpers.DatabaseError); ok {
@@ -66,7 +66,7 @@ func (h *handlerUserEducation) Create(ctx *gin.Context) {
 		return
 	}
 
-	helpers.APIResponse(ctx, "Successful", http.StatusOK, ctx.Request.Method, nil)
+	helpers.APIResponse(ctx, "Successful", http.StatusOK, ctx.Request.Method, res)
 
 }
 
@@ -85,7 +85,7 @@ func (h *handlerUserEducation) Update(ctx *gin.Context) {
 		return
 	}
 
-	err := h.service.Update(userId, id, &data)
+	res, err := h.service.Update(userId, id, &data)
 
 	if err != nil {
 		if dbErr, ok := err.(*helpers.DatabaseError); ok {
@@ -100,7 +100,7 @@ func (h *handlerUserEducation) Update(ctx *gin.Context) {
 		return
 	}
 
-	helpers.APIResponse(ctx, "Update Successful", http.StatusOK, ctx.Request.Method, nil)
+	helpers.APIResponse(ctx, "Update Successful", http.StatusOK, ctx.Request.Method, res)
 
 }
 
@@ -135,6 +135,29 @@ func (h *handlerUserEducation) Reorder(ctx *gin.Context) {
 	}
 
 	helpers.APIResponse(ctx, "Reordering Successfully", http.StatusOK, ctx.Request.Method, nil)
+
+}
+
+func (h *handlerUserEducation) Delete(ctx *gin.Context) {
+	userId := helpers.GetClaims(ctx).Subject
+	id := ctx.Param("Id")
+
+	err := h.service.Delete(userId, id)
+
+	if err != nil {
+		if dbErr, ok := err.(*helpers.DatabaseError); ok {
+			switch dbErr.Type {
+			default:
+				helpers.APIErrorResponse(ctx, &helpers.HTTPError{StatusCode: http.StatusInternalServerError, Method: ctx.Request.Method, Message: "Database Error"})
+				return
+			}
+		}
+
+		helpers.APIErrorResponse(ctx, &helpers.HTTPError{StatusCode: http.StatusInternalServerError, Method: ctx.Request.Method, Message: err.Error()})
+		return
+	}
+
+	helpers.APIResponse(ctx, "Deleted Successfully", http.StatusOK, ctx.Request.Method, nil)
 
 }
 

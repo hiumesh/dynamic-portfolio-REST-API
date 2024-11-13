@@ -19,6 +19,7 @@ func InitUserEducationRoutes(db *gorm.DB, router *gin.RouterGroup) {
 		groupRoute.POST("/educations", handler.Create)
 		groupRoute.PUT("/educations/:Id", handler.Update)
 		groupRoute.PATCH("/educations/:Id/reorder", handler.Reorder)
+		groupRoute.DELETE("/educations/:Id", handler.Delete)
 	}
 
 }

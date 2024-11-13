@@ -159,8 +159,8 @@ func SocialPlatformValidator(f1 validator.FieldLevel) bool {
 	return false
 }
 
-func CollageDegreeValidator(f1 validator.FieldLevel) bool {
-	predefinedCollageDegrees := map[string]bool{
+func CollegeDegreeValidator(f1 validator.FieldLevel) bool {
+	predefinedCollegeDegrees := map[string]bool{
 		"B. Voc":                      true,
 		"B.A.":                        true,
 		"B.Arch":                      true,
@@ -193,21 +193,7 @@ func CollageDegreeValidator(f1 validator.FieldLevel) bool {
 
 	degree := f1.Field().String()
 
-	if _, exists := predefinedCollageDegrees[degree]; exists {
-		return true
-	}
-
-	return false
-}
-
-func FieldOfStudyValidator(f1 validator.FieldLevel) bool {
-	predefinedCollageDegrees := map[string]bool{
-		"Computer Science Engineering (CSE)": true,
-	}
-
-	degree := f1.Field().String()
-
-	if _, exists := predefinedCollageDegrees[degree]; exists {
+	if _, exists := predefinedCollegeDegrees[degree]; exists {
 		return true
 	}
 

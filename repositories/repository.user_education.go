@@ -9,13 +9,15 @@ import (
 	"github.com/hiumesh/dynamic-portfolio-REST-API/models"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/schemas"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type RepositoryUserEducation interface {
 	GetAll(userId string) (*models.UserEducations, error)
-	Create(userId string, data *schemas.SchemaUserEducation) error
-	Update(userId string, id string, data *schemas.SchemaUserEducation) error
+	Create(userId string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
+	Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
 	Reorder(userId string, id string, newIndex int) error
+	Delete(userId string, id string) error
 }
 
 type repositoryUserEducation struct {
@@ -25,24 +27,24 @@ type repositoryUserEducation struct {
 func (r *repositoryUserEducation) GetAll(userId string) (*models.UserEducations, error) {
 	var userEducations models.UserEducations
 
-	if err := r.db.Where("user_id = ?", userId).Order("order_index asc").Find(&userEducations).Error; err != nil {
+	if err := r.db.Where("user_id = ?", userId).Order("order_index desc").Find(&userEducations).Error; err != nil {
 		return nil, &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
 	}
 
 	return &userEducations, nil
 }
 
-func (r *repositoryUserEducation) Create(userId string, data *schemas.SchemaUserEducation) error {
+func (r *repositoryUserEducation) Create(userId string, data *schemas.SchemaUserEducation) (*models.UserEducation, error) {
 	type MaxIndexResult struct {
 		MaxIndex int16
 	}
 	maxIndexResult := MaxIndexResult{MaxIndex: 0}
 	if err := r.db.Model(&models.UserEducation{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+		return nil, &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
 	}
 	userUUID, err := uuid.Parse(userId)
 	if err != nil {
-		return errors.New("failed to parse user id")
+		return nil, errors.New("failed to parse user id")
 	}
 	edu := models.UserEducation{
 		UserId:        userUUID,
@@ -58,34 +60,35 @@ func (r *repositoryUserEducation) Create(userId string, data *schemas.SchemaUser
 		}
 		attributesJson, err := json.Marshal(attributes)
 		if err != nil {
-			return errors.New("failed to marshal json")
+			return nil, errors.New("failed to marshal json")
 		}
 		edu.Type = data.Type
 		edu.Attributes = attributesJson
 	}
 
-	if data.Type == "COLLAGE" {
+	if data.Type == "COLLEGE" {
 		attributes := map[string]string{
+			"degree":         data.Degree,
 			"field_of_study": data.FieldOfStudy,
 			"start_year":     data.StartYear,
 			"end_year":       data.EndYear,
 		}
 		attributesJson, err := json.Marshal(attributes)
 		if err != nil {
-			return errors.New("failed to marshal json")
+			return nil, errors.New("failed to marshal json")
 		}
 		edu.Type = data.Type
 		edu.Attributes = attributesJson
 	}
 
 	if err = r.db.Create(&edu).Error; err != nil {
-		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+		return nil, &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
 	}
 
-	return nil
+	return &edu, nil
 }
 
-func (r *repositoryUserEducation) Update(userId string, id string, data *schemas.SchemaUserEducation) error {
+func (r *repositoryUserEducation) Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error) {
 	education := models.UserEducation{
 		InstituteName: data.InstituteName,
 		Grade:         data.Grade,
@@ -98,31 +101,38 @@ func (r *repositoryUserEducation) Update(userId string, id string, data *schemas
 		}
 		attributesJson, err := json.Marshal(attributes)
 		if err != nil {
-			return errors.New("failed to marshal json")
+			return nil, errors.New("failed to marshal json")
 		}
 		education.Type = data.Type
 		education.Attributes = attributesJson
 	}
 
-	if data.Type == "COLLAGE" {
+	if data.Type == "COLLEGE" {
 		attributes := map[string]string{
+			"degree":         data.Degree,
 			"field_of_study": data.FieldOfStudy,
 			"start_year":     data.StartYear,
 			"end_year":       data.EndYear,
 		}
 		attributesJson, err := json.Marshal(attributes)
 		if err != nil {
-			return errors.New("failed to marshal json")
+			return nil, errors.New("failed to marshal json")
 		}
 		education.Type = data.Type
 		education.Attributes = attributesJson
 	}
 
-	if err := r.db.Model(&models.UserEducation{}).Where("id = ? and user_id = ?", id, userId).Updates(education).Error; err != nil {
-		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+	var updatedRows models.UserEducations
+
+	if err := r.db.Model(&updatedRows).Clauses(clause.Returning{}).Where("id = ? and user_id = ?", id, userId).Updates(education).Error; err != nil {
+		return nil, &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
 	}
 
-	return nil
+	if len(updatedRows) == 0 {
+		return nil, errors.New("record not found")
+	}
+
+	return &updatedRows[0], nil
 }
 
 func (r *repositoryUserEducation) Reorder(userId string, id string, newIndex int) error {
@@ -148,16 +158,45 @@ func (r *repositoryUserEducation) Reorder(userId string, id string, newIndex int
 		return errors.New("invalid index for reordering")
 	}
 
-	r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", 9999)
+	if err := r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", 9999).Error; err != nil {
+		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+	}
 
 	if education.OrderIndex < int16(newIndex) {
-		r.db.Model(&models.UserEducation{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, education.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1))
-		r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", newIndex)
+		if err := r.db.Model(&models.UserEducation{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, education.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+			return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+		}
+		if err := r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+			return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+		}
 	}
 
 	if education.OrderIndex > int16(newIndex) {
-		r.db.Model(&models.UserEducation{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, education.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1))
-		r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", newIndex)
+		if err := r.db.Model(&models.UserEducation{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, education.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
+			return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+		}
+		if err := r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+			return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+		}
+	}
+
+	return nil
+}
+
+func (r *repositoryUserEducation) Delete(userId string, id string) error {
+
+	var education models.UserEducation
+
+	if err := r.db.Where("user_id = ?", userId).Where("id = ?", id).First(&education).Error; err != nil {
+		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+	}
+
+	if err := r.db.Model(&models.UserEducation{}).Where("user_id = ? and order_index > ?", userId, education.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
+	}
+
+	if err := r.db.Unscoped().Delete(&education).Error; err != nil {
+		return &helpers.DatabaseError{Type: err.Error(), ErrorData: err}
 	}
 
 	return nil
