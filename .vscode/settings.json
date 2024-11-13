@@ -6,9 +6,17 @@
     "godotenv",
     "gonic",
     "hiumesh",
+    "keyauth",
     "logrus",
     "mapstructure",
     "sirupsen",
     "Upsert"
-  ]
+  ],
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.formatOnSave": false
+  }
 }
