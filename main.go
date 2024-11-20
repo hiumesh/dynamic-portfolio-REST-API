@@ -1,73 +1,64 @@
 package main
 
 import (
-	helmet "github.com/danielkov/gin-helmet"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/gzip"
-	"github.com/gin-gonic/gin"
-	"github.com/hiumesh/dynamic-portfolio-REST-API/pkg"
-	"github.com/hiumesh/dynamic-portfolio-REST-API/routes"
+	"context"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
+	"time"
+
+	"github.com/hiumesh/dynamic-portfolio-REST-API/cmd"
+	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/observability"
 	"github.com/sirupsen/logrus"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
+func init() {
+	logrus.SetOutput(os.Stdout)
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+}
+
 func main() {
-	app := SetupRouter()
-	logrus.Fatal(app.Run(":" + pkg.GodotEnv("GO_PORT")))
-}
+	execCtx, execCancel := signal.NotifyContext(context.Background(), syscall.SIGTERM, syscall.SIGHUP, syscall.SIGINT)
+	defer execCancel()
 
-func SetupRouter() *gin.Engine {
-	db := SetupDatabase()
-	app := gin.Default()
+	go func() {
+		<-execCtx.Done()
+		logrus.Info("received graceful shutdown signal")
+	}()
 
-	if pkg.GodotEnv("GO_ENV") != "production" && pkg.GodotEnv("GO_ENV") != "test" {
-		gin.SetMode(gin.DebugMode)
-	} else if pkg.GodotEnv("GO_ENV") == "test" {
-		gin.SetMode(gin.TestMode)
-	} else {
-		gin.SetMode(gin.ReleaseMode)
+	// command is expected to obey the cancellation signal on execCtx and
+	// block while it is running
+	if err := cmd.RootCommand().ExecuteContext(execCtx); err != nil {
+		logrus.WithError(err).Fatal(err)
 	}
 
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:  []string{"*"},
-		AllowMethods:  []string{"*"},
-		AllowHeaders:  []string{"*"},
-		AllowWildcard: true,
-	}))
+	shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), time.Minute)
+	defer shutdownCancel()
 
-	app.Use(helmet.Default())
-	app.Use(gzip.Gzip(gzip.BestCompression))
+	var wg sync.WaitGroup
 
-	router := app.Group("/api/v1")
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
 
-	routes.InitCommonRoutes(db, router)
-	routes.InitUserProfileRoutes(db, router)
-	routes.InitUserEducationRoutes(db, router)
+		// wait for profiler, metrics and trace exporters to shut down gracefully
+		observability.WaitForCleanup(shutdownCtx)
+	}()
 
-	return app
-}
+	cleanupDone := make(chan struct{})
+	go func() {
+		defer close(cleanupDone)
+		wg.Wait()
+	}()
 
-func SetupDatabase() *gorm.DB {
-	db, err := gorm.Open(postgres.Open(pkg.GodotEnv("DATABASE_URI")), &gorm.Config{})
+	select {
+	case <-shutdownCtx.Done():
+		// cleanup timed out
+		return
 
-	if err != nil {
-		defer logrus.Info("Connect into Database Failed")
-		logrus.Fatal(err.Error())
+	case <-cleanupDone:
+		// cleanup finished before timing out
+		return
 	}
-
-	if pkg.GodotEnv("GO_ENV") != "production" {
-		logrus.Info("Connect into Database Successfully")
-	}
-
-	// err = db.AutoMigrate(
-	// 	&models.UserEducation{},
-	// )
-
-	// if err != nil {
-	// 	defer logrus.Info("Auto Migration Failed")
-	// 	logrus.Fatal(err.Error())
-	// }
-
-	return db
 }
