@@ -45,3 +45,27 @@ func (s *SchemaProfileBasic) Validate() error {
 	// 	errorsMap[fieldErr.Field()] = err
 	// }
 }
+
+type File struct {
+	FileName string `json:"file_name" validate:"required,min=3,max=100"`
+	FileSize int64  `json:"file_size" validate:"required"`
+	FileType string `json:"file_type" validate:"required,min=3,max=100"`
+}
+
+type SchemaPresignedURL struct {
+	Files []File `json:"files" validate:"required,min=1,max=5"`
+}
+
+func (s *SchemaPresignedURL) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}
+
+type SchemaReorderItem struct {
+	NewIndex int16 `json:"new_index" binding:"required" validate:"required,number,min=1,max=20"`
+}
+
+func (s *SchemaReorderItem) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}

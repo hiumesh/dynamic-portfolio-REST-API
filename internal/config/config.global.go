@@ -21,6 +21,13 @@ type APIConfiguration struct {
 	MaxRequestDuration time.Duration `json:"max_request_duration" split_words:"true" default:"10s"`
 }
 
+type AWSConfiguration struct {
+	AccessKeyID     string `json:"access_key_id" envconfig:"AWS_ACCESS_KEY_ID" required:"true"`
+	SecretAccessKey string `json:"secret_access_key" envconfig:"AWS_SECRET_ACCESS_KEY" required:"true"`
+	Region          string `json:"region" envconfig:"AWS_REGION" required:"true"`
+	BucketName      string `json:"bucket_name" default:"dynamic-portfolio-bucket" envconfig:"AWS_BUCKET_NAME" required:"true"`
+}
+
 func (a *APIConfiguration) Validate() error {
 	_, err := url.ParseRequestURI(a.ExternalURL)
 	if err != nil {
@@ -72,6 +79,7 @@ type GlobalConfiguration struct {
 	CORS    CORSConfiguration `json:"cors"`
 	JWT     JWTConfiguration  `json:"jwt" envconfig:"JWT"`
 	LOGGING LoggingConfig     `envconfig:"LOG"`
+	AWS     AWSConfiguration
 
 	SiteURL         string   `json:"site_url" split_words:"true" required:"true"`
 	URIAllowList    []string `json:"uri_allow_list" split_words:"true"`

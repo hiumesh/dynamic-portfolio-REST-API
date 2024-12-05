@@ -9,6 +9,8 @@
     "keyauth",
     "logrus",
     "mapstructure",
+    "Presign",
+    "presigner",
     "sirupsen",
     "Upsert"
   ],

@@ -76,6 +76,30 @@ func (h *handlerUser) UpsertProfile(ctx *gin.Context) {
 
 }
 
+func (h *handlerUser) GetPresignedURLs(ctx *gin.Context) {
+	// userId := utilities.GetClaims(ctx).Subject
+
+	var data schemas.SchemaPresignedURL
+	if err := ctx.ShouldBindJSON(&data); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	if err := data.Validate(); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	urls, err := h.service.GetPostPresignedURLs(ctx, data.Files)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, urls)
+}
+
 func NewUserHandler(service services.ServiceUser) *handlerUser {
 	return &handlerUser{
 		service: service,

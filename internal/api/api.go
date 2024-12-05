@@ -57,7 +57,7 @@ func NewAPIWithVersion(globalConfig *config.GlobalConfiguration, db *gorm.DB, ve
 
 	router := app.Group("/rest/v1")
 
-	setupRoutes(router, db, api)
+	setupRoutes(router, db, api, globalConfig)
 
 	api.handler = app
 

@@ -136,6 +136,8 @@ func WorkDomainsValidator(f1 validator.FieldLevel) bool {
 
 func SocialPlatformValidator(f1 validator.FieldLevel) bool {
 	predefinedSocialPlatforms := map[string]bool{
+		"Github":             true,
+		"LinkedIn":           true,
 		"Hacker Rank":        true,
 		"GeeksforGeeks":      true,
 		"CodeChef":           true,
