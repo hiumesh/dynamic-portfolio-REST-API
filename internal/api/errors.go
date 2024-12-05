@@ -188,7 +188,9 @@ func HandleResponseError(ctx *gin.Context, err error) {
 			ctx.JSON(e.HTTPStatus, e)
 		}
 
-	case *json.InvalidUnmarshalError:
+	case *json.UnmarshalTypeError:
+		log.WithError(e).Errorf("json unmarshal type error: %s", e.Error())
+
 		unmarshalErr, _ := err.(*json.UnmarshalTypeError)
 		httpError := HTTPError{
 			HTTPStatus: http.StatusBadRequest,
@@ -198,6 +200,8 @@ func HandleResponseError(ctx *gin.Context, err error) {
 		ctx.JSON(http.StatusInternalServerError, httpError)
 
 	case validator.ValidationErrors:
+		log.WithError(e).Errorf("validation error: %s", e.Error())
+
 		errJson := utilities.ValidationErrorsToJSON(err)
 		validationError := httpValidationError(http.StatusBadRequest, ErrorCodeValidationFailed, "Validation Error", errJson)
 

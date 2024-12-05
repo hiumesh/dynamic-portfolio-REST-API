@@ -8,10 +8,10 @@ type SchemaUserExperience struct {
 	JobType         string   `json:"job_type" binding:"required" validate:"required,oneof= PART_TIME SEMI_FULL_TIME FULL_TIME"`
 	JobTitle        string   `json:"job_title" binding:"required" validate:"required,min=5,max=200"`
 	Location        string   `json:"location" binding:"required" validate:"required,min=5,max=200"`
-	StartDate       string   `json:"start_date" binding:"required" validate:"required,datetime=DateOnly"`
-	EndDate         string   `json:"end_date" validate:"omitempty,datetime=DateOnly"`
-	Description     []string `json:"description" binding:"required" validate:"required,min=3,max=20,dive,min=10,max=500"`
-	SkillsUsed      []string `json:"skills_used" binding:"required" validate:"required,min=3,max=20,dive,min=10,max=500"`
+	StartDate       string   `json:"start_date" binding:"required" validate:"required,datetime=2006-01-02"`
+	EndDate         string   `json:"end_date" validate:"omitempty,datetime=2006-01-02"`
+	Description     []string `json:"description" binding:"required" validate:"required,min=3,max=20,dive,min=5,max=500"`
+	SkillsUsed      []string `json:"skills_used" binding:"required" validate:"required,min=3,max=20,dive,min=1,max=100"`
 	CertificateLink string   `json:"certificate_link" validate:"omitempty,url"`
 }
 

@@ -19,6 +19,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	userEducationService := services.NewUserEducationService(db)
 	userEducationHandler := NewUserEducationHandler(userEducationService)
 
+	userExperienceService := services.NewUserExperienceService(db)
+	userExperienceHandler := NewUserExperienceHandler(userExperienceService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -36,6 +39,15 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			educationRouter.PUT("/:Id", userEducationHandler.Update)
 			educationRouter.PATCH("/:Id/reorder", userEducationHandler.Reorder)
 			educationRouter.DELETE("/:Id", userEducationHandler.Delete)
+		}
+
+		experienceRouter := userRouter.Group("/experiences").Use(api.requireAuthentication())
+		{
+			experienceRouter.GET("/", userExperienceHandler.GetAll)
+			experienceRouter.POST("/", userExperienceHandler.Create)
+			experienceRouter.PUT("/:Id", userExperienceHandler.Update)
+			experienceRouter.PATCH("/:Id/reorder", userExperienceHandler.Reorder)
+			experienceRouter.DELETE("/:Id", userExperienceHandler.Delete)
 		}
 	}
 }
