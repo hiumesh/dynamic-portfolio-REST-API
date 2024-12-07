@@ -22,6 +22,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	userExperienceService := services.NewUserExperienceService(db)
 	userExperienceHandler := NewUserExperienceHandler(userExperienceService)
 
+	userCertificationService := services.NewUserCertificationService(db)
+	userCertificationHandler := NewUserCertificationHandler(userCertificationService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -48,6 +51,15 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			experienceRouter.PUT("/:Id", userExperienceHandler.Update)
 			experienceRouter.PATCH("/:Id/reorder", userExperienceHandler.Reorder)
 			experienceRouter.DELETE("/:Id", userExperienceHandler.Delete)
+		}
+
+		certificationRouter := userRouter.Group("/certifications").Use(api.requireAuthentication())
+		{
+			certificationRouter.GET("/", userCertificationHandler.GetAll)
+			certificationRouter.POST("/", userCertificationHandler.Create)
+			certificationRouter.PUT("/:Id", userCertificationHandler.Update)
+			certificationRouter.PATCH("/:Id/reorder", userCertificationHandler.Reorder)
+			certificationRouter.DELETE("/:Id", userCertificationHandler.Delete)
 		}
 	}
 }
