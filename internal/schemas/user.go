@@ -69,3 +69,12 @@ func (s *SchemaReorderItem) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
+
+type SchemaSkills struct {
+	Skills []string `json:"skills" binding:"required" validate:"required,min=1,max=70,unique,dive,required,min=3,max=50"`
+}
+
+func (s *SchemaSkills) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}

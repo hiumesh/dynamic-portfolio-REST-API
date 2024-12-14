@@ -33,6 +33,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			profileRouter.GET("/", userHandler.GetProfile)
 			profileRouter.PUT("/setup", userHandler.ProfileSetup)
 			profileRouter.PUT("/", userHandler.UpsertProfile)
+			profileRouter.PUT("/skills", userHandler.UpsertSkills)
 		}
 
 		educationRouter := userRouter.Group("/educations").Use(api.requireAuthentication())

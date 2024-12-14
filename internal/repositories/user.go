@@ -13,6 +13,7 @@ type RepositoryUser interface {
 	GetProfile(userId string) (*models.UserProfile, error)
 	UpsertProfile(userId string, profile *schemas.SchemaProfileBasic) error
 	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
+	UpsertSkills(userId string, data *schemas.SchemaSkills) error
 }
 
 type repositoryUser struct {
@@ -47,15 +48,33 @@ func (r *repositoryUser) UpsertProfile(userId string, profile *schemas.SchemaPro
 	data := map[string]interface{}{
 		"full_name":  profile.FullName,
 		"avatar_url": profile.ProfilePicture,
-		"attributes": map[string]interface{}{
-			"college":         profile.College,
-			"graduation_year": profile.GraduationYear,
-			"work_domains":    profile.WorkDomains,
-			"social_profiles": profile.SocialProfileLinks,
-		},
+		"attributes": datatypes.JSONSet("attributes").
+			Set("{college}", profile.College).
+			Set("{graduation_year}", profile.GraduationYear).
+			Set("{work_domains}", profile.WorkDomains).
+			Set("{social_profiles}", profile.SocialProfileLinks),
+		// "attributes": map[string]interface{}{
+		// 	"college":         profile.College,
+		// 	"graduation_year": profile.GraduationYear,
+		// 	"work_domains":    profile.WorkDomains,
+		// 	"social_profiles": profile.SocialProfileLinks,
+		// },
 	}
 
 	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(data).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *repositoryUser) UpsertSkills(userId string, data *schemas.SchemaSkills) error {
+	t := map[string]interface{}{
+		"attributes": datatypes.JSONSet("attributes").
+			Set("{skills}", data.Skills),
+	}
+
+	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(t).Error; err != nil {
 		return err
 	}
 
