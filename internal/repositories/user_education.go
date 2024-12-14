@@ -157,10 +157,6 @@ func (r *repositoryUserEducation) Reorder(userId string, id string, newIndex int
 		return errors.New("invalid index for reordering")
 	}
 
-	if err := r.db.Model(&models.UserEducation{}).Where("id = ?", education.ID).UpdateColumn("order_index", 9999).Error; err != nil {
-		return err
-	}
-
 	if education.OrderIndex < int16(newIndex) {
 		if err := r.db.Model(&models.UserEducation{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, education.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 			return err

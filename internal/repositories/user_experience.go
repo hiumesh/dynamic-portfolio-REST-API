@@ -164,10 +164,6 @@ func (r *repositoryUserExperience) Reorder(userId string, id string, newIndex in
 		return errors.New("invalid index for reordering")
 	}
 
-	if err := r.db.Model(&models.UserExperience{}).Where("id = ?", experience.ID).UpdateColumn("order_index", 9999).Error; err != nil {
-		return err
-	}
-
 	if experience.OrderIndex < int16(newIndex) {
 		if err := r.db.Model(&models.UserExperience{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, experience.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 			return err
