@@ -1,33 +1,40 @@
-# ======================
-#  GO FIRST STAGE
-# ======================
+# Production-ready Dockerfile for Go REST API with Gin framework
 
-FROM golang:latest as builder
-USER ${USER}
-WORKDIR /usr/src/app
-COPY go.mod \
-  go.sum ./
+# Step 1: Build stage
+FROM golang:latest AS builder
+
+# Set environment variables
+ENV CGO_ENABLED=0 \
+  GOOS=linux \
+  GOARCH=amd64
+
+# Create and set the working directory
+WORKDIR /app
+
+# Cache module dependencies
+COPY go.mod go.sum ./
 RUN go mod download
-COPY . ./
-ENV GO111MODULE="on" \
-  GOARCH="amd64" \
-  GOOS="linux" \
-  CGO_ENABLED="0"
-RUN apt-get clean \
-  && apt-get remove
 
-# ======================
-#  GO FINAL STAGE
-# ======================
+# Copy the rest of the application files
+COPY . .
 
-FROM builder
-WORKDIR /usr/src/app
-RUN apt-get update \
-  && apt-get install -y \
-  make \
-  vim \
-  build-essential
-COPY --from=builder . ./usr/src/app
-RUN make goprod
-EXPOSE 4000
-CMD ["./main"]
+# Build the application
+RUN go build -o server .
+
+# Step 2: Final stage
+FROM gcr.io/distroless/static:nonroot
+
+# Set working directory
+WORKDIR /app
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/server /app/server
+
+# Expose the port the Gin app will run on
+EXPOSE 8080
+
+# Use a non-root user for better security
+USER nonroot:nonroot
+
+# Command to run the application
+CMD ["/app/server"]

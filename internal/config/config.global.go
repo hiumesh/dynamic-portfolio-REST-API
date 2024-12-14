@@ -13,7 +13,7 @@ import (
 )
 
 type APIConfiguration struct {
-	Host               string `envconfig:"HOST" default:"localhost"`
+	Host               string `envconfig:"HOST" default:"0.0.0.0"`
 	Port               string `envconfig:"PORT" default:"8080"`
 	Endpoint           string
 	RequestIDHeader    string        `envconfig:"REQUEST_ID_HEADER"`

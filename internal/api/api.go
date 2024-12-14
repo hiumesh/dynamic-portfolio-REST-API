@@ -73,8 +73,8 @@ type HealthCheckResponse struct {
 func (a *API) HealthCheck(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, HealthCheckResponse{
 		Version:     a.version,
-		Name:        "GoTrue",
-		Description: "GoTrue is a user registration and authentication API",
+		Name:        "Dynamic Portfolio REST API",
+		Description: "Dynamic Portfolio REST API",
 	})
 }
 
