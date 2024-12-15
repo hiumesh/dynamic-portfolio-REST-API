@@ -28,6 +28,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: {context}/docker/app/Dockerfile
+          file: ./docker/app/Dockerfile
           push: true
           tags: umeshdani/dynamic-portfolio-rest-api:latest
