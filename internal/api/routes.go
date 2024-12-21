@@ -25,6 +25,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	userCertificationService := services.NewUserCertificationService(db)
 	userCertificationHandler := NewUserCertificationHandler(userCertificationService)
 
+	userHackathonService := services.NewUserHackathonService(db)
+	userHackathonHandler := NewUserHackathonHandler(userHackathonService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -61,6 +64,15 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			certificationRouter.PUT("/:Id", userCertificationHandler.Update)
 			certificationRouter.PATCH("/:Id/reorder", userCertificationHandler.Reorder)
 			certificationRouter.DELETE("/:Id", userCertificationHandler.Delete)
+		}
+
+		hackathonRouter := userRouter.Group("/hackathons").Use(api.requireAuthentication())
+		{
+			hackathonRouter.GET("/", userHackathonHandler.GetAll)
+			hackathonRouter.POST("/", userHackathonHandler.Create)
+			hackathonRouter.PUT("/:Id", userHackathonHandler.Update)
+			hackathonRouter.PATCH("/:Id/reorder", userHackathonHandler.Reorder)
+			hackathonRouter.DELETE("/:Id", userHackathonHandler.Delete)
 		}
 	}
 }

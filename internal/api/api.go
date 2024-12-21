@@ -55,7 +55,7 @@ func NewAPIWithVersion(globalConfig *config.GlobalConfiguration, db *gorm.DB, ve
 
 	app.GET("/health", api.HealthCheck)
 
-	router := app.Group("/rest/v1")
+	router := app.Group("/")
 
 	setupRoutes(router, db, api, globalConfig)
 

@@ -12,7 +12,7 @@ import (
 )
 
 type RepositoryUserExperience interface {
-	GetAll(userId string) (*models.UserExperience, error)
+	GetAll(userId string) (*models.UserExperiences, error)
 	Create(userId string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
 	Update(userId string, id string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
 	Reorder(userId string, id string, newIndex int) error
