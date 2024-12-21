@@ -23,3 +23,13 @@ func (s *SchemaUserHackathon) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
+
+type SchemaUserHackathonMetadata struct {
+	Heading     string `json:"heading" binding:"required" validate:"required,min=3,max=100"`
+	Description string `json:"description" binding:"required" validate:"required,min=3,max=1000"`
+}
+
+func (s *SchemaUserHackathonMetadata) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}

@@ -73,6 +73,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			hackathonRouter.PUT("/:Id", userHackathonHandler.Update)
 			hackathonRouter.PATCH("/:Id/reorder", userHackathonHandler.Reorder)
 			hackathonRouter.DELETE("/:Id", userHackathonHandler.Delete)
+			hackathonRouter.PUT("/metadata", userHackathonHandler.UpdateMetadata)
 		}
 	}
 }
