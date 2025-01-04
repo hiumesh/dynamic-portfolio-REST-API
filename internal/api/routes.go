@@ -28,6 +28,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	userHackathonService := services.NewUserHackathonService(db)
 	userHackathonHandler := NewUserHackathonHandler(userHackathonService)
 
+	userWorkGalleryService := services.NewWorkGalleryService(db)
+	userWorkGalleryHandler := NewWorkGalleryHandler(userWorkGalleryService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -75,5 +78,17 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			hackathonRouter.DELETE("/:Id", userHackathonHandler.Delete)
 			hackathonRouter.PUT("/metadata", userHackathonHandler.UpdateMetadata)
 		}
+	}
+
+	workGalleryRouter := router.Group("/work-gallery").Use(api.requireAuthentication())
+	{
+
+		workGalleryRouter.GET("/", userWorkGalleryHandler.GetAll)
+		workGalleryRouter.POST("/", userWorkGalleryHandler.Create)
+		workGalleryRouter.PUT("/:Id", userWorkGalleryHandler.Update)
+		workGalleryRouter.PATCH("/:Id/reorder", userWorkGalleryHandler.Reorder)
+		workGalleryRouter.DELETE("/:Id", userWorkGalleryHandler.Delete)
+		workGalleryRouter.PUT("/metadata", userWorkGalleryHandler.UpdateMetadata)
+
 	}
 }

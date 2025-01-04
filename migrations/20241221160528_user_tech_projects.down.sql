@@ -1,0 +1,1 @@
+drop table public.user_tech_projects;

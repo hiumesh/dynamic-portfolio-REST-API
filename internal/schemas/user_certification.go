@@ -14,3 +14,13 @@ func (s *SchemaUserCertification) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
+
+type SchemaUserCertificationMetadata struct {
+	Heading     string `json:"heading" binding:"required" validate:"required,min=3,max=100"`
+	Description string `json:"description" binding:"required" validate:"required,min=3,max=1000"`
+}
+
+func (s *SchemaUserCertificationMetadata) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}

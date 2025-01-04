@@ -13,6 +13,7 @@ type ServiceUserExperience interface {
 	Update(userId string, id string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
+	UpdateMetadata(userId string, data *schemas.SchemaUserExperienceMetadata) error
 }
 
 type serviceUserExperience struct {
@@ -83,6 +84,17 @@ func (s *serviceUserExperience) Delete(userId string, id string) error {
 		return nil
 	})
 
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *serviceUserExperience) UpdateMetadata(userId string, data *schemas.SchemaUserExperienceMetadata) error {
+	userRepository := repositories.NewUserRepository(s.db)
+
+	err := userRepository.AddOrUpdateModuleMetadata(userId, "work_experience", data)
 	if err != nil {
 		return err
 	}

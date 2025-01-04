@@ -117,6 +117,30 @@ func (h *handlerUserEducation) Delete(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, nil)
 }
 
+func (h *handlerUserEducation) UpdateMetadata(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+
+	var data schemas.SchemaUserEducationMetadata
+	if err := ctx.ShouldBindJSON(&data); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	if err := data.Validate(); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	err := h.service.UpdateMetadata(userId, &data)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, nil)
+}
+
 func NewUserEducationHandler(service services.ServiceUserEducation) *handlerUserEducation {
 	return &handlerUserEducation{
 		service: service,

@@ -13,6 +13,7 @@ type ServiceUserCertification interface {
 	Update(userId string, id string, data *schemas.SchemaUserCertification) (*models.UserCertification, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
+	UpdateMetadata(userId string, data *schemas.SchemaUserCertificationMetadata) error
 }
 
 type serviceUserCertification struct {
@@ -83,6 +84,17 @@ func (s *serviceUserCertification) Delete(userId string, id string) error {
 		return nil
 	})
 
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *serviceUserCertification) UpdateMetadata(userId string, data *schemas.SchemaUserCertificationMetadata) error {
+	userRepository := repositories.NewUserRepository(s.db)
+
+	err := userRepository.AddOrUpdateModuleMetadata(userId, "certification", data)
 	if err != nil {
 		return err
 	}

@@ -33,3 +33,13 @@ func (s *SchemaReorderUserEducation) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
+
+type SchemaUserEducationMetadata struct {
+	Heading     string `json:"heading" binding:"required" validate:"required,min=3,max=100"`
+	Description string `json:"description" binding:"required" validate:"required,min=3,max=1000"`
+}
+
+func (s *SchemaUserEducationMetadata) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}

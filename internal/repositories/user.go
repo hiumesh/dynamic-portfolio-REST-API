@@ -14,6 +14,7 @@ type RepositoryUser interface {
 	UpsertProfile(userId string, profile *schemas.SchemaProfileBasic) error
 	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
 	UpsertSkills(userId string, data *schemas.SchemaSkills) error
+	AddOrUpdateModuleMetadata(userId string, module string, data *interface{}) error
 }
 
 type repositoryUser struct {
@@ -49,6 +50,8 @@ func (r *repositoryUser) UpsertProfile(userId string, profile *schemas.SchemaPro
 		"full_name":  profile.FullName,
 		"avatar_url": profile.ProfilePicture,
 		"attributes": datatypes.JSONSet("attributes").
+			Set("{about}", profile.About).
+			Set("{tagline}", profile.Tagline).
 			Set("{college}", profile.College).
 			Set("{graduation_year}", profile.GraduationYear).
 			Set("{work_domains}", profile.WorkDomains).
@@ -72,6 +75,19 @@ func (r *repositoryUser) UpsertSkills(userId string, data *schemas.SchemaSkills)
 	t := map[string]interface{}{
 		"attributes": datatypes.JSONSet("attributes").
 			Set("{skills}", data.Skills),
+	}
+
+	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(t).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *repositoryUser) AddOrUpdateModuleMetadata(userId string, module string, data interface{}) error {
+	t := map[string]interface{}{
+		"attributes": datatypes.JSONSet("attributes").
+			Set("{"+module+"_metadata}", data),
 	}
 
 	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(t).Error; err != nil {

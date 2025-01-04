@@ -12,6 +12,8 @@ type SchemaSocialProfileLink struct {
 
 type SchemaProfileBasic struct {
 	FullName           string                    `json:"full_name" binding:"required" validate:"required,min=4,max=30"`
+	Tagline            string                    `json:"tagline" binding:"required" validate:"omitempty,min=10,max=200"`
+	About              string                    `json:"about" validate:"omitempty,min=10,max=1000"`
 	ProfilePicture     string                    `json:"profile_picture" validate:"omitempty,url"`
 	College            string                    `json:"college" validate:"omitempty,min=10,max=100"`
 	GraduationYear     string                    `json:"graduation_year" validate:"omitempty,number,min=4,max=4,year_in_range=200 5"`

@@ -13,6 +13,7 @@ type ServiceUserEducation interface {
 	Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
+	UpdateMetadata(userId string, data *schemas.SchemaUserEducationMetadata) error
 }
 
 type serviceUserEducation struct {
@@ -83,6 +84,17 @@ func (s *serviceUserEducation) Delete(userId string, id string) error {
 		return nil
 	})
 
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *serviceUserEducation) UpdateMetadata(userId string, data *schemas.SchemaUserEducationMetadata) error {
+	userRepository := repositories.NewUserRepository(s.db)
+
+	err := userRepository.AddOrUpdateModuleMetadata(userId, "education", data)
 	if err != nil {
 		return err
 	}

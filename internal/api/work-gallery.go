@@ -9,11 +9,11 @@ import (
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/utilities"
 )
 
-type handlerUserCertification struct {
-	service services.ServiceUserCertification
+type handler struct {
+	service services.ServiceWorkGallery
 }
 
-func (h *handlerUserCertification) GetAll(ctx *gin.Context) {
+func (h *handler) GetAll(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
 	res, err := h.service.GetAll(userId)
@@ -26,10 +26,10 @@ func (h *handlerUserCertification) GetAll(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, res)
 }
 
-func (h *handlerUserCertification) Create(ctx *gin.Context) {
+func (h *handler) Create(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserCertification
+	var data schemas.SchemaUserTechProject
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -51,11 +51,11 @@ func (h *handlerUserCertification) Create(ctx *gin.Context) {
 
 }
 
-func (h *handlerUserCertification) Update(ctx *gin.Context) {
+func (h *handler) Update(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
-	var data schemas.SchemaUserCertification
+	var data schemas.SchemaUserTechProject
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -77,7 +77,7 @@ func (h *handlerUserCertification) Update(ctx *gin.Context) {
 
 }
 
-func (h *handlerUserCertification) Reorder(ctx *gin.Context) {
+func (h *handler) Reorder(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
@@ -103,7 +103,7 @@ func (h *handlerUserCertification) Reorder(ctx *gin.Context) {
 
 }
 
-func (h *handlerUserCertification) Delete(ctx *gin.Context) {
+func (h *handler) Delete(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
@@ -117,10 +117,10 @@ func (h *handlerUserCertification) Delete(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, nil)
 }
 
-func (h *handlerUserCertification) UpdateMetadata(ctx *gin.Context) {
+func (h *handler) UpdateMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserCertificationMetadata
+	var data schemas.SchemaUserTechProjectMetadata
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -141,8 +141,8 @@ func (h *handlerUserCertification) UpdateMetadata(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, nil)
 }
 
-func NewUserCertificationHandler(service services.ServiceUserCertification) *handlerUserCertification {
-	return &handlerUserCertification{
+func NewWorkGalleryHandler(service services.ServiceWorkGallery) *handler {
+	return &handler{
 		service: service,
 	}
 }
