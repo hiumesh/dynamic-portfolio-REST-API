@@ -100,31 +100,6 @@ func (h *handlerUser) GetPresignedURLs(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, urls)
 }
 
-func (h *handlerUser) UpsertSkills(ctx *gin.Context) {
-	userId := utilities.GetClaims(ctx).Subject
-
-	var data schemas.SchemaSkills
-	if err := ctx.ShouldBindJSON(&data); err != nil {
-		HandleResponseError(ctx, err)
-		return
-	}
-
-	if err := data.Validate(); err != nil {
-		HandleResponseError(ctx, err)
-		return
-	}
-
-	err := h.service.UpsertSkills(userId, &data)
-
-	if err != nil {
-		HandleResponseError(ctx, err)
-		return
-	}
-
-	sendJSON(ctx, http.StatusOK, nil)
-
-}
-
 func NewUserHandler(service services.ServiceUser) *handlerUser {
 	return &handlerUser{
 		service: service,

@@ -8,12 +8,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type Status string
+type PortfolioStatus string
 
 const (
-	Draft    Status = "DRAFT"
-	Active   Status = "ACTIVE"
-	InActive Status = "IN_ACTIVE"
+	Draft    PortfolioStatus = "DRAFT"
+	Active   PortfolioStatus = "ACTIVE"
+	InActive PortfolioStatus = "IN_ACTIVE"
 )
 
 type UserProfile struct {
@@ -22,7 +22,7 @@ type UserProfile struct {
 	FullName        *string         `json:"full_name"`
 	AvatarUrl       *string         `json:"avatar_url"`
 	Slug            string          `json:"slug" gorm:"uniqueIndex"`
-	PortfolioStatus Status          `json:"status" gorm:"type:user_profiles_portfolio_status_enum"`
+	PortfolioStatus PortfolioStatus `json:"status" gorm:"type:user_profiles_portfolio_status_enum"`
 	Attributes      *datatypes.JSON `json:"attributes"`
 	CreatedAt       time.Time       `json:"created_at"`
 	UpdatedAt       time.Time       `json:"updated_at"`

@@ -21,7 +21,6 @@ type ServiceUser interface {
 	UpsertProfile(userId string, profile *schemas.SchemaProfileBasic) error
 	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
 	GetPostPresignedURLs(ctx context.Context, files []schemas.File) ([]interface{}, error)
-	UpsertSkills(userId string, data *schemas.SchemaSkills) error
 }
 
 type serviceUser struct {
@@ -108,15 +107,6 @@ func (s *serviceUser) GetPostPresignedURLs(ctx context.Context, files []schemas.
 	}
 
 	return urls, nil
-}
-
-func (s *serviceUser) UpsertSkills(userId string, data *schemas.SchemaSkills) error {
-	repository := repositories.NewUserRepository(s.db)
-
-	if err := repository.UpsertSkills(userId, data); err != nil {
-		return err
-	}
-	return nil
 }
 
 func NewUserService(db *gorm.DB, presigner *pkg.Presigner) *serviceUser {

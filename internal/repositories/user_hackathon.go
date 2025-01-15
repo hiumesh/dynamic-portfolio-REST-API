@@ -82,6 +82,8 @@ func (r *repositoryUserHackathon) Create(userId string, data *schemas.SchemaUser
 		}
 
 		hackathon.Attributes = attributesJson
+	} else {
+		hackathon.Attributes = []byte("{}")
 	}
 
 	if err = r.db.Create(&hackathon).Error; err != nil {

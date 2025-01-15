@@ -16,6 +16,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	userService := services.NewUserService(db, presigner)
 	userHandler := NewUserHandler(userService)
 
+	portfolioService := services.NewPortfolioService(db)
+	portfolioHandler := NewPortfolioHandler(portfolioService)
+
 	userEducationService := services.NewUserEducationService(db)
 	userEducationHandler := NewUserEducationHandler(userEducationService)
 
@@ -39,37 +42,45 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			profileRouter.GET("/", userHandler.GetProfile)
 			profileRouter.PUT("/setup", userHandler.ProfileSetup)
 			profileRouter.PUT("/", userHandler.UpsertProfile)
-			profileRouter.PUT("/skills", userHandler.UpsertSkills)
 		}
+	}
 
-		educationRouter := userRouter.Group("/educations").Use(api.requireAuthentication())
+	portfolioRouter := router.Group("/portfolio")
+	{
+		portfolioRouter.Use(api.requireAuthentication()).GET("/user", portfolioHandler.Get)
+		portfolioRouter.Use(api.requireAuthentication()).PUT("/skills", portfolioHandler.UpsertSkills)
+		portfolioRouter.Use(api.requireAuthentication()).GET("/status/:Status", portfolioHandler.UpdateStatus)
+		educationRouter := portfolioRouter.Group("/educations").Use(api.requireAuthentication())
 		{
 			educationRouter.GET("/", userEducationHandler.GetAll)
 			educationRouter.POST("/", userEducationHandler.Create)
 			educationRouter.PUT("/:Id", userEducationHandler.Update)
 			educationRouter.PATCH("/:Id/reorder", userEducationHandler.Reorder)
 			educationRouter.DELETE("/:Id", userEducationHandler.Delete)
+			educationRouter.PUT("/metadata", userEducationHandler.UpdateMetadata)
 		}
 
-		experienceRouter := userRouter.Group("/experiences").Use(api.requireAuthentication())
+		experienceRouter := portfolioRouter.Group("/experiences").Use(api.requireAuthentication())
 		{
 			experienceRouter.GET("/", userExperienceHandler.GetAll)
 			experienceRouter.POST("/", userExperienceHandler.Create)
 			experienceRouter.PUT("/:Id", userExperienceHandler.Update)
 			experienceRouter.PATCH("/:Id/reorder", userExperienceHandler.Reorder)
 			experienceRouter.DELETE("/:Id", userExperienceHandler.Delete)
+			experienceRouter.PUT("/metadata", userExperienceHandler.UpdateMetadata)
 		}
 
-		certificationRouter := userRouter.Group("/certifications").Use(api.requireAuthentication())
+		certificationRouter := portfolioRouter.Group("/certifications").Use(api.requireAuthentication())
 		{
 			certificationRouter.GET("/", userCertificationHandler.GetAll)
 			certificationRouter.POST("/", userCertificationHandler.Create)
 			certificationRouter.PUT("/:Id", userCertificationHandler.Update)
 			certificationRouter.PATCH("/:Id/reorder", userCertificationHandler.Reorder)
 			certificationRouter.DELETE("/:Id", userCertificationHandler.Delete)
+			certificationRouter.PUT("/metadata", userCertificationHandler.UpdateMetadata)
 		}
 
-		hackathonRouter := userRouter.Group("/hackathons").Use(api.requireAuthentication())
+		hackathonRouter := portfolioRouter.Group("/hackathons").Use(api.requireAuthentication())
 		{
 			hackathonRouter.GET("/", userHackathonHandler.GetAll)
 			hackathonRouter.POST("/", userHackathonHandler.Create)
