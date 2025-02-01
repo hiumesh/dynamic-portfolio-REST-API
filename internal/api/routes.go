@@ -34,6 +34,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	userWorkGalleryService := services.NewWorkGalleryService(db)
 	userWorkGalleryHandler := NewWorkGalleryHandler(userWorkGalleryService)
 
+	blogService := services.NewBlogService(db)
+	blogHandler := NewBlogHandler(blogService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -101,5 +104,17 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		workGalleryRouter.DELETE("/:Id", userWorkGalleryHandler.Delete)
 		workGalleryRouter.PUT("/metadata", userWorkGalleryHandler.UpdateMetadata)
 
+	}
+
+	blogRouter := router.Group("/blogs").Use(api.requireAuthentication())
+	{
+		blogRouter.GET("/", blogHandler.GetAll)
+		blogRouter.GET("/:Id", blogHandler.Get)
+		blogRouter.GET("/:Id/unpublish", blogHandler.Unpublish)
+		blogRouter.POST("/", blogHandler.Create)
+		blogRouter.PUT("/:Id", blogHandler.Update)
+		blogRouter.DELETE("/:Id", blogHandler.Delete)
+		blogRouter.GET("/metadata", blogHandler.GetMetadata)
+		blogRouter.PUT("/metadata", blogHandler.UpdateMetadata)
 	}
 }

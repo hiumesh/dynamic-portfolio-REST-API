@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/models"
@@ -18,6 +19,7 @@ type RepositoryUser interface {
 	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
 	UpsertSkills(userId string, data *schemas.SchemaSkills) error
 	AddOrUpdateModuleMetadata(userId string, module string, data *interface{}) error
+	GetModuleMetadata(userId string, module string) (interface{}, error)
 	UpdateStatus(userId string, status models.PortfolioStatus) error
 }
 
@@ -179,6 +181,44 @@ func (r *repositoryUser) UpsertSkills(userId string, data *schemas.SchemaSkills)
 	}
 
 	return nil
+}
+
+func (r *repositoryUser) GetModuleMetadata(userId string, module string) (interface{}, error) {
+	var rows *sql.Rows
+	var err error
+
+	metadataField := "'" + module + "_metadata" + "'"
+
+	query := `
+    SELECT COALESCE(attributes->%s, '{}') AS metadata 
+    FROM user_profiles 
+    WHERE user_id = ?;
+	`
+
+	rows, err = r.db.Raw(fmt.Sprintf(query, metadataField), userId).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var data datatypes.JSON
+
+	for rows.Next() {
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	if data == nil {
+		return nil, errors.New("failed to get metadata")
+	}
+
+	return data, nil
 }
 
 func (r *repositoryUser) AddOrUpdateModuleMetadata(userId string, module string, data interface{}) error {
