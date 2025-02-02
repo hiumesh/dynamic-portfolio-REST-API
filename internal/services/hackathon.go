@@ -13,6 +13,7 @@ type ServiceUserHackathon interface {
 	Update(userId string, id string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
+	GetMetadata(userId string) (interface{}, error)
 	UpdateMetadata(userId string, data *schemas.SchemaUserHackathonMetadata) error
 }
 
@@ -89,6 +90,17 @@ func (s *serviceUserHackathon) Delete(userId string, id string) error {
 	}
 
 	return nil
+}
+
+func (s *serviceUserHackathon) GetMetadata(userId string) (interface{}, error) {
+	userRepository := repositories.NewUserRepository(s.db)
+
+	res, err := userRepository.GetModuleMetadata(userId, "hackathon")
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func (s *serviceUserHackathon) UpdateMetadata(userId string, data *schemas.SchemaUserHackathonMetadata) error {

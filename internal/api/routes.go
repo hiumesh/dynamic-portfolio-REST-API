@@ -60,6 +60,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			educationRouter.PUT("/:Id", userEducationHandler.Update)
 			educationRouter.PATCH("/:Id/reorder", userEducationHandler.Reorder)
 			educationRouter.DELETE("/:Id", userEducationHandler.Delete)
+			educationRouter.GET("/metadata", userEducationHandler.GetMetadata)
 			educationRouter.PUT("/metadata", userEducationHandler.UpdateMetadata)
 		}
 
@@ -70,6 +71,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			experienceRouter.PUT("/:Id", userExperienceHandler.Update)
 			experienceRouter.PATCH("/:Id/reorder", userExperienceHandler.Reorder)
 			experienceRouter.DELETE("/:Id", userExperienceHandler.Delete)
+			experienceRouter.GET("/metadata", userExperienceHandler.GetMetadata)
 			experienceRouter.PUT("/metadata", userExperienceHandler.UpdateMetadata)
 		}
 
@@ -80,6 +82,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			certificationRouter.PUT("/:Id", userCertificationHandler.Update)
 			certificationRouter.PATCH("/:Id/reorder", userCertificationHandler.Reorder)
 			certificationRouter.DELETE("/:Id", userCertificationHandler.Delete)
+			certificationRouter.GET("/metadata", userCertificationHandler.GetMetadata)
 			certificationRouter.PUT("/metadata", userCertificationHandler.UpdateMetadata)
 		}
 
@@ -90,6 +93,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			hackathonRouter.PUT("/:Id", userHackathonHandler.Update)
 			hackathonRouter.PATCH("/:Id/reorder", userHackathonHandler.Reorder)
 			hackathonRouter.DELETE("/:Id", userHackathonHandler.Delete)
+			hackathonRouter.GET("/metadata", userHackathonHandler.GetMetadata)
 			hackathonRouter.PUT("/metadata", userHackathonHandler.UpdateMetadata)
 		}
 	}
@@ -102,6 +106,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		workGalleryRouter.PUT("/:Id", userWorkGalleryHandler.Update)
 		workGalleryRouter.PATCH("/:Id/reorder", userWorkGalleryHandler.Reorder)
 		workGalleryRouter.DELETE("/:Id", userWorkGalleryHandler.Delete)
+		workGalleryRouter.GET("/metadata", userWorkGalleryHandler.GetMetadata)
 		workGalleryRouter.PUT("/metadata", userWorkGalleryHandler.UpdateMetadata)
 
 	}

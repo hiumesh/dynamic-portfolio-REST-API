@@ -13,6 +13,7 @@ type ServiceUserEducation interface {
 	Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
+	GetMetadata(userId string) (interface{}, error)
 	UpdateMetadata(userId string, data *schemas.SchemaUserEducationMetadata) error
 }
 
@@ -89,6 +90,17 @@ func (s *serviceUserEducation) Delete(userId string, id string) error {
 	}
 
 	return nil
+}
+
+func (s *serviceUserEducation) GetMetadata(userId string) (interface{}, error) {
+	userRepository := repositories.NewUserRepository(s.db)
+
+	res, err := userRepository.GetModuleMetadata(userId, "education")
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func (s *serviceUserEducation) UpdateMetadata(userId string, data *schemas.SchemaUserEducationMetadata) error {

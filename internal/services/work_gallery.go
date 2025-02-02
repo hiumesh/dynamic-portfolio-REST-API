@@ -13,6 +13,7 @@ type ServiceWorkGallery interface {
 	Update(userId string, id string, data *schemas.SchemaUserTechProject) (interface{}, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
+	GetMetadata(userId string) (interface{}, error)
 	UpdateMetadata(userId string, data *schemas.SchemaUserTechProjectMetadata) error
 }
 
@@ -130,6 +131,17 @@ func (s *service) Delete(userId string, id string) error {
 	}
 
 	return nil
+}
+
+func (s *service) GetMetadata(userId string) (interface{}, error) {
+	userRepository := repositories.NewUserRepository(s.db)
+
+	res, err := userRepository.GetModuleMetadata(userId, "work_gallery")
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
 }
 
 func (s *service) UpdateMetadata(userId string, data *schemas.SchemaUserTechProjectMetadata) error {

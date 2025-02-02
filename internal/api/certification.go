@@ -117,6 +117,19 @@ func (h *handlerUserCertification) Delete(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, nil)
 }
 
+func (h *handlerUserCertification) GetMetadata(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+
+	res, err := h.service.GetMetadata(userId)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
 func (h *handlerUserCertification) UpdateMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
