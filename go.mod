@@ -35,6 +35,7 @@ require (
 	github.com/aws/smithy-go v1.22.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/mcuadros/go-defaults v1.2.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 )
 
@@ -42,6 +43,7 @@ require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.17.40
 	github.com/awsdocs/aws-doc-sdk-examples/gov2/s3 v0.0.0-20241121225033-5f441d758871
+	github.com/brianvoe/gofakeit/v7 v7.2.1
 	github.com/bytedance/sonic v1.11.9 // indirect
 	github.com/bytedance/sonic/loader v0.2.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect

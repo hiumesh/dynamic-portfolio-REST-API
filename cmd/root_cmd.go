@@ -15,7 +15,7 @@ var (
 )
 
 var rootCmd = cobra.Command{
-	Use: "gotrue",
+	Use: "dp",
 	Run: func(cmd *cobra.Command, args []string) {
 		serve(cmd.Context())
 	},
@@ -23,7 +23,7 @@ var rootCmd = cobra.Command{
 
 // RootCommand will setup and return the root command
 func RootCommand() *cobra.Command {
-	rootCmd.AddCommand(&serveCmd)
+	rootCmd.AddCommand(&serveCmd, &seedCmd)
 	rootCmd.PersistentFlags().StringVarP(&configFile, "config", "c", "", "base configuration file to load")
 	rootCmd.PersistentFlags().StringVarP(&watchDir, "config-dir", "d", "", "directory containing a sorted list of config files to watch for changes")
 	return &rootCmd
@@ -34,16 +34,24 @@ func loadGlobalConfig(ctx context.Context) *config.GlobalConfiguration {
 		panic("context must not be nil")
 	}
 
-	config, err := config.LoadGlobal(configFile)
-	if err != nil {
-		logrus.Fatalf("Failed to load configuration: %+v", err)
+	if err := config.LoadFile(configFile); err != nil {
+		logrus.WithError(err).Fatal("unable to load config")
 	}
 
-	if err := observability.ConfigureLogging(&config.LOGGING); err != nil {
+	if err := config.LoadDirectory(watchDir); err != nil {
+		logrus.WithError(err).Fatal("unable to load config from watch dir")
+	}
+
+	conf, err := config.LoadGlobalFromEnv()
+	if err != nil {
+		logrus.WithError(err).Fatal("unable to load config")
+	}
+
+	if err := observability.ConfigureLogging(&conf.LOGGING); err != nil {
 		logrus.WithError(err).Error("unable to configure logging")
 	}
 
-	return config
+	return conf
 }
 
 func execWithConfigAndArgs(cmd *cobra.Command, fn func(config *config.GlobalConfiguration, args []string), args []string) {

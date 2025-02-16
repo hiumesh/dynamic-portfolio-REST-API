@@ -4,6 +4,7 @@
     "datatypes",
     "envconfig",
     "godotenv",
+    "gofakeit",
     "gonic",
     "Hackathon",
     "Hackathons",
