@@ -33,19 +33,28 @@ var SocialPlatforms = []string{
 }
 
 type User struct {
-	Id                string         `fake:"{uuid}" json:"id"`
-	InstanceId        string         `json:"instance_id" default:"00000000-0000-0000-0000-000000000000"`
-	Aud               string         `json:"aud" default:"authenticated"`
-	Role              string         `json:"role" default:"authenticated"`
-	Email             string         `fake:"{email}" json:"email"`
-	EncryptedPassword string         `json:"encrypted_password"`
-	LastSignInAt      time.Time      `json:"last_sign_in_at" fake:"{date}"`
-	EmailConfirmedAt  time.Time      `json:"email_confirmed_at" fake:"{date}"`
-	RawAppMetaData    datatypes.JSON `json:"app_metadata"`
-	RawUserMetaData   datatypes.JSON `json:"user_metadata"`
-	CreatedAt         time.Time      `json:"created_at" fake:"{date}"`
-	UpdatedAt         time.Time      `json:"updated_at" fake:"{date}"`
-	DeletedAt         *time.Time     `json:"deleted_at"`
+	Id                       string         `fake:"{uuid}" json:"id"`
+	InstanceId               string         `json:"instance_id" default:"00000000-0000-0000-0000-000000000000"`
+	Aud                      string         `json:"aud" default:"authenticated"`
+	Role                     string         `json:"role" default:"authenticated"`
+	Email                    string         `fake:"{email}" json:"email"`
+	EncryptedPassword        string         `json:"encrypted_password"`
+	ConfirmationToken        string         `json:"confirmation_token"`
+	RecoveryToken            string         `json:"recovery_token"`
+	LastSignInAt             time.Time      `json:"last_sign_in_at" fake:"{date}"`
+	EmailChange              string         `json:"email_change"`
+	EmailChangeTokenNew      string         `json:"email_change_token_new"`
+	EmailConfirmedAt         time.Time      `json:"email_confirmed_at" fake:"{date}"`
+	PhoneChange              string         `json:"phone_change"`
+	PhoneChangeToken         string         `json:"phone_change_token"`
+	EmailChangeTokenCurrent  string         `json:"email_change_token_current"`
+	EmailChangeConfirmStatus int            `json:"email_change_confirm_status"`
+	ReauthenticationToken    string         `json:"reauthentication_token"`
+	RawAppMetaData           datatypes.JSON `json:"app_metadata"`
+	RawUserMetaData          datatypes.JSON `json:"user_metadata"`
+	CreatedAt                time.Time      `json:"created_at" fake:"{date}"`
+	UpdatedAt                time.Time      `json:"updated_at" fake:"{date}"`
+	DeletedAt                *time.Time     `json:"deleted_at"`
 }
 
 func (User) TableName() string {
@@ -112,6 +121,15 @@ func NewUser(password string) (*User, error) {
 	user.InstanceId = "00000000-0000-0000-0000-000000000000"
 	user.Aud = "authenticated"
 	user.Role = "authenticated"
+	user.ConfirmationToken = ""
+	user.RecoveryToken = ""
+	user.EmailChange = ""
+	user.EmailChangeTokenNew = ""
+	user.PhoneChange = ""
+	user.PhoneChangeToken = ""
+	user.EmailChangeTokenCurrent = ""
+	user.EmailChangeConfirmStatus = 0
+	user.ReauthenticationToken = ""
 	rawAppMetaData := map[string]interface{}{
 		"provider":  "email",
 		"providers": []string{"email"},
@@ -162,13 +180,49 @@ func NewUserProfile(user *User) (*UserProfile, error) {
 		}
 	}
 
+	k = rand.IntN(3) + 4
+	uniqueIdx := make(map[string]bool)
+	skills := make([]string, k)
+	for len(uniqueIdx) < k {
+		skill := gofakeit.Word()
+		if _, ok := uniqueIdx[skill]; !ok {
+			skills[len(uniqueIdx)] = skill
+			uniqueIdx[skill] = true
+		}
+	}
+
 	attributes := map[string]interface{}{
-		"about":           gofakeit.Paragraph(2, 4, 500, "\n\n"),
-		"tagline":         gofakeit.Sentence(50),
+		"about":           gofakeit.Paragraph(2, 4, 15, "\n\n"),
+		"tagline":         gofakeit.Sentence(15),
 		"college":         gofakeit.School(),
 		"graduation_year": gofakeit.Year(),
+		"skills":          skills,
 		"work_domains":    workDomains,
-		"social_links":    socialLinks,
+		"social_profiles": socialLinks,
+		"education_metadata": map[string]interface{}{
+			"heading":     gofakeit.Sentence(10),
+			"description": gofakeit.Paragraph(1, 2, 15, "\n\n"),
+		},
+		"work_experience_metadata": map[string]interface{}{
+			"heading":     gofakeit.Sentence(10),
+			"description": gofakeit.Paragraph(1, 2, 15, "\n\n"),
+		},
+		"hackathon_metadata": map[string]interface{}{
+			"heading":     gofakeit.Sentence(10),
+			"description": gofakeit.Paragraph(1, 2, 15, "\n\n"),
+		},
+		"work_gallery_metadata": map[string]interface{}{
+			"heading":     gofakeit.Sentence(10),
+			"description": gofakeit.Paragraph(1, 2, 15, "\n\n"),
+		},
+		"certification_metadata": map[string]interface{}{
+			"heading":     gofakeit.Sentence(10),
+			"description": gofakeit.Paragraph(1, 2, 15, "\n\n"),
+		},
+		"blog_metadata": map[string]interface{}{
+			"heading":     gofakeit.Sentence(10),
+			"description": gofakeit.Paragraph(1, 2, 15, "\n\n"),
+		},
 	}
 
 	attributesJson, err := json.Marshal(attributes)

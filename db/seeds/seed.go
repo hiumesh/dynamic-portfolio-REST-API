@@ -30,6 +30,12 @@ func Seed(db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
+
+	logrus.Info("Seeding tech projects...")
+	err = SeedTechProjects(db, users)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

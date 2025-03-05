@@ -15,14 +15,15 @@ import (
 var resc = regexp.MustCompile(`[^\w\s]`)
 
 type Blog struct {
-	ID        int64      `gorm:"primaryKey;autoIncrement"`
-	UserId    string     `json:"user_id"`
-	Title     string     `json:"title" fake:"{sentence:5}"`
-	Body      string     `json:"body" fake:"{markdown}"`
-	Slug      string     `json:"slug"`
-	CreatedAt time.Time  `json:"created_at" fake:"{date}"`
-	UpdatedAt time.Time  `json:"updated_at" fake:"{date}"`
-	DeletedAt *time.Time `json:"deleted_at"`
+	ID          int64      `gorm:"primaryKey;autoIncrement"`
+	UserId      string     `json:"user_id"`
+	Title       string     `json:"title" fake:"{sentence:5}"`
+	Body        string     `json:"body" fake:"{markdown}"`
+	Slug        string     `json:"slug"`
+	PublishedAt *time.Time `json:"published_at" fake:"{date}"`
+	CreatedAt   time.Time  `json:"created_at" fake:"{date}"`
+	UpdatedAt   time.Time  `json:"updated_at" fake:"{date}"`
+	DeletedAt   *time.Time `json:"deleted_at"`
 }
 
 func (Blog) TableName() string {
