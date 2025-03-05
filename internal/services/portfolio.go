@@ -9,7 +9,10 @@ import (
 )
 
 type ServicePortfolio interface {
-	Get(userId string) (interface{}, error)
+	GetAll(userId *string, query *string, cursor int, limit int) (interface{}, error)
+	GetPortfolio(slug string) (interface{}, error)
+	GetSubModule(slug string, module string) (interface{}, error)
+	GetUserPortfolio(userId string) (interface{}, error)
 	UpsertSkills(userId string, data *schemas.SchemaSkills) error
 	UpdateStatus(userId string, status string) error
 }
@@ -18,10 +21,65 @@ type servicePortfolio struct {
 	db *gorm.DB
 }
 
-func (s *servicePortfolio) Get(userId string) (interface{}, error) {
-	userRepository := repositories.NewUserRepository(s.db)
+func (s *servicePortfolio) GetAll(userId *string, query *string, cursor int, limit int) (interface{}, error) {
+	portfolioRepository := repositories.NewPortfolioRepository(s.db)
 
-	res, err := userRepository.GetPortfolio(userId)
+	res, err := portfolioRepository.GetAll(userId, query, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	var nextCursor *int
+	if len(*res) == limit {
+		temp := cursor + limit
+		nextCursor = &temp
+	}
+
+	return map[string]interface{}{"list": res, "cursor": nextCursor}, nil
+}
+
+func (s *servicePortfolio) GetPortfolio(slug string) (interface{}, error) {
+	portfolioRepository := repositories.NewPortfolioRepository(s.db)
+
+	res, err := portfolioRepository.GetPortfolio(slug)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (s *servicePortfolio) GetSubModule(slug string, module string) (interface{}, error) {
+	portfolioRepository := repositories.NewPortfolioRepository(s.db)
+
+	var res any
+	var err error
+	switch module {
+	case "educations":
+		res, err = portfolioRepository.GetEducations(slug)
+	case "work_experiences":
+		res, err = portfolioRepository.GetWorkExperiences(slug)
+	case "certifications":
+		res, err = portfolioRepository.GetCertifications(slug)
+	case "hackathons":
+		res, err = portfolioRepository.GetHackathons(slug)
+	case "works":
+		res, err = portfolioRepository.GetTechProjects(slug)
+	default:
+		return nil, errors.New("invalid module")
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (s *servicePortfolio) GetUserPortfolio(userId string) (interface{}, error) {
+	portfolioRepository := repositories.NewPortfolioRepository(s.db)
+
+	res, err := portfolioRepository.GetUserPortfolio(userId)
 	if err != nil {
 		return nil, err
 	}

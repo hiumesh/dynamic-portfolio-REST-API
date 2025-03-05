@@ -25,3 +25,22 @@ func (a *API) requireAuthentication() gin.HandlerFunc {
 		ctx.Next()
 	})
 }
+
+func (a *API) authenticateIfSessionPresent() gin.HandlerFunc {
+	return gin.HandlerFunc(func(ctx *gin.Context) {
+		tokenStr, err := pkg.ExtractBearerToken(ctx)
+		if err != nil {
+			ctx.Next()
+			return
+		}
+
+		token, err := pkg.ParseJWTClaims(tokenStr, ctx, config.AccessTokenClaims{}, a.config.JWT.Secret)
+		if err != nil {
+			ctx.Next()
+			return
+		}
+
+		withToken(ctx, token)
+		ctx.Next()
+	})
+}

@@ -50,9 +50,12 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 
 	portfolioRouter := router.Group("/portfolio")
 	{
-		portfolioRouter.Use(api.requireAuthentication()).GET("/user", portfolioHandler.Get)
-		portfolioRouter.Use(api.requireAuthentication()).PUT("/skills", portfolioHandler.UpsertSkills)
-		portfolioRouter.Use(api.requireAuthentication()).GET("/status/:Status", portfolioHandler.UpdateStatus)
+		portfolioRouter.GET("/", api.authenticateIfSessionPresent(), portfolioHandler.GetAll)
+		portfolioRouter.GET("/user", api.requireAuthentication(), portfolioHandler.GetUserDetail)
+		portfolioRouter.GET("/:slug/:module", api.authenticateIfSessionPresent(), portfolioHandler.GetSubModule)
+		portfolioRouter.GET("/:slug", api.authenticateIfSessionPresent(), portfolioHandler.GetPortfolio)
+		portfolioRouter.PUT("/skills", api.requireAuthentication(), portfolioHandler.UpsertSkills)
+		portfolioRouter.GET("/status/:Status", api.requireAuthentication(), portfolioHandler.UpdateStatus)
 		educationRouter := portfolioRouter.Group("/educations").Use(api.requireAuthentication())
 		{
 			educationRouter.GET("/", userEducationHandler.GetAll)
