@@ -8,8 +8,10 @@ import (
 )
 
 type ServiceBlog interface {
-	GetAll(userId string) (interface{}, error)
+	GetAll(userId *string, query *string, cursor int, limit int) (interface{}, error)
+	GetUserBlogs(userId string, query *string, cursor int, limit int) (any, error)
 	Get(userId string, blogId string) (interface{}, error)
+	GetBlogBySlug(slug string) (interface{}, error)
 	Create(userId string, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Update(userId string, blogId string, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Unpublish(userId string, blogId string) error
@@ -22,10 +24,44 @@ type serviceBlog struct {
 	db *gorm.DB
 }
 
-func (s *serviceBlog) GetAll(userId string) (interface{}, error) {
+func (s *serviceBlog) GetAll(userId *string, query *string, cursor int, limit int) (interface{}, error) {
 	blogRepository := repositories.NewBlogRepository(s.db)
 
-	res, err := blogRepository.GetAll(userId)
+	res, err := blogRepository.GetAll(userId, query, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	var nextCursor *int
+	if len(*res) == limit {
+		temp := cursor + limit
+		nextCursor = &temp
+	}
+
+	return map[string]any{"list": res, "cursor": nextCursor}, nil
+}
+
+func (s *serviceBlog) GetUserBlogs(userId string, query *string, cursor int, limit int) (any, error) {
+	blogRepository := repositories.NewBlogRepository(s.db)
+
+	res, err := blogRepository.GetUserBlogs(userId, query, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	var nextCursor *int
+	if len(*res) == limit {
+		temp := cursor + limit
+		nextCursor = &temp
+	}
+
+	return map[string]any{"list": res, "cursor": nextCursor}, nil
+}
+
+func (s *serviceBlog) Get(userId string, id string) (interface{}, error) {
+	blogRepository := repositories.NewBlogRepository(s.db)
+
+	res, err := blogRepository.Get(userId, id)
 	if err != nil {
 		return nil, err
 	}
@@ -33,10 +69,10 @@ func (s *serviceBlog) GetAll(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *serviceBlog) Get(userId string, id string) (interface{}, error) {
+func (s *serviceBlog) GetBlogBySlug(slug string) (any, error) {
 	blogRepository := repositories.NewBlogRepository(s.db)
 
-	res, err := blogRepository.Get(userId, id)
+	res, err := blogRepository.GetBlogBySlug(slug)
 	if err != nil {
 		return nil, err
 	}

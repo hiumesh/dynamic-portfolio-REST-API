@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/schemas"
@@ -14,9 +15,64 @@ type handlerBlog struct {
 }
 
 func (h *handlerBlog) GetAll(ctx *gin.Context) {
-	userId := utilities.GetClaims(ctx).Subject
+	claims := utilities.GetClaims(ctx)
+	var userId *string
+	if claims != nil {
+		userId = &claims.Subject
+	}
+	limitStr := ctx.DefaultQuery("limit", "20")
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit <= 0 {
+		HandleResponseError(ctx, ValidationError("Invalid limit value. Limit must be a positive integer.", err))
+		return
+	}
 
-	res, err := h.service.GetAll(userId)
+	cursorStr := ctx.DefaultQuery("cursor", "0")
+	cursor, err := strconv.Atoi(cursorStr)
+	if err != nil || cursor < 0 {
+		HandleResponseError(ctx, ValidationError("Invalid cursor value. Cursor must be a non-negative integer.", err))
+		return
+	}
+
+	var query *string
+	queryStr := ctx.Query("query")
+	if len(queryStr) > 0 {
+		query = &queryStr
+	}
+
+	res, err := h.service.GetAll(userId, query, cursor, limit)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerBlog) GetUserBlogs(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+	limitStr := ctx.DefaultQuery("limit", "20")
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit <= 0 {
+		HandleResponseError(ctx, ValidationError("Invalid limit value. Limit must be a positive integer.", err))
+		return
+	}
+
+	cursorStr := ctx.DefaultQuery("cursor", "0")
+	cursor, err := strconv.Atoi(cursorStr)
+	if err != nil || cursor < 0 {
+		HandleResponseError(ctx, ValidationError("Invalid cursor value. Cursor must be a non-negative integer.", err))
+		return
+	}
+
+	var query *string
+	queryStr := ctx.Query("query")
+	if len(queryStr) > 0 {
+		query = &queryStr
+	}
+
+	res, err := h.service.GetUserBlogs(userId, query, cursor, limit)
 
 	if err != nil {
 		HandleResponseError(ctx, err)
@@ -31,6 +87,20 @@ func (h *handlerBlog) Get(ctx *gin.Context) {
 	id := ctx.Param("Id")
 
 	res, err := h.service.Get(userId, id)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerBlog) GetBlogBySlug(ctx *gin.Context) {
+	// userId := utilities.GetClaims(ctx).Subject
+	slug := ctx.Param("slug")
+
+	res, err := h.service.GetBlogBySlug(slug)
 
 	if err != nil {
 		HandleResponseError(ctx, err)

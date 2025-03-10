@@ -114,15 +114,17 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 
 	}
 
-	blogRouter := router.Group("/blogs").Use(api.requireAuthentication())
+	blogRouter := router.Group("/blogs")
 	{
-		blogRouter.GET("/", blogHandler.GetAll)
-		blogRouter.GET("/:Id", blogHandler.Get)
-		blogRouter.GET("/:Id/unpublish", blogHandler.Unpublish)
-		blogRouter.POST("/", blogHandler.Create)
-		blogRouter.PUT("/:Id", blogHandler.Update)
-		blogRouter.DELETE("/:Id", blogHandler.Delete)
-		blogRouter.GET("/metadata", blogHandler.GetMetadata)
-		blogRouter.PUT("/metadata", blogHandler.UpdateMetadata)
+		blogRouter.GET("/", api.authenticateIfSessionPresent(), blogHandler.GetAll)
+		blogRouter.GET("/user", api.requireAuthentication(), blogHandler.GetUserBlogs)
+		blogRouter.GET("/user/:Id", blogHandler.Get)
+		blogRouter.GET("/:slug", api.authenticateIfSessionPresent(), blogHandler.GetBlogBySlug)
+		blogRouter.PUT("/:Id/unpublish", blogHandler.Unpublish)
+		blogRouter.POST("/", api.requireAuthentication(), blogHandler.Create)
+		blogRouter.PUT("/:Id", api.requireAuthentication(), blogHandler.Update)
+		blogRouter.DELETE("/:Id", api.requireAuthentication(), blogHandler.Delete)
+		blogRouter.GET("/metadata", api.requireAuthentication(), blogHandler.GetMetadata)
+		blogRouter.PUT("/metadata", api.requireAuthentication(), blogHandler.UpdateMetadata)
 	}
 }

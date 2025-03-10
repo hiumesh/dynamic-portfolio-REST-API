@@ -11,10 +11,17 @@ create table
     created_at timestamptz not null,
     updated_at timestamptz not null,
     deleted_at timestamptz,
+    fts tsvector GENERATED ALWAYS as (
+      to_tsvector(
+        'english'::regconfig,
+        ((title || ' '::text) || COALESCE(body, ''::text))
+      )
+    ) STORED null,
     constraint blogs_pkey primary key (id),
     constraint blogs_slug_ukey unique (slug),
     constraint blogs_user_id_fkey foreign key (user_id) references auth.users (id) on delete cascade
   ) tablespace pg_default;
+
 
 create table public.tags (
     id bigserial,
@@ -37,3 +44,8 @@ create table public.blog_tags (
     constraint blog_tags_blog_id_fkey foreign key (blog_id) references public.blogs (id) on delete cascade,
     constraint blog_tags_tag_id_fkey foreign key (tag_id) references public.tags (id) on delete cascade
 ) tablespace pg_default;
+
+
+-- indexes
+
+create index blogs_fts_idx on blogs using gin (fts);

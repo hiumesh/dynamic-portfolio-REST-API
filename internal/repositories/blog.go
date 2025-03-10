@@ -15,8 +15,10 @@ import (
 )
 
 type RepositoryBlog interface {
-	GetAll(userId string) (interface{}, error)
+	GetAll(userId *string, query *string, cursor int, limit int) (any, error)
+	GetUserBlogs(userId *string, query *string, cursor int, limit int) (any, error)
 	Get(userId string, id string) (interface{}, error)
+	GetBlogBySlug(slug string) (interface{}, error)
 	Create(userId string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Update(userId string, id string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Unpublish(userId string, id string) error
@@ -27,11 +29,75 @@ type repositoryBlog struct {
 	db *gorm.DB
 }
 
-func (r *repositoryBlog) GetAll(userId string) (interface{}, error) {
+func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit int) (*[]schemas.SelectBlog, error) {
 	var rows *sql.Rows
 	var err error
 
-	rows, err = r.db.Raw(`
+	baseQuery := `
+		select
+			blogs.id,
+			blogs.cover_image,
+			blogs.title,
+			blogs.slug,
+			user_profiles.user_id as publisher_id,
+			user_profiles.avatar_url as publisher_avatar,
+			user_profiles.full_name as publisher_name,
+			blogs.published_at,
+			blogs.created_at,
+			blogs.updated_at,
+			array_remove(array_agg(tags.name), NULL) AS tags
+		from
+			blogs
+			inner join user_profiles on user_profiles.user_id = blogs.user_id
+			left join blog_tags on blog_tags.blog_id = blogs.id
+			left join tags on tags.id = blog_tags.tag_id
+		where
+			blogs.published_at is not null
+	`
+
+	var args []any
+	args = append(args, limit, cursor)
+
+	if query != nil && *query != "" {
+		baseQuery += " AND blogs.fts @@ to_tsquery(?)"
+		args = append([]interface{}{*query}, args...)
+	}
+
+	baseQuery += `
+		group by
+			blogs.id,
+			user_profiles.user_id
+		ORDER BY blogs.updated_at DESC
+		LIMIT ? OFFSET ?
+	`
+
+	rows, err = r.db.Raw(baseQuery, args...).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var blogs []schemas.SelectBlog
+	for rows.Next() {
+		var blog schemas.SelectBlog
+
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		if err != nil {
+			return nil, err
+		}
+
+		blogs = append(blogs, blog)
+	}
+
+	return &blogs, nil
+}
+
+func (r *repositoryBlog) GetUserBlogs(userId string, query *string, cursor int, limit int) (*[]schemas.SelectBlog, error) {
+	var rows *sql.Rows
+	var err error
+
+	baseQuery := `
 		select
 			blogs.id,
 			blogs.cover_image,
@@ -47,12 +113,26 @@ func (r *repositoryBlog) GetAll(userId string) (interface{}, error) {
 			left join tags on tags.id = blog_tags.tag_id
 		where
 			blogs.user_id = ?
+	`
+
+	var args []interface{}
+	args = append(args, limit, cursor)
+
+	if query != nil && *query != "" {
+		baseQuery += " AND blogs.fts @@ to_tsquery(?)"
+		args = append([]interface{}{*query}, args...)
+	}
+
+	args = append([]interface{}{userId}, args...)
+
+	baseQuery += `
 		group by
 			blogs.id
-		order by
-			created_at desc
+		ORDER BY blogs.created_at DESC
+		LIMIT ? OFFSET ?
+	`
 
-	`, userId).Rows()
+	rows, err = r.db.Raw(baseQuery, args...).Rows()
 
 	if err != nil {
 		return nil, err
@@ -117,6 +197,62 @@ func (r *repositoryBlog) Get(userId string, id string) (interface{}, error) {
 	}
 
 	return &blog, nil
+}
+
+func (r *repositoryBlog) GetBlogBySlug(slug string) (any, error) {
+	var rows *sql.Rows
+	var err error
+
+	rows, err = r.db.Raw(`
+		select
+			blogs.id,
+			blogs.cover_image,
+			blogs.title,
+			blogs.body,
+			blogs.slug,
+			user_profiles.user_id as publisher_id,
+			user_profiles.avatar_url as publisher_avatar,
+			user_profiles.full_name as publisher_name,
+			blogs.published_at,
+			blogs.created_at,
+			blogs.updated_at,
+			array_remove(array_agg(tags.name), NULL) AS tags
+		from
+			blogs
+			inner join user_profiles on user_profiles.user_id = blogs.user_id
+			left join blog_tags on blog_tags.blog_id = blogs.id
+			left join tags on tags.id = blog_tags.tag_id
+		where
+			blogs.published_at is not null
+			and blogs.slug = ?
+		group by
+			blogs.id,
+			user_profiles.user_id
+			`, slug).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var blog schemas.SelectBlog
+	for rows.Next() {
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	if blog.ID == 0 {
+		return nil, errors.New("failed to get blog")
+	}
+
+	return &blog, nil
+
 }
 
 func (r *repositoryBlog) Create(userId string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error) {
