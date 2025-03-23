@@ -1,0 +1,21 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: flex-rest-api
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`api.flex.ucdani.com`)
+      kind: Rule
+      services:
+        - name: flex-rest-api
+          kind: Service
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: flex-ucdani-com-production-tls
