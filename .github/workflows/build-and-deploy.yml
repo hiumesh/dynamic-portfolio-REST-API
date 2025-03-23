@@ -31,3 +31,23 @@ jobs:
           file: ./docker/app/Dockerfile
           push: true
           tags: umeshdani/flex-rest-api:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4  
+    
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+      
+      - name: Create .kube directory
+        run: mkdir -p $HOME/.kube
+
+      - name: Configure kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+
+      - name: Update Kubernetes Deployment
+        run: |
+          kubectl rollout restart deployment/flex-rest-api

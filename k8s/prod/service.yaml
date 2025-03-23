@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flex-rest-api
+  namespace: default
+  labels:
+    environment: production
+    app: flex-rest-api
+spec:
+  type: ClusterIP
+  selector:
+    app: flex-rest-api
+  sessionAffinity: None
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
