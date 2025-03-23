@@ -30,4 +30,4 @@ jobs:
         with:
           file: ./docker/app/Dockerfile
           push: true
-          tags: umeshdani/dynamic-portfolio-rest-api:latest
+          tags: umeshdani/flex-rest-api:latest
