@@ -8,20 +8,20 @@ import (
 )
 
 type ServiceUserCertification interface {
-	GetAll(userId string) (*models.UserCertifications, error)
-	Create(userId string, data *schemas.SchemaUserCertification) (*models.UserCertification, error)
-	Update(userId string, id string, data *schemas.SchemaUserCertification) (*models.UserCertification, error)
+	GetAll(userId string) (*models.Certifications, error)
+	Create(userId string, data *schemas.SchemaCertification) (*models.Certification, error)
+	Update(userId string, id string, data *schemas.SchemaCertification) (*models.Certification, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 	GetMetadata(userId string) (interface{}, error)
-	UpdateMetadata(userId string, data *schemas.SchemaUserCertificationMetadata) error
+	UpdateMetadata(userId string, data *schemas.SchemaCertificationMetadata) error
 }
 
 type serviceUserCertification struct {
 	db *gorm.DB
 }
 
-func (s *serviceUserCertification) GetAll(userId string) (*models.UserCertifications, error) {
+func (s *serviceUserCertification) GetAll(userId string) (*models.Certifications, error) {
 	userExperienceRepository := repositories.NewUserCertificationRepository(s.db)
 
 	res, err := userExperienceRepository.GetAll(userId)
@@ -32,7 +32,7 @@ func (s *serviceUserCertification) GetAll(userId string) (*models.UserCertificat
 	return res, nil
 }
 
-func (s *serviceUserCertification) Create(userId string, data *schemas.SchemaUserCertification) (*models.UserCertification, error) {
+func (s *serviceUserCertification) Create(userId string, data *schemas.SchemaCertification) (*models.Certification, error) {
 	userExperienceRepository := repositories.NewUserCertificationRepository(s.db)
 
 	res, err := userExperienceRepository.Create(userId, data)
@@ -43,7 +43,7 @@ func (s *serviceUserCertification) Create(userId string, data *schemas.SchemaUse
 	return res, nil
 }
 
-func (s *serviceUserCertification) Update(userId string, id string, data *schemas.SchemaUserCertification) (*models.UserCertification, error) {
+func (s *serviceUserCertification) Update(userId string, id string, data *schemas.SchemaCertification) (*models.Certification, error) {
 	userExperienceRepository := repositories.NewUserCertificationRepository(s.db)
 
 	res, err := userExperienceRepository.Update(userId, id, data)
@@ -103,7 +103,7 @@ func (s *serviceUserCertification) GetMetadata(userId string) (interface{}, erro
 	return res, nil
 }
 
-func (s *serviceUserCertification) UpdateMetadata(userId string, data *schemas.SchemaUserCertificationMetadata) error {
+func (s *serviceUserCertification) UpdateMetadata(userId string, data *schemas.SchemaCertificationMetadata) error {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	err := userRepository.AddOrUpdateModuleMetadata(userId, "certification", data)

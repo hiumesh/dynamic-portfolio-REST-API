@@ -9,12 +9,12 @@ import (
 
 type ServiceWorkGallery interface {
 	GetAll(userId string) (interface{}, error)
-	Create(userId string, data *schemas.SchemaUserTechProject) (interface{}, error)
-	Update(userId string, id string, data *schemas.SchemaUserTechProject) (interface{}, error)
+	Create(userId string, data *schemas.SchemaTechProject) (interface{}, error)
+	Update(userId string, id string, data *schemas.SchemaTechProject) (interface{}, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 	GetMetadata(userId string) (interface{}, error)
-	UpdateMetadata(userId string, data *schemas.SchemaUserTechProjectMetadata) error
+	UpdateMetadata(userId string, data *schemas.SchemaTechProjectMetadata) error
 }
 
 type service struct {
@@ -32,7 +32,7 @@ func (s *service) GetAll(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *service) Create(userId string, data *schemas.SchemaUserTechProject) (interface{}, error) {
+func (s *service) Create(userId string, data *schemas.SchemaTechProject) (interface{}, error) {
 	tx := s.db.Begin()
 	userTechProjectRepository := repositories.NewUserTechProjectRepository(tx)
 	userAttachmentRepository := repositories.NewAttachmentRepository(tx)
@@ -43,7 +43,7 @@ func (s *service) Create(userId string, data *schemas.SchemaUserTechProject) (in
 		return nil, err
 	}
 
-	atts, err := userAttachmentRepository.CreateMany(userId, models.UserTechProject{}.TableName(), tp.ID, &data.Attachments)
+	atts, err := userAttachmentRepository.CreateMany(userId, models.TechProject{}.TableName(), tp.ID, &data.Attachments)
 	if err != nil {
 		tx.Rollback()
 		return nil, err
@@ -51,18 +51,18 @@ func (s *service) Create(userId string, data *schemas.SchemaUserTechProject) (in
 
 	tx.Commit()
 	response := struct {
-		models.UserTechProject
+		models.TechProject
 		Attachments interface{} `json:"attachments"`
 	}{
-		UserTechProject: *tp,
-		Attachments:     atts,
+		TechProject: *tp,
+		Attachments: atts,
 	}
 
 	return response, nil
 
 }
 
-func (s *service) Update(userId string, id string, data *schemas.SchemaUserTechProject) (interface{}, error) {
+func (s *service) Update(userId string, id string, data *schemas.SchemaTechProject) (interface{}, error) {
 	tx := s.db.Begin()
 	userTechProjectRepository := repositories.NewUserTechProjectRepository(tx)
 	userAttachmentRepository := repositories.NewAttachmentRepository(tx)
@@ -73,7 +73,7 @@ func (s *service) Update(userId string, id string, data *schemas.SchemaUserTechP
 		return nil, err
 	}
 
-	atts, err := userAttachmentRepository.UpdateOrCreate(userId, models.UserTechProject{}.TableName(), tp.ID, &data.Attachments)
+	atts, err := userAttachmentRepository.UpdateOrCreate(userId, models.TechProject{}.TableName(), tp.ID, &data.Attachments)
 	if err != nil {
 		tx.Rollback()
 		return nil, err
@@ -81,11 +81,11 @@ func (s *service) Update(userId string, id string, data *schemas.SchemaUserTechP
 
 	tx.Commit()
 	response := struct {
-		models.UserTechProject
+		models.TechProject
 		Attachments interface{} `json:"attachments"`
 	}{
-		UserTechProject: *tp,
-		Attachments:     atts,
+		TechProject: *tp,
+		Attachments: atts,
 	}
 
 	return response, nil
@@ -119,7 +119,7 @@ func (s *service) Delete(userId string, id string) error {
 			return err
 		}
 
-		if err := userAttachmentRepository.DeleteMany(userId, models.UserTechProject{}.TableName(), id); err != nil {
+		if err := userAttachmentRepository.DeleteMany(userId, models.TechProject{}.TableName(), id); err != nil {
 			return err
 		}
 
@@ -144,7 +144,7 @@ func (s *service) GetMetadata(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *service) UpdateMetadata(userId string, data *schemas.SchemaUserTechProjectMetadata) error {
+func (s *service) UpdateMetadata(userId string, data *schemas.SchemaTechProjectMetadata) error {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	err := userRepository.AddOrUpdateModuleMetadata(userId, "work_gallery", data)

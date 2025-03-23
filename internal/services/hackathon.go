@@ -8,20 +8,20 @@ import (
 )
 
 type ServiceUserHackathon interface {
-	GetAll(userId string) (*models.UserHackathons, error)
-	Create(userId string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error)
-	Update(userId string, id string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error)
+	GetAll(userId string) (*models.Hackathons, error)
+	Create(userId string, data *schemas.SchemaHackathon) (*models.Hackathon, error)
+	Update(userId string, id string, data *schemas.SchemaHackathon) (*models.Hackathon, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 	GetMetadata(userId string) (interface{}, error)
-	UpdateMetadata(userId string, data *schemas.SchemaUserHackathonMetadata) error
+	UpdateMetadata(userId string, data *schemas.SchemaHackathonMetadata) error
 }
 
 type serviceUserHackathon struct {
 	db *gorm.DB
 }
 
-func (s *serviceUserHackathon) GetAll(userId string) (*models.UserHackathons, error) {
+func (s *serviceUserHackathon) GetAll(userId string) (*models.Hackathons, error) {
 	userHackathonRepository := repositories.NewUserHackathonRepository(s.db)
 
 	res, err := userHackathonRepository.GetAll(userId)
@@ -32,7 +32,7 @@ func (s *serviceUserHackathon) GetAll(userId string) (*models.UserHackathons, er
 	return res, nil
 }
 
-func (s *serviceUserHackathon) Create(userId string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error) {
+func (s *serviceUserHackathon) Create(userId string, data *schemas.SchemaHackathon) (*models.Hackathon, error) {
 	userHackathonRepository := repositories.NewUserHackathonRepository(s.db)
 
 	exp, err := userHackathonRepository.Create(userId, data)
@@ -43,7 +43,7 @@ func (s *serviceUserHackathon) Create(userId string, data *schemas.SchemaUserHac
 	return exp, nil
 }
 
-func (s *serviceUserHackathon) Update(userId string, id string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error) {
+func (s *serviceUserHackathon) Update(userId string, id string, data *schemas.SchemaHackathon) (*models.Hackathon, error) {
 	userHackathonRepository := repositories.NewUserHackathonRepository(s.db)
 
 	exp, err := userHackathonRepository.Update(userId, id, data)
@@ -103,7 +103,7 @@ func (s *serviceUserHackathon) GetMetadata(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *serviceUserHackathon) UpdateMetadata(userId string, data *schemas.SchemaUserHackathonMetadata) error {
+func (s *serviceUserHackathon) UpdateMetadata(userId string, data *schemas.SchemaHackathonMetadata) error {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	err := userRepository.AddOrUpdateModuleMetadata(userId, "hackathon", data)

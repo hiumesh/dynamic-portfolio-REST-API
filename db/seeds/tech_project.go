@@ -26,7 +26,7 @@ type TechProject struct {
 }
 
 func (TechProject) TableName() string {
-	return "user_tech_projects"
+	return "tech_projects"
 }
 
 func NewTechProject(user *User) (*[]TechProject, error) {

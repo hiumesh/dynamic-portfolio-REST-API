@@ -8,7 +8,7 @@ type SchemaHackathonLink struct {
 	URL      string `json:"url" validate:"required,url"`
 }
 
-type SchemaUserHackathon struct {
+type SchemaHackathon struct {
 	Avatar          string                `json:"avatar" validate:"omitempty,url"`
 	Title           string                `json:"title" binding:"required" validate:"required,min=3,max=150"`
 	Location        string                `json:"location" binding:"required" validate:"required,min=5,max=200"`
@@ -19,17 +19,17 @@ type SchemaUserHackathon struct {
 	Links           []SchemaHackathonLink `json:"links" validate:"dive"`
 }
 
-func (s *SchemaUserHackathon) Validate() error {
+func (s *SchemaHackathon) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
 
-type SchemaUserHackathonMetadata struct {
+type SchemaHackathonMetadata struct {
 	Heading     string `json:"heading" binding:"required" validate:"required,min=3,max=100"`
 	Description string `json:"description" binding:"required" validate:"required,min=3,max=1000"`
 }
 
-func (s *SchemaUserHackathonMetadata) Validate() error {
+func (s *SchemaHackathonMetadata) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }

@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserTechProject struct {
+type TechProject struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
 	UserId      uuid.UUID      `json:"user_id"`
 	OrderIndex  int16          `json:"order_index"`
@@ -25,8 +25,8 @@ type UserTechProject struct {
 	// Attachments []Attachment   `json:"attachments" gorm:"foreignkey:ParentId"`
 }
 
-func (UserTechProject) TableName() string {
-	return "user_tech_projects"
+func (TechProject) TableName() string {
+	return "tech_projects"
 }
 
-type UserTechProjects []UserTechProject
+type TechProjects []TechProject

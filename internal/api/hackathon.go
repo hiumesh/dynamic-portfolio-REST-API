@@ -29,7 +29,7 @@ func (h *handlerUserHackathon) GetAll(ctx *gin.Context) {
 func (h *handlerUserHackathon) Create(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserHackathon
+	var data schemas.SchemaHackathon
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -55,7 +55,7 @@ func (h *handlerUserHackathon) Update(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
-	var data schemas.SchemaUserHackathon
+	var data schemas.SchemaHackathon
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -133,7 +133,7 @@ func (h *handlerUserHackathon) GetMetadata(ctx *gin.Context) {
 func (h *handlerUserHackathon) UpdateMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserHackathonMetadata
+	var data schemas.SchemaHackathonMetadata
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return

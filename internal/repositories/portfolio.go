@@ -246,39 +246,39 @@ func (r *repositoryPortfolio) GetPortfolio(slug string) (interface{}, error) {
 }
 
 func (r *repositoryPortfolio) GetEducations(slug string) (interface{}, error) {
-	var userEducations models.UserEducations
+	var userEducations models.Educations
 
-	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = user_educations.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userEducations).Error; err != nil {
+	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = educations.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userEducations).Error; err != nil {
 		return nil, err
 	}
 
 	return &userEducations, nil
 }
 
-func (r *repositoryPortfolio) GetHackathons(slug string) (*models.UserHackathons, error) {
-	var userHackathons models.UserHackathons
+func (r *repositoryPortfolio) GetHackathons(slug string) (*models.Hackathons, error) {
+	var userHackathons models.Hackathons
 
-	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = user_hackathons.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userHackathons).Error; err != nil {
+	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = hackathons.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userHackathons).Error; err != nil {
 		return nil, err
 	}
 
 	return &userHackathons, nil
 }
 
-func (r *repositoryPortfolio) GetWorkExperiences(slug string) (*models.UserExperiences, error) {
-	var userExperiences models.UserExperiences
+func (r *repositoryPortfolio) GetWorkExperiences(slug string) (*models.WorkExperiences, error) {
+	var userExperiences models.WorkExperiences
 
-	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = user_experiences.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userExperiences).Error; err != nil {
+	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = work_experiences.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userExperiences).Error; err != nil {
 		return nil, err
 	}
 
 	return &userExperiences, nil
 }
 
-func (r *repositoryPortfolio) GetCertifications(slug string) (*models.UserCertifications, error) {
-	var userCertifications models.UserCertifications
+func (r *repositoryPortfolio) GetCertifications(slug string) (*models.Certifications, error) {
+	var userCertifications models.Certifications
 
-	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = user_certifications.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userCertifications).Error; err != nil {
+	if err := r.db.Joins("inner join user_profiles on user_profiles.user_id = certifications.user_id").Where("user_profiles.slug = ?", slug).Order("order_index desc").Find(&userCertifications).Error; err != nil {
 		return nil, err
 	}
 
@@ -292,16 +292,16 @@ func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]SelectUserTechPro
 	// Execute raw query
 	rows, err = r.db.Raw(`
 		select
-			user_tech_projects.id,
-			user_tech_projects.order_index,
-			user_tech_projects.title,
-			user_tech_projects.description,
-			user_tech_projects.start_date,
-			user_tech_projects.end_date,
-			user_tech_projects.skills_used,
-			user_tech_projects.attributes,
-			user_tech_projects.created_at,
-			user_tech_projects.updated_at,
+			tech_projects.id,
+			tech_projects.order_index,
+			tech_projects.title,
+			tech_projects.description,
+			tech_projects.start_date,
+			tech_projects.end_date,
+			tech_projects.skills_used,
+			tech_projects.attributes,
+			tech_projects.created_at,
+			tech_projects.updated_at,
 			coalesce(json_agg(
 				json_build_object(
 					'id', attachments.id,
@@ -312,14 +312,14 @@ func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]SelectUserTechPro
 				)
 			) filter (where attachments.id is not null), '[]') as attachments
 		from
-			user_tech_projects
-			inner join user_profiles on user_profiles.user_id = user_tech_projects.user_id
-			left join attachments on attachments.parent_id = user_tech_projects.id
-			and attachments.parent_table = 'user_tech_projects'
+			tech_projects
+			inner join user_profiles on user_profiles.user_id = tech_projects.user_id
+			left join attachments on attachments.parent_id = tech_projects.id
+			and attachments.parent_table = 'tech_projects'
 		where
 			user_profiles.slug = ?
 		group by
-			user_tech_projects.id
+			tech_projects.id
 		order by
 			order_index desc
 		limit 6

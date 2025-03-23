@@ -14,9 +14,9 @@ import (
 )
 
 type RepositoryUserHackathon interface {
-	GetAll(userId string) (*models.UserHackathons, error)
-	Create(userId string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error)
-	Update(userId string, id string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error)
+	GetAll(userId string) (*models.Hackathons, error)
+	Create(userId string, data *schemas.SchemaHackathon) (*models.Hackathon, error)
+	Update(userId string, id string, data *schemas.SchemaHackathon) (*models.Hackathon, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 }
@@ -25,8 +25,8 @@ type repositoryUserHackathon struct {
 	db *gorm.DB
 }
 
-func (r *repositoryUserHackathon) GetAll(userId string) (*models.UserHackathons, error) {
-	var userHackathons models.UserHackathons
+func (r *repositoryUserHackathon) GetAll(userId string) (*models.Hackathons, error) {
+	var userHackathons models.Hackathons
 
 	if err := r.db.Where("user_id = ?", userId).Order("order_index desc").Find(&userHackathons).Error; err != nil {
 		return nil, err
@@ -35,12 +35,12 @@ func (r *repositoryUserHackathon) GetAll(userId string) (*models.UserHackathons,
 	return &userHackathons, nil
 }
 
-func (r *repositoryUserHackathon) Create(userId string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error) {
+func (r *repositoryUserHackathon) Create(userId string, data *schemas.SchemaHackathon) (*models.Hackathon, error) {
 	type MaxIndexResult struct {
 		MaxIndex int16
 	}
 	maxIndexResult := MaxIndexResult{MaxIndex: 0}
-	if err := r.db.Model(&models.UserHackathon{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := r.db.Model(&models.Hackathon{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 
@@ -59,7 +59,7 @@ func (r *repositoryUserHackathon) Create(userId string, data *schemas.SchemaUser
 		return nil, errors.New("failed to parse end date")
 	}
 
-	hackathon := models.UserHackathon{
+	hackathon := models.Hackathon{
 		UserId:          userUUID,
 		OrderIndex:      maxIndexResult.MaxIndex + 1,
 		Avatar:          &data.Avatar,
@@ -94,7 +94,7 @@ func (r *repositoryUserHackathon) Create(userId string, data *schemas.SchemaUser
 
 }
 
-func (r *repositoryUserHackathon) Update(userId string, id string, data *schemas.SchemaUserHackathon) (*models.UserHackathon, error) {
+func (r *repositoryUserHackathon) Update(userId string, id string, data *schemas.SchemaHackathon) (*models.Hackathon, error) {
 	startDate, err := time.Parse("2006-01-02", data.StartDate)
 	if err != nil {
 		return nil, errors.New("failed to parse start date")
@@ -117,7 +117,7 @@ func (r *repositoryUserHackathon) Update(userId string, id string, data *schemas
 			Set("{links}", data.Links),
 	}
 
-	var updatedRows models.UserHackathons
+	var updatedRows models.Hackathons
 
 	if err := r.db.Model(&updatedRows).Clauses(clause.Returning{}).Where("id = ? and user_id = ?", id, userId).Updates(hackathon).Error; err != nil {
 		return nil, err
@@ -131,13 +131,13 @@ func (r *repositoryUserHackathon) Update(userId string, id string, data *schemas
 }
 
 func (r *repositoryUserHackathon) Delete(userId string, id string) error {
-	var hackathon models.UserHackathon
+	var hackathon models.Hackathon
 
 	if err := r.db.Where("user_id = ?", userId).Where("id = ?", id).First(&hackathon).Error; err != nil {
 		return err
 	}
 
-	if err := r.db.Model(&models.UserHackathon{}).Where("user_id = ? and order_index > ?", userId, hackathon.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+	if err := r.db.Model(&models.Hackathon{}).Where("user_id = ? and order_index > ?", userId, hackathon.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 		return err
 	}
 
@@ -149,7 +149,7 @@ func (r *repositoryUserHackathon) Delete(userId string, id string) error {
 }
 
 func (r *repositoryUserHackathon) Reorder(userId string, id string, newIndex int) error {
-	var hackathon models.UserHackathon
+	var hackathon models.Hackathon
 
 	if err := r.db.First(&hackathon, id).Error; err != nil {
 		return err
@@ -163,7 +163,7 @@ func (r *repositoryUserHackathon) Reorder(userId string, id string, newIndex int
 		Count int16
 	}
 	countResult := CountResult{}
-	if err := r.db.Model(&models.UserHackathon{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
+	if err := r.db.Model(&models.Hackathon{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
 		return err
 	}
 
@@ -172,19 +172,19 @@ func (r *repositoryUserHackathon) Reorder(userId string, id string, newIndex int
 	}
 
 	if hackathon.OrderIndex < int16(newIndex) {
-		if err := r.db.Model(&models.UserHackathon{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, hackathon.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.Hackathon{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, hackathon.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserHackathon{}).Where("id = ?", hackathon.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.Hackathon{}).Where("id = ?", hackathon.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}
 
 	if hackathon.OrderIndex > int16(newIndex) {
-		if err := r.db.Model(&models.UserHackathon{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, hackathon.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.Hackathon{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, hackathon.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserHackathon{}).Where("id = ?", hackathon.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.Hackathon{}).Where("id = ?", hackathon.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}

@@ -8,20 +8,20 @@ import (
 )
 
 type ServiceUserEducation interface {
-	GetAll(userId string) (*models.UserEducations, error)
-	Create(userId string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
-	Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error)
+	GetAll(userId string) (*models.Educations, error)
+	Create(userId string, data *schemas.SchemaEducation) (*models.Education, error)
+	Update(userId string, id string, data *schemas.SchemaEducation) (*models.Education, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 	GetMetadata(userId string) (interface{}, error)
-	UpdateMetadata(userId string, data *schemas.SchemaUserEducationMetadata) error
+	UpdateMetadata(userId string, data *schemas.SchemaEducationMetadata) error
 }
 
 type serviceUserEducation struct {
 	db *gorm.DB
 }
 
-func (s *serviceUserEducation) GetAll(userId string) (*models.UserEducations, error) {
+func (s *serviceUserEducation) GetAll(userId string) (*models.Educations, error) {
 	userEducationRepository := repositories.NewUserEducationRepository(s.db)
 
 	res, err := userEducationRepository.GetAll(userId)
@@ -32,7 +32,7 @@ func (s *serviceUserEducation) GetAll(userId string) (*models.UserEducations, er
 	return res, nil
 }
 
-func (s *serviceUserEducation) Create(userId string, data *schemas.SchemaUserEducation) (*models.UserEducation, error) {
+func (s *serviceUserEducation) Create(userId string, data *schemas.SchemaEducation) (*models.Education, error) {
 	userEducationRepository := repositories.NewUserEducationRepository(s.db)
 
 	edu, err := userEducationRepository.Create(userId, data)
@@ -43,7 +43,7 @@ func (s *serviceUserEducation) Create(userId string, data *schemas.SchemaUserEdu
 	return edu, nil
 }
 
-func (s *serviceUserEducation) Update(userId string, id string, data *schemas.SchemaUserEducation) (*models.UserEducation, error) {
+func (s *serviceUserEducation) Update(userId string, id string, data *schemas.SchemaEducation) (*models.Education, error) {
 	userEducationRepository := repositories.NewUserEducationRepository(s.db)
 
 	edu, err := userEducationRepository.Update(userId, id, data)
@@ -103,7 +103,7 @@ func (s *serviceUserEducation) GetMetadata(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *serviceUserEducation) UpdateMetadata(userId string, data *schemas.SchemaUserEducationMetadata) error {
+func (s *serviceUserEducation) UpdateMetadata(userId string, data *schemas.SchemaEducationMetadata) error {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	err := userRepository.AddOrUpdateModuleMetadata(userId, "education", data)

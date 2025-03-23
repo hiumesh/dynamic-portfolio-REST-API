@@ -16,9 +16,9 @@ import (
 )
 
 type RepositoryUserTechProject interface {
-	GetAll(userId string) (*models.UserTechProjects, error)
-	Create(userId string, data *schemas.SchemaUserTechProject) (*models.UserTechProject, error)
-	Update(userId string, id string, data *schemas.SchemaUserTechProject) (*models.UserTechProject, error)
+	GetAll(userId string) (*models.TechProjects, error)
+	Create(userId string, data *schemas.SchemaTechProject) (*models.TechProject, error)
+	Update(userId string, id string, data *schemas.SchemaTechProject) (*models.TechProject, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 }
@@ -56,16 +56,16 @@ func (r *repositoryUserTechProject) GetAll(userId string) (*[]SelectUserTechProj
 	// Execute raw query
 	rows, err = r.db.Raw(`
 		select
-			user_tech_projects.id,
-			user_tech_projects.order_index,
-			user_tech_projects.title,
-			user_tech_projects.description,
-			user_tech_projects.start_date,
-			user_tech_projects.end_date,
-			user_tech_projects.skills_used,
-			user_tech_projects.attributes,
-			user_tech_projects.created_at,
-			user_tech_projects.updated_at,
+			tech_projects.id,
+			tech_projects.order_index,
+			tech_projects.title,
+			tech_projects.description,
+			tech_projects.start_date,
+			tech_projects.end_date,
+			tech_projects.skills_used,
+			tech_projects.attributes,
+			tech_projects.created_at,
+			tech_projects.updated_at,
 			coalesce(json_agg(
 				json_build_object(
 					'id', attachments.id,
@@ -76,13 +76,13 @@ func (r *repositoryUserTechProject) GetAll(userId string) (*[]SelectUserTechProj
 				)
 			) filter (where attachments.id is not null), '[]') as attachments
 		from
-			user_tech_projects
-			left join attachments on attachments.parent_id = user_tech_projects.id
-			and attachments.parent_table = 'user_tech_projects'
+			tech_projects
+			left join attachments on attachments.parent_id = tech_projects.id
+			and attachments.parent_table = 'tech_projects'
 		where
-			user_tech_projects.user_id = ?
+			tech_projects.user_id = ?
 		group by
-			user_tech_projects.id
+			tech_projects.id
 		order by
 			order_index desc
 	`, userId).Rows()
@@ -128,12 +128,12 @@ func (r *repositoryUserTechProject) GetAll(userId string) (*[]SelectUserTechProj
 	return &userTechProjects, nil
 }
 
-func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaUserTechProject) (*models.UserTechProject, error) {
+func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaTechProject) (*models.TechProject, error) {
 	type MaxIndexResult struct {
 		MaxIndex int16
 	}
 	maxIndexResult := MaxIndexResult{MaxIndex: 0}
-	if err := r.db.Model(&models.UserTechProject{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := r.db.Model(&models.TechProject{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 
@@ -147,7 +147,7 @@ func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaUs
 		return nil, errors.New("failed to parse start date")
 	}
 
-	techProject := models.UserTechProject{
+	techProject := models.TechProject{
 		UserId:      userUUID,
 		OrderIndex:  maxIndexResult.MaxIndex + 1,
 		Title:       data.Title,
@@ -186,7 +186,7 @@ func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaUs
 
 }
 
-func (r *repositoryUserTechProject) Update(userId string, id string, data *schemas.SchemaUserTechProject) (*models.UserTechProject, error) {
+func (r *repositoryUserTechProject) Update(userId string, id string, data *schemas.SchemaTechProject) (*models.TechProject, error) {
 	startDate, err := time.Parse("2006-01-02", data.StartDate)
 	if err != nil {
 		return nil, errors.New("failed to parse start date")
@@ -212,7 +212,7 @@ func (r *repositoryUserTechProject) Update(userId string, id string, data *schem
 		techProject["end_date"] = nil
 	}
 
-	var updatedRows models.UserTechProjects
+	var updatedRows models.TechProjects
 
 	if err := r.db.Model(&updatedRows).Clauses(clause.Returning{}).Where("id = ? and user_id = ?", id, userId).Updates(techProject).Error; err != nil {
 		return nil, err
@@ -226,13 +226,13 @@ func (r *repositoryUserTechProject) Update(userId string, id string, data *schem
 }
 
 func (r *repositoryUserTechProject) Delete(userId string, id string) error {
-	var techProject models.UserTechProject
+	var techProject models.TechProject
 
 	if err := r.db.Where("user_id = ?", userId).Where("id = ?", id).First(&techProject).Error; err != nil {
 		return err
 	}
 
-	if err := r.db.Model(&models.UserTechProject{}).Where("user_id = ? and order_index > ?", userId, techProject.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+	if err := r.db.Model(&models.TechProject{}).Where("user_id = ? and order_index > ?", userId, techProject.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 		return err
 	}
 
@@ -244,7 +244,7 @@ func (r *repositoryUserTechProject) Delete(userId string, id string) error {
 }
 
 func (r *repositoryUserTechProject) Reorder(userId string, id string, newIndex int) error {
-	var techProject models.UserTechProject
+	var techProject models.TechProject
 
 	if err := r.db.First(&techProject, id).Error; err != nil {
 		return err
@@ -258,7 +258,7 @@ func (r *repositoryUserTechProject) Reorder(userId string, id string, newIndex i
 		Count int16
 	}
 	countResult := CountResult{}
-	if err := r.db.Model(&models.UserTechProject{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
+	if err := r.db.Model(&models.TechProject{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
 		return err
 	}
 
@@ -267,19 +267,19 @@ func (r *repositoryUserTechProject) Reorder(userId string, id string, newIndex i
 	}
 
 	if techProject.OrderIndex < int16(newIndex) {
-		if err := r.db.Model(&models.UserTechProject{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, techProject.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.TechProject{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, techProject.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserTechProject{}).Where("id = ?", techProject.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.TechProject{}).Where("id = ?", techProject.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}
 
 	if techProject.OrderIndex > int16(newIndex) {
-		if err := r.db.Model(&models.UserTechProject{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, techProject.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.TechProject{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, techProject.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserTechProject{}).Where("id = ?", techProject.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.TechProject{}).Where("id = ?", techProject.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}

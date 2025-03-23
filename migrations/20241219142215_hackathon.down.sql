@@ -1,1 +1,1 @@
-drop table public.user_hackathons;
+drop table public.hackathons;

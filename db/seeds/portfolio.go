@@ -57,7 +57,7 @@ type Education struct {
 }
 
 func (Education) TableName() string {
-	return "user_educations"
+	return "educations"
 }
 
 func NewEducation(user *User) (*[]Education, error) {
@@ -116,7 +116,7 @@ type Hackathon struct {
 }
 
 func (Hackathon) TableName() string {
-	return "user_hackathons"
+	return "hackathons"
 }
 
 func NewHackathon(user *User) (*[]Hackathon, error) {
@@ -154,7 +154,7 @@ type Certification struct {
 	UserId          string         `json:"user_id"`
 	OrderIndex      int16          `json:"order_index"`
 	Title           string         `json:"title" fake:"{sentence:5}"`
-	Description     pq.StringArray `json:"description" gorm:"type:text"`
+	Description     string         `json:"description"`
 	CompletionDate  time.Time      `json:"completion_date" fake:"{date}"`
 	CertificateLink *string        `json:"certificate_link"`
 	SkillsUsed      pq.StringArray `json:"skills_used" gorm:"type:text"`
@@ -164,7 +164,7 @@ type Certification struct {
 }
 
 func (Certification) TableName() string {
-	return "user_certifications"
+	return "certifications"
 }
 
 func NewCertification(user *User) (*[]Certification, error) {
@@ -181,14 +181,10 @@ func NewCertification(user *User) (*[]Certification, error) {
 		certification.OrderIndex = int16(i + 1)
 		certification.Title = strings.TrimSuffix(certification.Title, ".")
 		certification.CertificateLink = nil
-		k := rand.IntN(2) + 3
-		certification.Description = make([]string, k)
-		for j := 0; j < k; j++ {
-			certification.Description[j] = gofakeit.Sentence(10)
-		}
-		k = rand.IntN(2) + 3
-		certification.SkillsUsed = make([]string, k)
-		for j := 0; j < k; j++ {
+		certification.Description = gofakeit.Paragraph(2, 2, 10, "\n\n")
+		h := rand.IntN(2) + 3
+		certification.SkillsUsed = make([]string, h)
+		for j := 0; j < h; j++ {
 			certification.SkillsUsed[j] = gofakeit.Word()
 		}
 
@@ -208,7 +204,7 @@ type Experience struct {
 	Location        string         `json:"location"`
 	StartDate       time.Time      `json:"start_date" fake:"{date}"`
 	EndDate         *time.Time     `json:"end_date" fake:"{date}"`
-	Description     pq.StringArray `json:"description" gorm:"type:text"`
+	Description     string         `json:"description"`
 	CertificateLink *string        `json:"certificate_link"`
 	SkillsUsed      pq.StringArray `json:"skills_used" gorm:"type:text"`
 	CreatedAt       time.Time      `json:"created_at" fake:"{date}"`
@@ -217,7 +213,7 @@ type Experience struct {
 }
 
 func (Experience) TableName() string {
-	return "user_experiences"
+	return "work_experiences"
 }
 
 func NewExperience(user *User) (*[]Experience, error) {
@@ -235,14 +231,11 @@ func NewExperience(user *User) (*[]Experience, error) {
 		experience.Location = gofakeit.StreetName() + ", " + gofakeit.City() + ", " + gofakeit.State() + ", " + gofakeit.Zip() + ", " + gofakeit.Country()
 		experience.CertificateLink = nil
 		experience.CompanyName = gofakeit.Company() + " " + gofakeit.CompanySuffix()
-		k := rand.IntN(2) + 3
-		experience.Description = make([]string, k)
-		for j := 0; j < k; j++ {
-			experience.Description[j] = gofakeit.Sentence(10)
-		}
-		k = rand.IntN(2) + 3
-		experience.SkillsUsed = make([]string, k)
-		for j := 0; j < k; j++ {
+		experience.Description = gofakeit.Paragraph(2, 2, 10, "\n\n")
+
+		h := rand.IntN(2) + 3
+		experience.SkillsUsed = make([]string, h)
+		for j := range h {
 			experience.SkillsUsed[j] = gofakeit.Word()
 		}
 

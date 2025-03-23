@@ -29,7 +29,7 @@ func (h *handlerUserEducation) GetAll(ctx *gin.Context) {
 func (h *handlerUserEducation) Create(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserEducation
+	var data schemas.SchemaEducation
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -55,7 +55,7 @@ func (h *handlerUserEducation) Update(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
-	var data schemas.SchemaUserEducation
+	var data schemas.SchemaEducation
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -81,7 +81,7 @@ func (h *handlerUserEducation) Reorder(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
-	var data schemas.SchemaReorderUserEducation
+	var data schemas.SchemaReorderEducation
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -133,7 +133,7 @@ func (h *handlerUserEducation) GetMetadata(ctx *gin.Context) {
 func (h *handlerUserEducation) UpdateMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserEducationMetadata
+	var data schemas.SchemaEducationMetadata
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return

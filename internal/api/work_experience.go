@@ -29,7 +29,7 @@ func (h *handlerUserExperience) GetAll(ctx *gin.Context) {
 func (h *handlerUserExperience) Create(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserExperience
+	var data schemas.SchemaWorkExperience
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -55,7 +55,7 @@ func (h *handlerUserExperience) Update(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
-	var data schemas.SchemaUserExperience
+	var data schemas.SchemaWorkExperience
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return
@@ -133,7 +133,7 @@ func (h *handlerUserExperience) GetMetadata(ctx *gin.Context) {
 func (h *handlerUserExperience) UpdateMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
-	var data schemas.SchemaUserExperienceMetadata
+	var data schemas.SchemaWorkExperienceMetadata
 	if err := ctx.ShouldBindJSON(&data); err != nil {
 		HandleResponseError(ctx, err)
 		return

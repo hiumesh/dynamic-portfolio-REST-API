@@ -51,7 +51,7 @@ $$ language plpgsql security definer;
 
 -- triggers
 
-create trigger after_insert_users
+create or replace trigger after_insert_users
 after insert on auth.users
 for each row
 execute function insert_user_profiles();

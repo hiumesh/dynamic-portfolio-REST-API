@@ -12,9 +12,9 @@ import (
 )
 
 type RepositoryUserCertification interface {
-	GetAll(userId string) (*models.UserCertifications, error)
-	Create(userId string, data *schemas.SchemaUserCertification) (*models.UserCertification, error)
-	Update(userId string, id string, data *schemas.SchemaUserCertification) (*models.UserCertification, error)
+	GetAll(userId string) (*models.Certifications, error)
+	Create(userId string, data *schemas.SchemaCertification) (*models.Certification, error)
+	Update(userId string, id string, data *schemas.SchemaCertification) (*models.Certification, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 }
@@ -23,8 +23,8 @@ type repositoryUserCertification struct {
 	db *gorm.DB
 }
 
-func (r *repositoryUserCertification) GetAll(userId string) (*models.UserCertifications, error) {
-	var userCertifications models.UserCertifications
+func (r *repositoryUserCertification) GetAll(userId string) (*models.Certifications, error) {
+	var userCertifications models.Certifications
 
 	if err := r.db.Where("user_id = ?", userId).Order("order_index desc").Find(&userCertifications).Error; err != nil {
 		return nil, err
@@ -33,12 +33,12 @@ func (r *repositoryUserCertification) GetAll(userId string) (*models.UserCertifi
 	return &userCertifications, nil
 }
 
-func (r *repositoryUserCertification) Create(userId string, data *schemas.SchemaUserCertification) (*models.UserCertification, error) {
+func (r *repositoryUserCertification) Create(userId string, data *schemas.SchemaCertification) (*models.Certification, error) {
 	type MaxIndexResult struct {
 		MaxIndex int16
 	}
 	maxIndexResult := MaxIndexResult{MaxIndex: 0}
-	if err := r.db.Model(&models.UserCertification{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := r.db.Model(&models.Certification{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 	userUUID, err := uuid.Parse(userId)
@@ -51,7 +51,7 @@ func (r *repositoryUserCertification) Create(userId string, data *schemas.Schema
 		return nil, errors.New("failed to parse completion date")
 	}
 
-	ctl := models.UserCertification{
+	ctl := models.Certification{
 		UserId:          userUUID,
 		OrderIndex:      maxIndexResult.MaxIndex + 1,
 		Title:           data.Title,
@@ -68,13 +68,13 @@ func (r *repositoryUserCertification) Create(userId string, data *schemas.Schema
 	return &ctl, nil
 }
 
-func (r *repositoryUserCertification) Update(userId string, id string, data *schemas.SchemaUserCertification) (*models.UserCertification, error) {
+func (r *repositoryUserCertification) Update(userId string, id string, data *schemas.SchemaCertification) (*models.Certification, error) {
 	completionDate, err := time.Parse("2006-01-02", data.CompletionDate)
 	if err != nil {
 		return nil, errors.New("failed to parse completion date")
 	}
 
-	certificate := models.UserCertification{
+	certificate := models.Certification{
 		Title:           data.Title,
 		Description:     data.Description,
 		CompletionDate:  completionDate,
@@ -82,7 +82,7 @@ func (r *repositoryUserCertification) Update(userId string, id string, data *sch
 		SkillsUsed:      data.SkillsUsed,
 	}
 
-	var updatedRows models.UserCertifications
+	var updatedRows models.Certifications
 
 	if err := r.db.Model(&updatedRows).Clauses(clause.Returning{}).Where("id = ? and user_id = ?", id, userId).Updates(certificate).Error; err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (r *repositoryUserCertification) Update(userId string, id string, data *sch
 }
 
 func (r *repositoryUserCertification) Reorder(userId string, id string, newIndex int) error {
-	var certificate models.UserCertification
+	var certificate models.Certification
 
 	if err := r.db.First(&certificate, id).Error; err != nil {
 		return err
@@ -110,7 +110,7 @@ func (r *repositoryUserCertification) Reorder(userId string, id string, newIndex
 		Count int16
 	}
 	countResult := CountResult{}
-	if err := r.db.Model(&models.UserCertification{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
+	if err := r.db.Model(&models.Certification{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
 		return err
 	}
 
@@ -119,19 +119,19 @@ func (r *repositoryUserCertification) Reorder(userId string, id string, newIndex
 	}
 
 	if certificate.OrderIndex < int16(newIndex) {
-		if err := r.db.Model(&models.UserCertification{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, certificate.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.Certification{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, certificate.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserCertification{}).Where("id = ?", certificate.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.Certification{}).Where("id = ?", certificate.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}
 
 	if certificate.OrderIndex > int16(newIndex) {
-		if err := r.db.Model(&models.UserCertification{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, certificate.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.Certification{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, certificate.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserCertification{}).Where("id = ?", certificate.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.Certification{}).Where("id = ?", certificate.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}
@@ -141,13 +141,13 @@ func (r *repositoryUserCertification) Reorder(userId string, id string, newIndex
 
 func (r *repositoryUserCertification) Delete(userId string, id string) error {
 
-	var certificate models.UserCertification
+	var certificate models.Certification
 
 	if err := r.db.Where("user_id = ?", userId).Where("id = ?", id).First(&certificate).Error; err != nil {
 		return err
 	}
 
-	if err := r.db.Model(&models.UserCertification{}).Where("user_id = ? and order_index > ?", userId, certificate.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+	if err := r.db.Model(&models.Certification{}).Where("user_id = ? and order_index > ?", userId, certificate.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 		return err
 	}
 

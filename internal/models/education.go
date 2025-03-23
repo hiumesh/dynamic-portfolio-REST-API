@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserEducation struct {
+type Education struct {
 	ID            uint           `json:"id" gorm:"primaryKey"`
 	UserId        uuid.UUID      `json:"user_id"`
 	OrderIndex    int16          `json:"order_index"`
@@ -21,8 +21,8 @@ type UserEducation struct {
 	DeletedAt     gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 }
 
-func (UserEducation) TableName() string {
-	return "user_educations"
+func (Education) TableName() string {
+	return "educations"
 }
 
-type UserEducations []UserEducation
+type Educations []Education

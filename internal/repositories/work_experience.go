@@ -12,9 +12,9 @@ import (
 )
 
 type RepositoryUserExperience interface {
-	GetAll(userId string) (*models.UserExperiences, error)
-	Create(userId string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
-	Update(userId string, id string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
+	GetAll(userId string) (*models.WorkExperiences, error)
+	Create(userId string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error)
+	Update(userId string, id string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 }
@@ -23,8 +23,8 @@ type repositoryUserExperience struct {
 	db *gorm.DB
 }
 
-func (r *repositoryUserExperience) GetAll(userId string) (*models.UserExperiences, error) {
-	var userExperiences models.UserExperiences
+func (r *repositoryUserExperience) GetAll(userId string) (*models.WorkExperiences, error) {
+	var userExperiences models.WorkExperiences
 
 	if err := r.db.Where("user_id = ?", userId).Order("order_index desc").Find(&userExperiences).Error; err != nil {
 		return nil, err
@@ -33,12 +33,12 @@ func (r *repositoryUserExperience) GetAll(userId string) (*models.UserExperience
 	return &userExperiences, nil
 }
 
-func (r *repositoryUserExperience) Create(userId string, data *schemas.SchemaUserExperience) (*models.UserExperience, error) {
+func (r *repositoryUserExperience) Create(userId string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error) {
 	type MaxIndexResult struct {
 		MaxIndex int16
 	}
 	maxIndexResult := MaxIndexResult{MaxIndex: 0}
-	if err := r.db.Model(&models.UserExperience{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+	if err := r.db.Model(&models.WorkExperience{}).Select("max(order_index) as max_index").Where("user_id = ?", userId).Group("user_id").Take(&maxIndexResult).Error; err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
 
@@ -52,7 +52,7 @@ func (r *repositoryUserExperience) Create(userId string, data *schemas.SchemaUse
 		return nil, errors.New("failed to parse start date")
 	}
 
-	experience := models.UserExperience{
+	experience := models.WorkExperience{
 		UserId:          userUUID,
 		OrderIndex:      maxIndexResult.MaxIndex + 1,
 		CompanyName:     data.CompanyName,
@@ -83,13 +83,13 @@ func (r *repositoryUserExperience) Create(userId string, data *schemas.SchemaUse
 
 }
 
-func (r *repositoryUserExperience) Update(userId string, id string, data *schemas.SchemaUserExperience) (*models.UserExperience, error) {
+func (r *repositoryUserExperience) Update(userId string, id string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error) {
 	startDate, err := time.Parse("2006-01-02", data.StartDate)
 	if err != nil {
 		return nil, errors.New("failed to parse start date")
 	}
 
-	experience := models.UserExperience{
+	experience := models.WorkExperience{
 		CompanyName:     data.CompanyName,
 		CompanyUrl:      data.CompanyUrl,
 		JobType:         data.JobType,
@@ -110,7 +110,7 @@ func (r *repositoryUserExperience) Update(userId string, id string, data *schema
 		experience.EndDate = &endDate
 	}
 
-	var updatedRows models.UserExperiences
+	var updatedRows models.WorkExperiences
 
 	if err := r.db.Model(&updatedRows).Clauses(clause.Returning{}).Where("id = ? and user_id = ?", id, userId).Updates(experience).Error; err != nil {
 		return nil, err
@@ -124,13 +124,13 @@ func (r *repositoryUserExperience) Update(userId string, id string, data *schema
 }
 
 func (r *repositoryUserExperience) Delete(userId string, id string) error {
-	var experience models.UserExperience
+	var experience models.WorkExperience
 
 	if err := r.db.Where("user_id = ?", userId).Where("id = ?", id).First(&experience).Error; err != nil {
 		return err
 	}
 
-	if err := r.db.Model(&models.UserExperience{}).Where("user_id = ? and order_index > ?", userId, experience.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+	if err := r.db.Model(&models.WorkExperience{}).Where("user_id = ? and order_index > ?", userId, experience.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 		return err
 	}
 
@@ -142,7 +142,7 @@ func (r *repositoryUserExperience) Delete(userId string, id string) error {
 }
 
 func (r *repositoryUserExperience) Reorder(userId string, id string, newIndex int) error {
-	var experience models.UserExperience
+	var experience models.WorkExperience
 
 	if err := r.db.First(&experience, id).Error; err != nil {
 		return err
@@ -156,7 +156,7 @@ func (r *repositoryUserExperience) Reorder(userId string, id string, newIndex in
 		Count int16
 	}
 	countResult := CountResult{}
-	if err := r.db.Model(&models.UserExperience{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
+	if err := r.db.Model(&models.WorkExperience{}).Select("count(*) as count").Where("user_id = ?", userId).Group("user_id").Take(&countResult).Error; err != nil {
 		return err
 	}
 
@@ -165,19 +165,19 @@ func (r *repositoryUserExperience) Reorder(userId string, id string, newIndex in
 	}
 
 	if experience.OrderIndex < int16(newIndex) {
-		if err := r.db.Model(&models.UserExperience{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, experience.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.WorkExperience{}).Where("user_id = ? and order_index > ? and order_index <= ?", userId, experience.OrderIndex, newIndex).UpdateColumn("order_index", gorm.Expr("order_index - ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserExperience{}).Where("id = ?", experience.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.WorkExperience{}).Where("id = ?", experience.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}
 
 	if experience.OrderIndex > int16(newIndex) {
-		if err := r.db.Model(&models.UserExperience{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, experience.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
+		if err := r.db.Model(&models.WorkExperience{}).Where("user_id = ? and order_index >= ? and order_index < ?", userId, newIndex, experience.OrderIndex).UpdateColumn("order_index", gorm.Expr("order_index + ?", 1)).Error; err != nil {
 			return err
 		}
-		if err := r.db.Model(&models.UserExperience{}).Where("id = ?", experience.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
+		if err := r.db.Model(&models.WorkExperience{}).Where("id = ?", experience.ID).UpdateColumn("order_index", newIndex).Error; err != nil {
 			return err
 		}
 	}

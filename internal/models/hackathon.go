@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserHackathon struct {
+type Hackathon struct {
 	ID              uint           `json:"id" gorm:"primaryKey"`
 	UserId          uuid.UUID      `json:"user_id"`
 	OrderIndex      int16          `json:"order_index"`
@@ -25,8 +25,8 @@ type UserHackathon struct {
 	DeletedAt       gorm.DeletedAt `json:"deleted_at" gorm:"index"`
 }
 
-func (UserHackathon) TableName() string {
-	return "user_hackathons"
+func (Hackathon) TableName() string {
+	return "hackathons"
 }
 
-type UserHackathons []UserHackathon
+type Hackathons []Hackathon

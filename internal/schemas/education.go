@@ -5,7 +5,7 @@ import (
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/utilities"
 )
 
-type SchemaUserEducation struct {
+type SchemaEducation struct {
 	Type          string `json:"type" binding:"required" validate:"required,oneof=SCHOOL COLLEGE"`
 	InstituteName string `json:"institute_name" binding:"required" validate:"required,min=4,max=100"`
 	Degree        string `json:"degree" validate:"required_if=Type COLLEGE,omitempty,min=4,max=100,college_degree"`
@@ -17,7 +17,7 @@ type SchemaUserEducation struct {
 	PassingYear   string `json:"passing_year" validate:"required_if=Type SCHOOL,omitempty,number,min=4,max=4,year_in_range=20 10"`
 }
 
-func (s *SchemaUserEducation) Validate() error {
+func (s *SchemaEducation) Validate() error {
 	validate := validator.New()
 	validate.RegisterValidation("year_in_range", utilities.YearWithinValidRangeValidator)
 	validate.RegisterValidation("college_degree", utilities.CollegeDegreeValidator)
@@ -25,21 +25,21 @@ func (s *SchemaUserEducation) Validate() error {
 	return validate.Struct(s)
 }
 
-type SchemaReorderUserEducation struct {
+type SchemaReorderEducation struct {
 	NewIndex int16 `json:"new_index" binding:"required" validate:"required,number,min=1,max=20"`
 }
 
-func (s *SchemaReorderUserEducation) Validate() error {
+func (s *SchemaReorderEducation) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
 
-type SchemaUserEducationMetadata struct {
+type SchemaEducationMetadata struct {
 	Heading     string `json:"heading" binding:"required" validate:"required,min=3,max=100"`
 	Description string `json:"description" binding:"required" validate:"required,min=3,max=1000"`
 }
 
-func (s *SchemaUserEducationMetadata) Validate() error {
+func (s *SchemaEducationMetadata) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }

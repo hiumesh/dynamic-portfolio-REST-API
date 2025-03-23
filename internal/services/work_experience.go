@@ -8,20 +8,20 @@ import (
 )
 
 type ServiceUserExperience interface {
-	GetAll(userId string) (*models.UserExperiences, error)
-	Create(userId string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
-	Update(userId string, id string, data *schemas.SchemaUserExperience) (*models.UserExperience, error)
+	GetAll(userId string) (*models.WorkExperiences, error)
+	Create(userId string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error)
+	Update(userId string, id string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
 	GetMetadata(userId string) (interface{}, error)
-	UpdateMetadata(userId string, data *schemas.SchemaUserExperienceMetadata) error
+	UpdateMetadata(userId string, data *schemas.SchemaWorkExperienceMetadata) error
 }
 
 type serviceUserExperience struct {
 	db *gorm.DB
 }
 
-func (s *serviceUserExperience) GetAll(userId string) (*models.UserExperiences, error) {
+func (s *serviceUserExperience) GetAll(userId string) (*models.WorkExperiences, error) {
 	userExperienceRepository := repositories.NewUserExperienceRepository(s.db)
 
 	res, err := userExperienceRepository.GetAll(userId)
@@ -32,7 +32,7 @@ func (s *serviceUserExperience) GetAll(userId string) (*models.UserExperiences, 
 	return res, nil
 }
 
-func (s *serviceUserExperience) Create(userId string, data *schemas.SchemaUserExperience) (*models.UserExperience, error) {
+func (s *serviceUserExperience) Create(userId string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error) {
 	userExperienceRepository := repositories.NewUserExperienceRepository(s.db)
 
 	exp, err := userExperienceRepository.Create(userId, data)
@@ -43,7 +43,7 @@ func (s *serviceUserExperience) Create(userId string, data *schemas.SchemaUserEx
 	return exp, nil
 }
 
-func (s *serviceUserExperience) Update(userId string, id string, data *schemas.SchemaUserExperience) (*models.UserExperience, error) {
+func (s *serviceUserExperience) Update(userId string, id string, data *schemas.SchemaWorkExperience) (*models.WorkExperience, error) {
 	userExperienceRepository := repositories.NewUserExperienceRepository(s.db)
 
 	exp, err := userExperienceRepository.Update(userId, id, data)
@@ -103,7 +103,7 @@ func (s *serviceUserExperience) GetMetadata(userId string) (interface{}, error) 
 	return res, nil
 }
 
-func (s *serviceUserExperience) UpdateMetadata(userId string, data *schemas.SchemaUserExperienceMetadata) error {
+func (s *serviceUserExperience) UpdateMetadata(userId string, data *schemas.SchemaWorkExperienceMetadata) error {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	err := userRepository.AddOrUpdateModuleMetadata(userId, "work_experience", data)
