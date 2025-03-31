@@ -285,7 +285,7 @@ func (r *repositoryPortfolio) GetCertifications(slug string) (*models.Certificat
 	return &userCertifications, nil
 }
 
-func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]SelectUserTechProject, error) {
+func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]schemas.SelectUserTechProject, error) {
 	var rows *sql.Rows
 	var err error
 
@@ -296,10 +296,8 @@ func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]SelectUserTechPro
 			tech_projects.order_index,
 			tech_projects.title,
 			tech_projects.description,
-			tech_projects.start_date,
-			tech_projects.end_date,
-			tech_projects.skills_used,
-			tech_projects.attributes,
+			tech_projects.tech_used,
+			tech_projects.attributes -> 'links' as links,
 			tech_projects.created_at,
 			tech_projects.updated_at,
 			coalesce(json_agg(
@@ -331,9 +329,9 @@ func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]SelectUserTechPro
 	defer rows.Close()
 
 	// Iterate and manually map rows
-	var userTechProjects []SelectUserTechProject
+	var userTechProjects []schemas.SelectUserTechProject
 	for rows.Next() {
-		var project SelectUserTechProject
+		var project schemas.SelectUserTechProject
 		var attachmentsJSON []byte
 
 		// Scan into fields and JSON data
@@ -342,10 +340,8 @@ func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]SelectUserTechPro
 			&project.OrderIndex,
 			&project.Title,
 			&project.Description,
-			&project.StartDate,
-			&project.EndDate,
-			&project.SkillsUsed,
-			&project.Attributes,
+			&project.TechUsed,
+			&project.Links,
 			&project.CreatedAt,
 			&project.UpdatedAt,
 			&attachmentsJSON,

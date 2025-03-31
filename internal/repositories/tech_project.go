@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/models"
@@ -16,7 +15,9 @@ import (
 )
 
 type RepositoryUserTechProject interface {
-	GetAll(userId string) (*models.TechProjects, error)
+	GetAll(userId *string, query *string, cursor int, limit int) (*[]schemas.SelectUserTechProject, error)
+	GetUserTechProjects(userId string, query *string, cursor int, limit int) (*[]schemas.SelectUserTechProject, error)
+	Get(userId string, id string) (any, error)
 	Create(userId string, data *schemas.SchemaTechProject) (*models.TechProject, error)
 	Update(userId string, id string, data *schemas.SchemaTechProject) (*models.TechProject, error)
 	Reorder(userId string, id string, newIndex int) error
@@ -27,43 +28,20 @@ type repositoryUserTechProject struct {
 	db *gorm.DB
 }
 
-type SelectAttachment struct {
-	ID       uint   `json:"id"`
-	FileUrl  string `json:"file_url"`
-	FileName string `json:"file_name"`
-	FileType string `json:"file_type"`
-	FileSize int64  `json:"file_size"`
-}
-
-type SelectUserTechProject struct {
-	ID          uint               `json:"id"`
-	OrderIndex  int16              `json:"order_index"`
-	Title       string             `json:"title"`
-	Description string             `json:"description"`
-	StartDate   time.Time          `json:"start_date"`
-	EndDate     *time.Time         `json:"end_date"`
-	SkillsUsed  pq.StringArray     `json:"skills_used" gorm:"type:text"`
-	Attributes  datatypes.JSON     `json:"attributes"`
-	CreatedAt   time.Time          `json:"created_at"`
-	UpdatedAt   time.Time          `json:"updated_at"`
-	Attachments []SelectAttachment `json:"attachments"`
-}
-
-func (r *repositoryUserTechProject) GetAll(userId string) (*[]SelectUserTechProject, error) {
+func (r *repositoryUserTechProject) GetAll(userId *string, query *string, cursor int, limit int) (*[]schemas.SelectUserTechProject, error) {
 	var rows *sql.Rows
 	var err error
 
-	// Execute raw query
-	rows, err = r.db.Raw(`
+	baseQuery := `
 		select
 			tech_projects.id,
-			tech_projects.order_index,
 			tech_projects.title,
 			tech_projects.description,
-			tech_projects.start_date,
-			tech_projects.end_date,
-			tech_projects.skills_used,
-			tech_projects.attributes,
+			tech_projects.tech_used,
+			tech_projects.attributes -> 'links' as links,
+			user_profiles.user_id as publisher_id,
+			user_profiles.avatar_url as publisher_avatar,
+			user_profiles.full_name as publisher_name,
 			tech_projects.created_at,
 			tech_projects.updated_at,
 			coalesce(json_agg(
@@ -77,37 +55,50 @@ func (r *repositoryUserTechProject) GetAll(userId string) (*[]SelectUserTechProj
 			) filter (where attachments.id is not null), '[]') as attachments
 		from
 			tech_projects
+			inner join user_profiles on user_profiles.user_id = tech_projects.user_id
 			left join attachments on attachments.parent_id = tech_projects.id
 			and attachments.parent_table = 'tech_projects'
-		where
-			tech_projects.user_id = ?
+	`
+
+	var args []interface{}
+	args = append(args, limit, cursor)
+
+	if query != nil && *query != "" {
+		baseQuery += " where tech_projects.fts @@ to_tsquery(?)"
+		args = append([]interface{}{*query}, args...)
+	}
+
+	baseQuery += `
 		group by
-			tech_projects.id
+			tech_projects.id,
+			user_profiles.user_id
 		order by
-			order_index desc
-	`, userId).Rows()
+			tech_projects.created_at desc
+		LIMIT ? OFFSET ?
+	`
+
+	rows, err = r.db.Raw(baseQuery, args...).Rows()
 
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	// Iterate and manually map rows
-	var userTechProjects []SelectUserTechProject
+	var userTechProjects []schemas.SelectUserTechProject
 	for rows.Next() {
-		var project SelectUserTechProject
+		var project schemas.SelectUserTechProject
 		var attachmentsJSON []byte
 
 		// Scan into fields and JSON data
 		err = rows.Scan(
 			&project.ID,
-			&project.OrderIndex,
 			&project.Title,
 			&project.Description,
-			&project.StartDate,
-			&project.EndDate,
-			&project.SkillsUsed,
-			&project.Attributes,
+			&project.TechUsed,
+			&project.Links,
+			&project.PublisherId,
+			&project.PublisherAvatar,
+			&project.PublisherName,
 			&project.CreatedAt,
 			&project.UpdatedAt,
 			&attachmentsJSON,
@@ -128,6 +119,168 @@ func (r *repositoryUserTechProject) GetAll(userId string) (*[]SelectUserTechProj
 	return &userTechProjects, nil
 }
 
+func (r *repositoryUserTechProject) GetUserTechProjects(userId string, query *string, cursor int, limit int) (*[]schemas.SelectUserTechProject, error) {
+	var rows *sql.Rows
+	var err error
+
+	baseQuery := `
+		select
+			tech_projects.id,
+			tech_projects.order_index,
+			tech_projects.title,
+			tech_projects.description,
+			tech_projects.tech_used,
+			tech_projects.attributes -> 'links' as links,
+			tech_projects.created_at,
+			tech_projects.updated_at,
+			coalesce(json_agg(
+				json_build_object(
+					'id', attachments.id,
+					'file_url', attachments.file_url,
+					'file_name', attachments.file_name,
+					'file_type', attachments.file_type,
+					'file_size', attachments.file_size
+				)
+			) filter (where attachments.id is not null), '[]') as attachments
+		from
+			tech_projects
+			left join attachments on attachments.parent_id = tech_projects.id
+			and attachments.parent_table = 'tech_projects'
+		where
+			tech_projects.user_id = ?
+	`
+
+	var args []interface{}
+	args = append(args, limit, cursor)
+
+	if query != nil && *query != "" {
+		baseQuery += " AND tech_projects.fts @@ to_tsquery(?)"
+		args = append([]interface{}{*query}, args...)
+	}
+
+	args = append([]interface{}{userId}, args...)
+
+	baseQuery += `
+		group by
+			tech_projects.id
+		order by
+			tech_projects.order_index desc
+		LIMIT ? OFFSET ?
+	`
+
+	rows, err = r.db.Raw(baseQuery, args...).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var userTechProjects []schemas.SelectUserTechProject
+	for rows.Next() {
+		var project schemas.SelectUserTechProject
+		var attachmentsJSON []byte
+
+		// Scan into fields and JSON data
+		err = rows.Scan(
+			&project.ID,
+			&project.OrderIndex,
+			&project.Title,
+			&project.Description,
+			&project.TechUsed,
+			&project.Links,
+			&project.CreatedAt,
+			&project.UpdatedAt,
+			&attachmentsJSON,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		// Unmarshal JSON into Attachments slice
+		err = json.Unmarshal(attachmentsJSON, &project.Attachments)
+		if err != nil {
+			return nil, err
+		}
+
+		userTechProjects = append(userTechProjects, project)
+	}
+
+	return &userTechProjects, nil
+}
+
+func (r *repositoryUserTechProject) Get(userId string, id string) (any, error) {
+	var rows *sql.Rows
+	var err error
+
+	rows, err = r.db.Raw(`
+		select
+			tech_projects.id,
+			tech_projects.order_index,
+			tech_projects.title,
+			tech_projects.description,
+			tech_projects.tech_used,
+			tech_projects.attributes -> 'links' as links,
+			tech_projects.created_at,
+			tech_projects.updated_at,
+			coalesce(json_agg(
+				json_build_object(
+					'id', attachments.id,
+					'file_url', attachments.file_url,
+					'file_name', attachments.file_name,
+					'file_type', attachments.file_type,
+					'file_size', attachments.file_size
+				)
+			) filter (where attachments.id is not null), '[]') as attachments
+		from
+			tech_projects
+			left join attachments on attachments.parent_id = tech_projects.id
+			and attachments.parent_table = 'tech_projects'
+		where
+			tech_projects.user_id = ?
+			and tech_projects.id = ?
+		group by
+			tech_projects.id
+	`, userId, id).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var project schemas.SelectUserTechProject
+	for rows.Next() {
+		var attachmentsJSON []byte
+
+		// Scan into fields and JSON data
+		err = rows.Scan(
+			&project.ID,
+			&project.OrderIndex,
+			&project.Title,
+			&project.Description,
+			&project.TechUsed,
+			&project.Links,
+			&project.CreatedAt,
+			&project.UpdatedAt,
+			&attachmentsJSON,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		// Unmarshal JSON into Attachments slice
+		err = json.Unmarshal(attachmentsJSON, &project.Attachments)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if project.ID == 0 {
+		return nil, errors.New("record not found")
+	}
+
+	return &project, nil
+}
+
 func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaTechProject) (*models.TechProject, error) {
 	type MaxIndexResult struct {
 		MaxIndex int16
@@ -142,18 +295,12 @@ func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaTe
 		return nil, errors.New("failed to parse user id")
 	}
 
-	startDate, err := time.Parse("2006-01-02", data.StartDate)
-	if err != nil {
-		return nil, errors.New("failed to parse start date")
-	}
-
 	techProject := models.TechProject{
 		UserId:      userUUID,
 		OrderIndex:  maxIndexResult.MaxIndex + 1,
 		Title:       data.Title,
-		StartDate:   startDate,
 		Description: data.Description,
-		SkillsUsed:  data.SkillsUsed,
+		TechUsed:    data.TechUsed,
 	}
 
 	attributes := map[string]interface{}{}
@@ -169,15 +316,6 @@ func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaTe
 
 	techProject.Attributes = attributesJson
 
-	if data.EndDate != "" {
-		endDate, err := time.Parse("2006-01-02", data.EndDate)
-
-		if err != nil {
-			return nil, errors.New("failed to parse end date")
-		}
-		techProject.EndDate = &endDate
-	}
-
 	if err = r.db.Create(&techProject).Error; err != nil {
 		return nil, err
 	}
@@ -187,29 +325,13 @@ func (r *repositoryUserTechProject) Create(userId string, data *schemas.SchemaTe
 }
 
 func (r *repositoryUserTechProject) Update(userId string, id string, data *schemas.SchemaTechProject) (*models.TechProject, error) {
-	startDate, err := time.Parse("2006-01-02", data.StartDate)
-	if err != nil {
-		return nil, errors.New("failed to parse start date")
-	}
 
 	techProject := map[string]interface{}{
 		"title":       data.Title,
-		"start_date":  startDate,
 		"description": data.Description,
-		"skills_used": pq.Array(data.SkillsUsed),
+		"skills_used": pq.Array(data.TechUsed),
 		"attributes": datatypes.JSONSet("attributes").
 			Set("{links}", data.Links),
-	}
-
-	if data.EndDate != "" {
-		endDate, err := time.Parse("2006-01-02", data.EndDate)
-
-		if err != nil {
-			return nil, errors.New("failed to parse end date")
-		}
-		techProject["end_date"] = endDate
-	} else {
-		techProject["end_date"] = nil
 	}
 
 	var updatedRows models.TechProjects

@@ -8,23 +8,59 @@ import (
 )
 
 type ServiceWorkGallery interface {
-	GetAll(userId string) (interface{}, error)
-	Create(userId string, data *schemas.SchemaTechProject) (interface{}, error)
-	Update(userId string, id string, data *schemas.SchemaTechProject) (interface{}, error)
+	GetAll(userId *string, query *string, cursor int, limit int) (any, error)
+	GetUserWorkGallery(userId string, query *string, cursor int, limit int) (any, error)
+	Get(userId string, id string) (any, error)
+	Create(userId string, data *schemas.SchemaTechProject) (any, error)
+	Update(userId string, id string, data *schemas.SchemaTechProject) (any, error)
 	Reorder(userId string, id string, newIndex int) error
 	Delete(userId string, id string) error
-	GetMetadata(userId string) (interface{}, error)
+	GetMetadata(userId string) (any, error)
 	UpdateMetadata(userId string, data *schemas.SchemaTechProjectMetadata) error
 }
 
-type service struct {
+type serviceWorkGallery struct {
 	db *gorm.DB
 }
 
-func (s *service) GetAll(userId string) (interface{}, error) {
+func (s *serviceWorkGallery) GetAll(userId *string, query *string, cursor int, limit int) (any, error) {
 	userTechProjectRepository := repositories.NewUserTechProjectRepository(s.db)
 
-	res, err := userTechProjectRepository.GetAll(userId)
+	res, err := userTechProjectRepository.GetAll(userId, query, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	var nextCursor *int
+	if len(*res) == limit {
+		temp := cursor + limit
+		nextCursor = &temp
+	}
+
+	return map[string]any{"list": res, "cursor": nextCursor}, nil
+}
+
+func (s *serviceWorkGallery) GetUserWorkGallery(userId string, query *string, cursor int, limit int) (any, error) {
+	userTechProjectRepository := repositories.NewUserTechProjectRepository(s.db)
+
+	res, err := userTechProjectRepository.GetUserTechProjects(userId, query, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	var nextCursor *int
+	if len(*res) == limit {
+		temp := cursor + limit
+		nextCursor = &temp
+	}
+
+	return map[string]any{"list": res, "cursor": nextCursor}, nil
+}
+
+func (s *serviceWorkGallery) Get(userId string, id string) (any, error) {
+	userTechProjectRepository := repositories.NewUserTechProjectRepository(s.db)
+
+	res, err := userTechProjectRepository.Get(userId, id)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +68,7 @@ func (s *service) GetAll(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *service) Create(userId string, data *schemas.SchemaTechProject) (interface{}, error) {
+func (s *serviceWorkGallery) Create(userId string, data *schemas.SchemaTechProject) (any, error) {
 	tx := s.db.Begin()
 	userTechProjectRepository := repositories.NewUserTechProjectRepository(tx)
 	userAttachmentRepository := repositories.NewAttachmentRepository(tx)
@@ -43,16 +79,20 @@ func (s *service) Create(userId string, data *schemas.SchemaTechProject) (interf
 		return nil, err
 	}
 
-	atts, err := userAttachmentRepository.CreateMany(userId, models.TechProject{}.TableName(), tp.ID, &data.Attachments)
-	if err != nil {
-		tx.Rollback()
-		return nil, err
+	var atts *models.Attachments = nil
+
+	if len(data.Attachments) > 0 {
+		atts, err = userAttachmentRepository.CreateMany(userId, models.TechProject{}.TableName(), tp.ID, &data.Attachments)
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
 	}
 
 	tx.Commit()
 	response := struct {
 		models.TechProject
-		Attachments interface{} `json:"attachments"`
+		Attachments any `json:"attachments"`
 	}{
 		TechProject: *tp,
 		Attachments: atts,
@@ -62,7 +102,7 @@ func (s *service) Create(userId string, data *schemas.SchemaTechProject) (interf
 
 }
 
-func (s *service) Update(userId string, id string, data *schemas.SchemaTechProject) (interface{}, error) {
+func (s *serviceWorkGallery) Update(userId string, id string, data *schemas.SchemaTechProject) (any, error) {
 	tx := s.db.Begin()
 	userTechProjectRepository := repositories.NewUserTechProjectRepository(tx)
 	userAttachmentRepository := repositories.NewAttachmentRepository(tx)
@@ -82,7 +122,7 @@ func (s *service) Update(userId string, id string, data *schemas.SchemaTechProje
 	tx.Commit()
 	response := struct {
 		models.TechProject
-		Attachments interface{} `json:"attachments"`
+		Attachments any `json:"attachments"`
 	}{
 		TechProject: *tp,
 		Attachments: atts,
@@ -91,7 +131,7 @@ func (s *service) Update(userId string, id string, data *schemas.SchemaTechProje
 	return response, nil
 }
 
-func (s *service) Reorder(userId string, id string, newIndex int) error {
+func (s *serviceWorkGallery) Reorder(userId string, id string, newIndex int) error {
 	err := s.db.Transaction(func(tx *gorm.DB) error {
 		userTechProjectRepository := repositories.NewUserTechProjectRepository(tx)
 
@@ -110,7 +150,7 @@ func (s *service) Reorder(userId string, id string, newIndex int) error {
 
 }
 
-func (s *service) Delete(userId string, id string) error {
+func (s *serviceWorkGallery) Delete(userId string, id string) error {
 	err := s.db.Transaction(func(tx *gorm.DB) error {
 		userTechProjectRepository := repositories.NewUserTechProjectRepository(tx)
 		userAttachmentRepository := repositories.NewAttachmentRepository(tx)
@@ -133,7 +173,7 @@ func (s *service) Delete(userId string, id string) error {
 	return nil
 }
 
-func (s *service) GetMetadata(userId string) (interface{}, error) {
+func (s *serviceWorkGallery) GetMetadata(userId string) (any, error) {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	res, err := userRepository.GetModuleMetadata(userId, "work_gallery")
@@ -144,7 +184,7 @@ func (s *service) GetMetadata(userId string) (interface{}, error) {
 	return res, nil
 }
 
-func (s *service) UpdateMetadata(userId string, data *schemas.SchemaTechProjectMetadata) error {
+func (s *serviceWorkGallery) UpdateMetadata(userId string, data *schemas.SchemaTechProjectMetadata) error {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	err := userRepository.AddOrUpdateModuleMetadata(userId, "work_gallery", data)
@@ -155,8 +195,8 @@ func (s *service) UpdateMetadata(userId string, data *schemas.SchemaTechProjectM
 	return nil
 }
 
-func NewWorkGalleryService(db *gorm.DB) *service {
-	return &service{
+func NewWorkGalleryService(db *gorm.DB) *serviceWorkGallery {
+	return &serviceWorkGallery{
 		db: db,
 	}
 }

@@ -8,15 +8,15 @@ import (
 )
 
 type ServiceBlog interface {
-	GetAll(userId *string, query *string, cursor int, limit int) (interface{}, error)
+	GetAll(userId *string, query *string, cursor int, limit int) (any, error)
 	GetUserBlogs(userId string, query *string, cursor int, limit int) (any, error)
-	Get(userId string, blogId string) (interface{}, error)
-	GetBlogBySlug(slug string) (interface{}, error)
+	Get(userId string, blogId string) (any, error)
+	GetBlogBySlug(slug string) (any, error)
 	Create(userId string, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Update(userId string, blogId string, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Unpublish(userId string, blogId string) error
 	Delete(userId string, blogId string) error
-	GetMetadata(userId string) (interface{}, error)
+	GetMetadata(userId string) (any, error)
 	UpdateMetadata(userId string, data *schemas.SchemaBlogMetadata) error
 }
 
@@ -24,7 +24,7 @@ type serviceBlog struct {
 	db *gorm.DB
 }
 
-func (s *serviceBlog) GetAll(userId *string, query *string, cursor int, limit int) (interface{}, error) {
+func (s *serviceBlog) GetAll(userId *string, query *string, cursor int, limit int) (any, error) {
 	blogRepository := repositories.NewBlogRepository(s.db)
 
 	res, err := blogRepository.GetAll(userId, query, cursor, limit)
@@ -58,7 +58,7 @@ func (s *serviceBlog) GetUserBlogs(userId string, query *string, cursor int, lim
 	return map[string]any{"list": res, "cursor": nextCursor}, nil
 }
 
-func (s *serviceBlog) Get(userId string, id string) (interface{}, error) {
+func (s *serviceBlog) Get(userId string, id string) (any, error) {
 	blogRepository := repositories.NewBlogRepository(s.db)
 
 	res, err := blogRepository.Get(userId, id)
@@ -170,7 +170,7 @@ func (s *serviceBlog) Delete(userId string, id string) error {
 	return nil
 }
 
-func (s *serviceBlog) GetMetadata(userId string) (interface{}, error) {
+func (s *serviceBlog) GetMetadata(userId string) (any, error) {
 	userRepository := repositories.NewUserRepository(s.db)
 
 	res, err := userRepository.GetModuleMetadata(userId, "blog")

@@ -101,16 +101,17 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		}
 	}
 
-	workGalleryRouter := router.Group("/work-gallery").Use(api.requireAuthentication())
+	workGalleryRouter := router.Group("/work-gallery")
 	{
-
-		workGalleryRouter.GET("/", userWorkGalleryHandler.GetAll)
-		workGalleryRouter.POST("/", userWorkGalleryHandler.Create)
-		workGalleryRouter.PUT("/:Id", userWorkGalleryHandler.Update)
-		workGalleryRouter.PATCH("/:Id/reorder", userWorkGalleryHandler.Reorder)
-		workGalleryRouter.DELETE("/:Id", userWorkGalleryHandler.Delete)
-		workGalleryRouter.GET("/metadata", userWorkGalleryHandler.GetMetadata)
-		workGalleryRouter.PUT("/metadata", userWorkGalleryHandler.UpdateMetadata)
+		workGalleryRouter.GET("/", api.authenticateIfSessionPresent(), userWorkGalleryHandler.GetAll)
+		workGalleryRouter.GET("/user", api.requireAuthentication(), userWorkGalleryHandler.GetUserWorkGallery)
+		workGalleryRouter.GET("/user/:Id", api.requireAuthentication(), userWorkGalleryHandler.Get)
+		workGalleryRouter.POST("/", api.requireAuthentication(), userWorkGalleryHandler.Create)
+		workGalleryRouter.PUT("/:Id", api.requireAuthentication(), userWorkGalleryHandler.Update)
+		workGalleryRouter.PATCH("/:Id/reorder", api.requireAuthentication(), userWorkGalleryHandler.Reorder)
+		workGalleryRouter.DELETE("/:Id", api.requireAuthentication(), userWorkGalleryHandler.Delete)
+		workGalleryRouter.GET("/metadata", api.requireAuthentication(), userWorkGalleryHandler.GetMetadata)
+		workGalleryRouter.PUT("/metadata", api.requireAuthentication(), userWorkGalleryHandler.UpdateMetadata)
 
 	}
 
@@ -118,7 +119,7 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	{
 		blogRouter.GET("/", api.authenticateIfSessionPresent(), blogHandler.GetAll)
 		blogRouter.GET("/user", api.requireAuthentication(), blogHandler.GetUserBlogs)
-		blogRouter.GET("/user/:Id", blogHandler.Get)
+		blogRouter.GET("/user/:Id", api.requireAuthentication(), blogHandler.Get)
 		blogRouter.GET("/:slug", api.authenticateIfSessionPresent(), blogHandler.GetBlogBySlug)
 		blogRouter.PUT("/:Id/unpublish", blogHandler.Unpublish)
 		blogRouter.POST("/", api.requireAuthentication(), blogHandler.Create)

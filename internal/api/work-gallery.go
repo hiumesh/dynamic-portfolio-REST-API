@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/schemas"
@@ -9,14 +10,37 @@ import (
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/utilities"
 )
 
-type handler struct {
+type handlerWorkGallery struct {
 	service services.ServiceWorkGallery
 }
 
-func (h *handler) GetAll(ctx *gin.Context) {
-	userId := utilities.GetClaims(ctx).Subject
+func (h *handlerWorkGallery) GetAll(ctx *gin.Context) {
+	claims := utilities.GetClaims(ctx)
+	var userId *string
+	if claims != nil {
+		userId = &claims.Subject
+	}
+	limitStr := ctx.DefaultQuery("limit", "20")
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit <= 0 {
+		HandleResponseError(ctx, ValidationError("Invalid limit value. Limit must be a positive integer.", err))
+		return
+	}
 
-	res, err := h.service.GetAll(userId)
+	cursorStr := ctx.DefaultQuery("cursor", "0")
+	cursor, err := strconv.Atoi(cursorStr)
+	if err != nil || cursor < 0 {
+		HandleResponseError(ctx, ValidationError("Invalid cursor value. Cursor must be a non-negative integer.", err))
+		return
+	}
+
+	var query *string
+	queryStr := ctx.Query("query")
+	if len(queryStr) > 0 {
+		query = &queryStr
+	}
+
+	res, err := h.service.GetAll(userId, query, cursor, limit)
 
 	if err != nil {
 		HandleResponseError(ctx, err)
@@ -26,7 +50,53 @@ func (h *handler) GetAll(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, res)
 }
 
-func (h *handler) Create(ctx *gin.Context) {
+func (h *handlerWorkGallery) GetUserWorkGallery(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+	limitStr := ctx.DefaultQuery("limit", "20")
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit <= 0 {
+		HandleResponseError(ctx, ValidationError("Invalid limit value. Limit must be a positive integer.", err))
+		return
+	}
+
+	cursorStr := ctx.DefaultQuery("cursor", "0")
+	cursor, err := strconv.Atoi(cursorStr)
+	if err != nil || cursor < 0 {
+		HandleResponseError(ctx, ValidationError("Invalid cursor value. Cursor must be a non-negative integer.", err))
+		return
+	}
+
+	var query *string
+	queryStr := ctx.Query("query")
+	if len(queryStr) > 0 {
+		query = &queryStr
+	}
+
+	res, err := h.service.GetUserWorkGallery(userId, query, cursor, limit)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerWorkGallery) Get(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+	id := ctx.Param("Id")
+
+	res, err := h.service.Get(userId, id)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerWorkGallery) Create(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
 	var data schemas.SchemaTechProject
@@ -51,7 +121,7 @@ func (h *handler) Create(ctx *gin.Context) {
 
 }
 
-func (h *handler) Update(ctx *gin.Context) {
+func (h *handlerWorkGallery) Update(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
@@ -77,7 +147,7 @@ func (h *handler) Update(ctx *gin.Context) {
 
 }
 
-func (h *handler) Reorder(ctx *gin.Context) {
+func (h *handlerWorkGallery) Reorder(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
@@ -103,7 +173,7 @@ func (h *handler) Reorder(ctx *gin.Context) {
 
 }
 
-func (h *handler) Delete(ctx *gin.Context) {
+func (h *handlerWorkGallery) Delete(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 	id := ctx.Param("Id")
 
@@ -117,7 +187,7 @@ func (h *handler) Delete(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, nil)
 }
 
-func (h *handler) GetMetadata(ctx *gin.Context) {
+func (h *handlerWorkGallery) GetMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
 	res, err := h.service.GetMetadata(userId)
@@ -130,7 +200,7 @@ func (h *handler) GetMetadata(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, res)
 }
 
-func (h *handler) UpdateMetadata(ctx *gin.Context) {
+func (h *handlerWorkGallery) UpdateMetadata(ctx *gin.Context) {
 	userId := utilities.GetClaims(ctx).Subject
 
 	var data schemas.SchemaTechProjectMetadata
@@ -154,8 +224,8 @@ func (h *handler) UpdateMetadata(ctx *gin.Context) {
 	sendJSON(ctx, http.StatusOK, nil)
 }
 
-func NewWorkGalleryHandler(service services.ServiceWorkGallery) *handler {
-	return &handler{
+func NewWorkGalleryHandler(service services.ServiceWorkGallery) *handlerWorkGallery {
+	return &handlerWorkGallery{
 		service: service,
 	}
 }

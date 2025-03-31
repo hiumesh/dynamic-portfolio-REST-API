@@ -15,3 +15,11 @@ func (s *Attachment) Validate() error {
 }
 
 type Attachments []Attachment
+
+type SelectAttachment struct {
+	ID       uint   `json:"id"`
+	FileUrl  string `json:"file_url"`
+	FileName string `json:"file_name"`
+	FileType string `json:"file_type"`
+	FileSize int64  `json:"file_size"`
+}

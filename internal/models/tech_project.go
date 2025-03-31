@@ -14,10 +14,8 @@ type TechProject struct {
 	UserId      uuid.UUID      `json:"user_id"`
 	OrderIndex  int16          `json:"order_index"`
 	Title       string         `json:"title"`
-	StartDate   time.Time      `json:"start_date"`
-	EndDate     *time.Time     `json:"end_date"`
 	Description string         `json:"description"`
-	SkillsUsed  pq.StringArray `json:"skills_used" gorm:"type:text"`
+	TechUsed    pq.StringArray `json:"tech_used" gorm:"type:text"`
 	Attributes  datatypes.JSON `json:"attributes"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
