@@ -37,6 +37,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	blogService := services.NewBlogService(db)
 	blogHandler := NewBlogHandler(blogService)
 
+	metadataService := services.NewMetadataService(db)
+	metadataHandler := NewMetadataHandler(metadataService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -54,7 +57,10 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		portfolioRouter.GET("/user", api.requireAuthentication(), portfolioHandler.GetUserDetail)
 		portfolioRouter.GET("/:slug/:module", api.authenticateIfSessionPresent(), portfolioHandler.GetSubModule)
 		portfolioRouter.GET("/:slug", api.authenticateIfSessionPresent(), portfolioHandler.GetPortfolio)
+		portfolioRouter.GET("/skills", api.requireAuthentication(), portfolioHandler.GetUserSkills)
 		portfolioRouter.PUT("/skills", api.requireAuthentication(), portfolioHandler.UpsertSkills)
+		portfolioRouter.PUT("/resume", api.requireAuthentication(), portfolioHandler.UpsertResume)
+		portfolioRouter.PUT("/attachments", api.requireAuthentication(), portfolioHandler.UpdateProfileAttachment)
 		portfolioRouter.GET("/status/:Status", api.requireAuthentication(), portfolioHandler.UpdateStatus)
 		educationRouter := portfolioRouter.Group("/educations").Use(api.requireAuthentication())
 		{
@@ -127,5 +133,10 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		blogRouter.DELETE("/:Id", api.requireAuthentication(), blogHandler.Delete)
 		blogRouter.GET("/metadata", api.requireAuthentication(), blogHandler.GetMetadata)
 		blogRouter.PUT("/metadata", api.requireAuthentication(), blogHandler.UpdateMetadata)
+	}
+
+	metadataRouter := router.Group("/metadata")
+	{
+		metadataRouter.GET("/skills", metadataHandler.GetAllSkills)
 	}
 }

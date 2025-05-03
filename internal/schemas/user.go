@@ -12,8 +12,8 @@ type SchemaSocialProfileLink struct {
 
 type SchemaProfileBasic struct {
 	FullName           string                    `json:"full_name" binding:"required" validate:"required,min=4,max=30"`
-	Tagline            string                    `json:"tagline" binding:"required" validate:"omitempty,min=10,max=200"`
-	About              string                    `json:"about" validate:"omitempty,min=10,max=1000"`
+	Tagline            string                    `json:"tagline" validate:"omitempty,min=10,max=1000"`
+	About              string                    `json:"about" validate:"omitempty,min=10,max=5000"`
 	ProfilePicture     string                    `json:"profile_picture" validate:"omitempty,url"`
 	College            string                    `json:"college" validate:"omitempty,min=10,max=100"`
 	GraduationYear     string                    `json:"graduation_year" validate:"omitempty,number,min=4,max=4,year_in_range=200 5"`
@@ -73,10 +73,29 @@ func (s *SchemaReorderItem) Validate() error {
 }
 
 type SchemaSkills struct {
-	Skills []string `json:"skills" binding:"required" validate:"required,min=1,max=70,unique,dive,required,min=3,max=50"`
+	Skills []string `json:"skills" binding:"required" validate:"required,min=1,max=70,unique,dive,required,min=1,max=50"`
 }
 
 func (s *SchemaSkills) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}
+
+type SchemaResume struct {
+	ResumeUrl string `json:"resume_url" validate:"omitempty,url"`
+}
+
+func (s *SchemaResume) Validate() error {
+	validate := validator.New()
+	return validate.Struct(s)
+}
+
+type SchemaProfileAttachment struct {
+	Module string `json:"module" validate:"required,oneof=resume hero_image about_image profile_image"`
+	Url    string `json:"url" validate:"omitempty,url"`
+}
+
+func (s *SchemaProfileAttachment) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }

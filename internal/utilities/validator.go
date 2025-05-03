@@ -52,6 +52,7 @@ func YearWithinValidRangeValidator(f1 validator.FieldLevel) bool {
 
 func WorkDomainsValidator(f1 validator.FieldLevel) bool {
 	predefinedWorkDomains := map[string]bool{
+		"LLM Engineer":                 true,
 		"Backend Developer":            true,
 		"Big Data Engineer":            true,
 		"Blockchain Developer":         true,

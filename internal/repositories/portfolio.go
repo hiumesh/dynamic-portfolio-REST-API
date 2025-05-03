@@ -12,13 +12,14 @@ import (
 
 type RepositoryPortfolio interface {
 	GetAll(userId string, query *string, cursor int, limit int) (*[]schemas.SelectPortfoliosItem, error)
-	GetPortfolio(slug string) (interface{}, error)
-	GetEducations(slug string) (interface{}, error)
-	GetWorkExperiences(slug string) (interface{}, error)
-	GetCertifications(slug string) (interface{}, error)
-	GetHackathons(slug string) (interface{}, error)
-	GetTechProjects(slug string) (interface{}, error)
-	GetUserPortfolio(userId string) (interface{}, error)
+	GetPortfolio(slug string) (any, error)
+	GetEducations(slug string) (any, error)
+	GetWorkExperiences(slug string) (any, error)
+	GetCertifications(slug string) (any, error)
+	GetHackathons(slug string) (any, error)
+	GetTechProjects(slug string) (any, error)
+	GetUserPortfolio(userId string) (any, error)
+	GetSkills(slug string) (*models.Skills, error)
 }
 
 type repositoryPortfolio struct {
@@ -123,7 +124,13 @@ func (r *repositoryPortfolio) GetUserPortfolio(userId string) (interface{}, erro
 				'work_domains',
 				user_profiles.attributes -> 'work_domains',
 				'social_profiles',
-				user_profiles.attributes -> 'social_profiles'
+				user_profiles.attributes -> 'social_profiles',
+				'resume',
+				user_profiles.attributes -> 'resume',
+				'hero_image',
+				user_profiles.attributes -> 'hero_image',
+				'about_image',
+				user_profiles.attributes -> 'about_image'
 			) as basic_details,
 			user_profiles.attributes -> 'skills' as skills,
 			json_build_object(
@@ -198,7 +205,13 @@ func (r *repositoryPortfolio) GetPortfolio(slug string) (interface{}, error) {
 				'work_domains',
 				user_profiles.attributes -> 'work_domains',
 				'social_profiles',
-				user_profiles.attributes -> 'social_profiles'
+				user_profiles.attributes -> 'social_profiles',
+				'resume',
+				user_profiles.attributes -> 'resume',
+				'hero_image',
+				user_profiles.attributes -> 'hero_image',
+				'about_image',
+				user_profiles.attributes -> 'about_image'
 			) as basic_details,
 			user_profiles.attributes -> 'skills' as skills,
 			json_build_object(
@@ -360,6 +373,47 @@ func (r *repositoryPortfolio) GetTechProjects(slug string) (*[]schemas.SelectUse
 	}
 
 	return &userTechProjects, nil
+}
+
+func (r *repositoryPortfolio) GetSkills(slug string) (*models.Skills, error) {
+	var rows *sql.Rows
+	var err error
+
+	rows, err = r.db.Raw(`
+		with
+			user_skills as (
+				select
+					jsonb_array_elements_text(attributes -> 'skills') as skill_name
+				from
+					user_profiles
+				where
+					slug = ?
+			)
+		select
+			us.skill_name as name,
+			skills.image
+		from
+			skills
+		right	join user_skills us on skills.name = us.skill_name;
+	`, slug).Rows()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var skills models.Skills
+
+	for rows.Next() {
+		var skill models.Skill
+		err = rows.Scan(&skill.Name, &skill.Image)
+		if err != nil {
+			return nil, err
+		}
+
+		skills = append(skills, skill)
+	}
+
+	return &skills, nil
 }
 
 func NewPortfolioRepository(db *gorm.DB) *repositoryPortfolio {

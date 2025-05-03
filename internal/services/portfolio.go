@@ -13,8 +13,11 @@ type ServicePortfolio interface {
 	GetPortfolio(slug string) (interface{}, error)
 	GetSubModule(slug string, module string) (interface{}, error)
 	GetUserPortfolio(userId string) (interface{}, error)
+	GetSkills(userId string) (any, error)
 	UpsertSkills(userId string, data *schemas.SchemaSkills) error
+	UpsertResume(userId string, url *string) error
 	UpdateStatus(userId string, status string) error
+	UpdateProfileAttachment(userId string, data *schemas.SchemaProfileAttachment) error
 }
 
 type servicePortfolio struct {
@@ -65,6 +68,8 @@ func (s *servicePortfolio) GetSubModule(slug string, module string) (interface{}
 		res, err = portfolioRepository.GetHackathons(slug)
 	case "works":
 		res, err = portfolioRepository.GetTechProjects(slug)
+	case "skills":
+		res, err = portfolioRepository.GetSkills(slug)
 	default:
 		return nil, errors.New("invalid module")
 	}
@@ -87,10 +92,39 @@ func (s *servicePortfolio) GetUserPortfolio(userId string) (interface{}, error) 
 	return res, nil
 }
 
+func (s *servicePortfolio) GetSkills(userId string) (any, error) {
+	repository := repositories.NewRepositorySkill(s.db)
+
+	res, err := repository.GetUserSkills(userId)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
 func (s *servicePortfolio) UpsertSkills(userId string, data *schemas.SchemaSkills) error {
 	repository := repositories.NewUserRepository(s.db)
 
 	if err := repository.UpsertSkills(userId, data); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *servicePortfolio) UpsertResume(userId string, url *string) error {
+	repository := repositories.NewUserRepository(s.db)
+
+	if err := repository.UpsertResume(userId, url); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *servicePortfolio) UpdateProfileAttachment(userId string, data *schemas.SchemaProfileAttachment) error {
+	repository := repositories.NewUserRepository(s.db)
+
+	if err := repository.UpdateProfileAttachment(userId, data.Module, &data.Url); err != nil {
 		return err
 	}
 	return nil

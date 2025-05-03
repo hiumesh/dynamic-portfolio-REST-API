@@ -93,7 +93,7 @@ func (h *handlerPortfolio) GetSubModule(ctx *gin.Context) {
 		HandleResponseError(ctx, ValidationError("Invalid module value. Module must be a non-empty string.", nil))
 		return
 	}
-	modules := []string{"educations", "work_experiences", "certifications", "hackathons", "works"}
+	modules := []string{"educations", "work_experiences", "certifications", "hackathons", "works", "skills"}
 
 	if !slices.Contains(modules, module) {
 		HandleResponseError(ctx, ValidationError("Invalid module value. Module must be one of educations, experiences, certifications, hackathons.", nil))
@@ -101,6 +101,19 @@ func (h *handlerPortfolio) GetSubModule(ctx *gin.Context) {
 	}
 
 	res, err := h.service.GetSubModule(slug, module)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerPortfolio) GetUserSkills(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+
+	res, err := h.service.GetSkills(userId)
 
 	if err != nil {
 		HandleResponseError(ctx, err)
@@ -133,6 +146,54 @@ func (h *handlerPortfolio) UpsertSkills(ctx *gin.Context) {
 
 	sendJSON(ctx, http.StatusOK, nil)
 
+}
+
+func (h *handlerPortfolio) UpsertResume(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+
+	var data schemas.SchemaResume
+	if err := ctx.ShouldBindJSON(&data); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	if err := data.Validate(); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	err := h.service.UpsertResume(userId, &data.ResumeUrl)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, nil)
+}
+
+func (h *handlerPortfolio) UpdateProfileAttachment(ctx *gin.Context) {
+	userId := utilities.GetClaims(ctx).Subject
+
+	var data schemas.SchemaProfileAttachment
+	if err := ctx.ShouldBindJSON(&data); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	if err := data.Validate(); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	err := h.service.UpdateProfileAttachment(userId, &data)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, nil)
 }
 
 func (h *handlerPortfolio) UpdateStatus(ctx *gin.Context) {

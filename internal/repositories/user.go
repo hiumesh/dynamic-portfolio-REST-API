@@ -17,9 +17,11 @@ type RepositoryUser interface {
 	UpsertProfile(userId string, profile *schemas.SchemaProfileBasic) error
 	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
 	UpsertSkills(userId string, data *schemas.SchemaSkills) error
-	AddOrUpdateModuleMetadata(userId string, module string, data *interface{}) error
-	GetModuleMetadata(userId string, module string) (interface{}, error)
+	UpsertResume(userId string, url *string) error
+	AddOrUpdateModuleMetadata(userId string, module string, data *any) error
+	GetModuleMetadata(userId string, module string) (any, error)
 	UpdateStatus(userId string, status models.PortfolioStatus) error
+	UpdateProfileAttachment(userId string, module string, url *string) error
 }
 
 type repositoryUser struct {
@@ -61,7 +63,7 @@ func (r *repositoryUser) ProfileSetup(userId string, profile *schemas.SchemaProf
 }
 
 func (r *repositoryUser) UpsertProfile(userId string, profile *schemas.SchemaProfileBasic) error {
-	data := map[string]interface{}{
+	data := map[string]any{
 		"full_name":  profile.FullName,
 		"avatar_url": profile.ProfilePicture,
 		"attributes": datatypes.JSONSet("attributes").
@@ -87,9 +89,35 @@ func (r *repositoryUser) UpsertProfile(userId string, profile *schemas.SchemaPro
 }
 
 func (r *repositoryUser) UpsertSkills(userId string, data *schemas.SchemaSkills) error {
-	t := map[string]interface{}{
+	t := map[string]any{
 		"attributes": datatypes.JSONSet("attributes").
 			Set("{skills}", data.Skills),
+	}
+
+	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(t).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *repositoryUser) UpsertResume(userId string, url *string) error {
+	t := map[string]any{
+		"attributes": datatypes.JSONSet("attributes").
+			Set("{resume}", url),
+	}
+
+	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(t).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *repositoryUser) UpdateProfileAttachment(userId string, module string, url *string) error {
+	t := map[string]any{
+		"attributes": datatypes.JSONSet("attributes").
+			Set("{"+module+"}", url),
 	}
 
 	if err := r.db.Model(&models.UserProfile{}).Where("user_id = ?", userId).Updates(t).Error; err != nil {
