@@ -17,12 +17,15 @@ import (
 type RepositoryBlog interface {
 	GetAll(userId *string, query *string, cursor int, limit int) (any, error)
 	GetUserBlogs(userId *string, query *string, cursor int, limit int) (any, error)
-	Get(userId string, id string) (interface{}, error)
-	GetBlogBySlug(slug string) (interface{}, error)
+	Get(userId string, id string) (any, error)
+	GetBlogBySlug(slug string) (*schemas.SchemaBlog, error)
 	Create(userId string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Update(userId string, id string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Unpublish(userId string, id string) error
 	Delete(userId string, id string) error
+	GetCommentBlog(id uint) (*models.BlogComment, error)
+	CreateComment(blogId uint, commentId uint) (any, error)
+	Reaction(blogId uint, userId uuid.UUID, data *schemas.SchemaReaction) (any, error)
 }
 
 type repositoryBlog struct {
@@ -42,6 +45,8 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 			user_profiles.user_id as publisher_id,
 			user_profiles.avatar_url as publisher_avatar,
 			user_profiles.full_name as publisher_name,
+			blogs.attributes ->> 'comments_count' as comments_count,
+			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
 			blogs.updated_at,
@@ -82,7 +87,7 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 	for rows.Next() {
 		var blog schemas.SelectBlog
 
-		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
 		if err != nil {
 			return nil, err
 		}
@@ -103,9 +108,11 @@ func (r *repositoryBlog) GetUserBlogs(userId string, query *string, cursor int, 
 			blogs.cover_image,
 			blogs.title,
 			blogs.slug,
+			blogs.attributes ->> 'comments_count' as comments_count,
+			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
-			blogs.updated_at,
+			blogs.updated_at,	
 			array_remove(array_agg(tags.name), NULL) AS tags
 		from
 			blogs
@@ -143,7 +150,7 @@ func (r *repositoryBlog) GetUserBlogs(userId string, query *string, cursor int, 
 	for rows.Next() {
 		var blog schemas.SelectBlog
 
-		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
 		if err != nil {
 			return nil, err
 		}
@@ -165,6 +172,8 @@ func (r *repositoryBlog) Get(userId string, id string) (interface{}, error) {
 			blogs.title,
 			blogs.body,
 			blogs.slug,
+			blogs.attributes ->> 'comments_count' as comments_count,
+			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
 			blogs.updated_at,
@@ -186,7 +195,7 @@ func (r *repositoryBlog) Get(userId string, id string) (interface{}, error) {
 
 	var blog schemas.SelectBlog
 	for rows.Next() {
-		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
 		if err != nil {
 			return nil, err
 		}
@@ -199,7 +208,7 @@ func (r *repositoryBlog) Get(userId string, id string) (interface{}, error) {
 	return &blog, nil
 }
 
-func (r *repositoryBlog) GetBlogBySlug(slug string) (any, error) {
+func (r *repositoryBlog) GetBlogBySlug(slug string) (*schemas.SelectBlog, error) {
 	var rows *sql.Rows
 	var err error
 
@@ -213,6 +222,8 @@ func (r *repositoryBlog) GetBlogBySlug(slug string) (any, error) {
 			user_profiles.user_id as publisher_id,
 			user_profiles.avatar_url as publisher_avatar,
 			user_profiles.full_name as publisher_name,
+			blogs.attributes ->> 'comments_count' as comments_count,
+			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
 			blogs.updated_at,
@@ -237,7 +248,7 @@ func (r *repositoryBlog) GetBlogBySlug(slug string) (any, error) {
 
 	var blog schemas.SelectBlog
 	for rows.Next() {
-		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
 		if err != nil {
 			return nil, err
 		}
@@ -383,6 +394,45 @@ func (r *repositoryBlog) Delete(userId string, id string) error {
 	}
 
 	return nil
+}
+
+func (r *repositoryBlog) GetCommentBlog(id uint) (*models.BlogComment, error) {
+	var commentBlog models.BlogComment
+
+	if err := r.db.Where("comment_id = ?", id).First(&commentBlog).Error; err != nil {
+		return nil, err
+	}
+
+	return &commentBlog, nil
+}
+
+func (r *repositoryBlog) CreateComment(blogId uint, commentId uint) (any, error) {
+
+	comment := models.BlogComment{
+		BlogId:    blogId,
+		CommentId: commentId,
+	}
+
+	if err := r.db.Create(&comment).Error; err != nil {
+		return nil, err
+	}
+
+	return comment, nil
+}
+
+func (r *repositoryBlog) Reaction(blogId uint, userId uuid.UUID, data *schemas.SchemaReaction) (any, error) {
+
+	reaction := models.BlogReaction{
+		BlogId: blogId,
+		UserId: userId,
+		Type:   data.Reaction,
+	}
+
+	if err := r.db.Create(&reaction).Error; err != nil {
+		return nil, err
+	}
+
+	return reaction, nil
 }
 
 func NewBlogRepository(db *gorm.DB) *repositoryBlog {

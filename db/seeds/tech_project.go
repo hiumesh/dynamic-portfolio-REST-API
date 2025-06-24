@@ -16,10 +16,8 @@ type TechProject struct {
 	UserId      string         `json:"user_id"`
 	OrderIndex  int16          `json:"order_index"`
 	Title       string         `json:"title" fake:"{sentence:5}"`
-	StartDate   time.Time      `json:"start_date" fake:"{date}"`
-	EndDate     *time.Time     `json:"end_date" fake:"{date}"`
 	Description string         `json:"description" fake:"{paragraph:2,3,10,\n\n}"`
-	SkillsUsed  pq.StringArray `json:"skills_used" gorm:"type:text"`
+	TechUsed    pq.StringArray `json:"tech_used" gorm:"type:text"`
 	Attributes  datatypes.JSON `json:"attributes"`
 	CreatedAt   time.Time      `json:"created_at" fake:"{date}"`
 	UpdatedAt   time.Time      `json:"updated_at" fake:"{date}"`
@@ -62,9 +60,9 @@ func NewTechProject(user *User) (*[]TechProject, error) {
 		project.OrderIndex = int16(i + 1)
 		project.Title = strings.TrimSuffix(project.Title, ".")
 		h = rand.IntN(2) + 3
-		project.SkillsUsed = make([]string, h)
+		project.TechUsed = make([]string, h)
 		for j := 0; j < h; j++ {
-			project.SkillsUsed[j] = gofakeit.Word()
+			project.TechUsed[j] = gofakeit.Word()
 		}
 		project.Attributes = attributesJson
 

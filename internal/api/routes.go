@@ -40,6 +40,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 	metadataService := services.NewMetadataService(db)
 	metadataHandler := NewMetadataHandler(metadataService)
 
+	commentService := services.NewServiceComment(db)
+	commentHandler := NewCommentHandler(commentService)
+
 	userRouter := router.Group("/users")
 	{
 		userRouter.POST("/presigned-urls", userHandler.GetPresignedURLs)
@@ -133,6 +136,14 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		blogRouter.DELETE("/:Id", api.requireAuthentication(), blogHandler.Delete)
 		blogRouter.GET("/metadata", api.requireAuthentication(), blogHandler.GetMetadata)
 		blogRouter.PUT("/metadata", api.requireAuthentication(), blogHandler.UpdateMetadata)
+	}
+
+	commentRouter := router.Group("/comments")
+	{
+		commentRouter.GET("/", api.authenticateIfSessionPresent(), commentHandler.GetAll)
+		commentRouter.POST("/", api.requireAuthentication(), commentHandler.Create)
+		commentRouter.PUT("/:Id/reaction", api.requireAuthentication(), commentHandler.Reaction)
+		commentRouter.PUT("/:Id/reply", api.requireAuthentication(), commentHandler.Reply)
 	}
 
 	metadataRouter := router.Group("/metadata")

@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"runtime/debug"
+
 	"github.com/hiumesh/dynamic-portfolio-REST-API/db/seeds"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/observability"
 	"github.com/sirupsen/logrus"
@@ -27,6 +29,7 @@ func seed(cmd *cobra.Command, args []string) {
 	logrus.Info("Truncating...")
 	err = seeds.Truncate(db)
 	if err != nil {
+		logrus.Info(string(debug.Stack()))
 		logrus.Fatalf("error truncating tables: %+v", err)
 	}
 

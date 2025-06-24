@@ -39,6 +39,26 @@ func (BlogTag) TableName() string {
 	return "blog_tags"
 }
 
+type BlogReaction struct {
+	ID     int64  `json:"id" gorm:"primaryKey;autoIncrement"`
+	BlogId int64  `json:"blog_id"`
+	UserId string `json:"user_id"`
+	Type   string `json:"type" fake:"{randomstring:[like,clap,heart]}"`
+}
+
+func (BlogReaction) TableName() string {
+	return "blog_reactions"
+}
+
+type BlogComment struct {
+	BlogId    int64 `json:"blog_id"`
+	CommentId int64 `json:"comment_id"`
+}
+
+func (BlogComment) TableName() string {
+	return "blog_comments"
+}
+
 func NewBlog(users *[]User) (*Blog, error) {
 	var uid = uuid.NewString()
 
@@ -81,6 +101,34 @@ func NewBlogTags(blog *Blog, tags *[]Tag) (*[]BlogTag, error) {
 	return &blogTags, nil
 }
 
+func NewBlogReactions(blog *Blog, users *[]User) (*[]BlogReaction, error) {
+
+	n := len(*users)
+	k := rand.IntN(3) + 7
+	blogReactions := make([]BlogReaction, k)
+	uniqueIdx := make(map[int]bool)
+	if k < n {
+		for len(uniqueIdx) < k {
+			idx := rand.IntN(n)
+			if _, ok := uniqueIdx[idx]; !ok {
+				blogReaction := BlogReaction{}
+				if err := gofakeit.Struct(&blogReaction); err != nil {
+					return nil, err
+				}
+
+				blogReaction.ID = 0
+				blogReaction.BlogId = blog.ID
+				blogReaction.UserId = (*users)[idx].Id
+
+				blogReactions[len(uniqueIdx)] = blogReaction
+				uniqueIdx[idx] = true
+			}
+		}
+	}
+
+	return &blogReactions, nil
+}
+
 func SeedBlogs(db *gorm.DB, users *[]User, tags *[]Tag, count int) error {
 
 	if count == 0 {
@@ -110,6 +158,75 @@ func SeedBlogs(db *gorm.DB, users *[]User, tags *[]Tag, count int) error {
 	}
 
 	if err := db.Create(&blogsTags).Error; err != nil {
+		return err
+	}
+
+	var blogsReactions []BlogReaction
+	for i := 0; i < count; i++ {
+		blogReactions, err := NewBlogReactions(&blogs[i], users)
+		if err != nil {
+			return err
+		}
+		blogsReactions = append(blogsReactions, *blogReactions...)
+	}
+
+	if err := db.Create(&blogsReactions).Error; err != nil {
+		return err
+	}
+
+	comments, blogIdToCommentsIdxMap, err := NewBlogComments(&blogs, users)
+	if err != nil {
+		return err
+	}
+
+	if err := db.Create(&comments).Error; err != nil {
+		return err
+	}
+
+	blogComments := []BlogComment{}
+	for _, blog := range blogs {
+
+		if _, ok := blogIdToCommentsIdxMap[blog.ID]; ok {
+			for _, idx := range blogIdToCommentsIdxMap[blog.ID] {
+				blogComments = append(blogComments, BlogComment{
+					BlogId:    blog.ID,
+					CommentId: (*comments)[idx].ID,
+				})
+			}
+		}
+	}
+
+	if err := db.Create(&blogComments).Error; err != nil {
+		return err
+	}
+
+	blogChildComments, blogIdToChildCommentsIdxMap, err := NewBlogChildComments(&blogComments, users)
+	if err != nil {
+		return err
+	}
+
+	if err := db.Create(&blogChildComments).Error; err != nil {
+		return err
+	}
+
+	moreBlogComments := []BlogComment{}
+	for _, blog := range blogs {
+		if _, ok := blogIdToChildCommentsIdxMap[blog.ID]; ok {
+			for _, idx := range blogIdToChildCommentsIdxMap[blog.ID] {
+				moreBlogComments = append(moreBlogComments, BlogComment{
+					BlogId:    blog.ID,
+					CommentId: (*blogChildComments)[idx].ID,
+				})
+			}
+		}
+	}
+	if err := db.Create(&moreBlogComments).Error; err != nil {
+		return err
+	}
+
+	totalComments := append(*comments, *blogChildComments...)
+
+	if err := NewCommentsReactions(db, &totalComments, users); err != nil {
 		return err
 	}
 

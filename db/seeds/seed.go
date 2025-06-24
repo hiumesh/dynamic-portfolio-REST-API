@@ -15,12 +15,13 @@ func Seed(db *gorm.DB) error {
 		return err
 	}
 
-	logrus.Info("Seeding tags and blogs...")
+	logrus.Info("Seeding tags...")
 	tags, err := SeedTags(db, 1000)
 	if err != nil {
 		return err
 	}
-	err = SeedBlogs(db, users, tags, 500)
+	logrus.Info("Seeding blogs...")
+	err = SeedBlogs(db, users, tags, 30)
 	if err != nil {
 		return err
 	}
@@ -40,11 +41,45 @@ func Seed(db *gorm.DB) error {
 }
 
 func Truncate(db *gorm.DB) error {
-	if db.Unscoped().Where("1 = 1").Delete(&User{}).Error != nil {
-		return db.Error
+	if err := db.Unscoped().Where("1 = 1").Delete(&BlogComment{}).Error; err != nil {
+		return err
 	}
-	if db.Unscoped().Where("1 = 1").Delete(&Tag{}).Error != nil {
-		return db.Error
+	if err := db.Unscoped().Where("1 = 1").Delete(&BlogReaction{}).Error; err != nil {
+		return err
 	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&BlogTag{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Blog{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&TechProject{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Education{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Hackathon{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Certification{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Experience{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Comment{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&UserProfile{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&Tag{}).Error; err != nil {
+		return err
+	}
+	if err := db.Unscoped().Where("1 = 1").Delete(&User{}).Error; err != nil {
+		return err
+	}
+
 	return nil
 }

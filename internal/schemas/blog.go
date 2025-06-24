@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/lib/pq"
+	"gorm.io/datatypes"
 )
 
 type SchemaBlog struct {
@@ -31,16 +32,18 @@ func (s *SchemaBlogMetadata) Validate() error {
 }
 
 type SelectBlog struct {
-	ID              uint            `json:"id"`
-	CoverImage      *string         `json:"cover_image"`
-	Title           string          `json:"title"`
-	Body            *string         `json:"body"`
-	Slug            string          `json:"slug"`
-	PublisherId     *string         `json:"publisher_id"`
-	PublisherAvatar *string         `json:"publisher_avatar"`
-	PublisherName   *string         `json:"publisher_name"`
-	PublishedAt     *time.Time      `json:"published_at"`
-	CreatedAt       time.Time       `json:"created_at"`
-	UpdatedAt       time.Time       `json:"updated_at"`
-	Tags            *pq.StringArray `json:"tags" gorm:"type:text"`
+	ID                uint            `json:"id"`
+	CoverImage        *string         `json:"cover_image"`
+	Title             string          `json:"title"`
+	Body              *string         `json:"body"`
+	Slug              string          `json:"slug"`
+	PublisherId       *string         `json:"publisher_id"`
+	PublisherAvatar   *string         `json:"publisher_avatar"`
+	PublisherName     *string         `json:"publisher_name"`
+	PublishedAt       *time.Time      `json:"published_at"`
+	CommentsCount     *int            `json:"comments_count"`
+	ReactionsMetadata *datatypes.JSON `json:"reactions_metadata"`
+	CreatedAt         time.Time       `json:"created_at"`
+	UpdatedAt         time.Time       `json:"updated_at"`
+	Tags              *pq.StringArray `json:"tags" gorm:"type:text"`
 }

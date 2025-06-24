@@ -39,3 +39,27 @@ func (BlogTag) TableName() string {
 }
 
 type BlogTags []BlogTag
+
+type BlogComment struct {
+	BlogId    uint `json:"blog_id"`
+	CommentId uint `json:"comment_id"`
+}
+
+func (BlogComment) TableName() string {
+	return "blog_comments"
+}
+
+type BlogComments []BlogComment
+
+type BlogReaction struct {
+	ID     uint      `json:"id" gorm:"primaryKey"`
+	BlogId uint      `json:"blog_id"`
+	UserId uuid.UUID `json:"user_id"`
+	Type   string    `json:"type" gorm:"type:user_reaction_type_enum"`
+}
+
+func (BlogReaction) TableName() string {
+	return "blog_reactions"
+}
+
+type BlogReactions []BlogReaction
