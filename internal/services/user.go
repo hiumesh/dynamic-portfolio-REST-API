@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/models"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/pkg"
 	"github.com/hiumesh/dynamic-portfolio-REST-API/internal/repositories"
@@ -20,7 +21,12 @@ type ServiceUser interface {
 	GetProfile(userId string) (*models.UserProfile, error)
 	UpsertProfile(userId string, profile *schemas.SchemaProfileBasic) error
 	ProfileSetup(userId string, profile *schemas.SchemaProfileBasic) error
-	GetPostPresignedURLs(ctx context.Context, files []schemas.File) ([]interface{}, error)
+	GetPostPresignedURLs(ctx context.Context, files []schemas.File) ([]any, error)
+	GetFollowers(userId string, cursor int, limit int) (*[]schemas.SelectFollowers, error)
+	GetFollowing(userId string, cursor int, limit int) (*[]schemas.SelectFollowing, error)
+	FollowUser(userId string, followingUserId string) error
+	UnfollowUser(userId string, followingUserId string) error
+	FollowStatus(userId string, followingUserId string) (any, error)
 }
 
 type serviceUser struct {
@@ -109,6 +115,89 @@ func (s *serviceUser) GetPostPresignedURLs(ctx context.Context, files []schemas.
 	return urls, nil
 }
 
+func (s *serviceUser) GetFollowers(userId string, cursor int, limit int) (*[]schemas.SelectFollowers, error) {
+	repository := repositories.NewUserRepository(s.db)
+
+	res, err := repository.GetFollowers(userId, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (s *serviceUser) GetFollowing(userId string, cursor int, limit int) (*[]schemas.SelectFollowing, error) {
+	repository := repositories.NewUserRepository(s.db)
+
+	res, err := repository.GetFollowing(userId, cursor, limit)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func (s *serviceUser) FollowUser(userId string, followingUserId string) error {
+	repository := repositories.NewUserRepository(s.db)
+
+	userUUID, err := uuid.Parse(userId)
+	if err != nil {
+		return errors.New("failed to parse user id")
+	}
+
+	followingProfile, err := repository.GetProfileBySlug(followingUserId)
+	if err != nil {
+		return err
+	}
+
+	if err := repository.FollowUser(userUUID, followingProfile.UserId); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *serviceUser) UnfollowUser(userId string, followingUserId string) error {
+	repository := repositories.NewUserRepository(s.db)
+
+	userUUID, err := uuid.Parse(userId)
+	if err != nil {
+		return errors.New("failed to parse user id")
+	}
+
+	followingProfile, err := repository.GetProfileBySlug(followingUserId)
+	if err != nil {
+		return err
+	}
+
+	if err := repository.UnfollowUser(userUUID, followingProfile.UserId); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *serviceUser) FollowStatus(userId string, followingUserId string) (any, error) {
+	repository := repositories.NewUserRepository(s.db)
+
+	userUUID, err := uuid.Parse(userId)
+	if err != nil {
+		return nil, errors.New("failed to parse user id")
+	}
+
+	followingProfile, err := repository.GetProfileBySlug(followingUserId)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := repository.FollowStatus(userUUID, followingProfile.UserId)
+	if err != nil {
+		return nil, err
+	}
+
+	if res != nil {
+		return map[string]any{"is_following": true}, nil
+	}
+
+	return map[string]any{"is_following": false}, nil
+
+}
 func NewUserService(db *gorm.DB, presigner *pkg.Presigner) *serviceUser {
 	return &serviceUser{
 		db:        db,

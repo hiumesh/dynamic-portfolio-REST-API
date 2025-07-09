@@ -43,6 +43,8 @@ type SelectBlog struct {
 	PublishedAt       *time.Time      `json:"published_at"`
 	CommentsCount     *int            `json:"comments_count"`
 	ReactionsMetadata *datatypes.JSON `json:"reactions_metadata"`
+	IsBookmarked      *bool           `json:"is_bookmarked"`
+	Reactions         *pq.StringArray `json:"reactions"`
 	CreatedAt         time.Time       `json:"created_at"`
 	UpdatedAt         time.Time       `json:"updated_at"`
 	Tags              *pq.StringArray `json:"tags" gorm:"type:text"`

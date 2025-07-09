@@ -51,7 +51,7 @@ func (s *serviceComment) Create(userId string, data *schemas.SchemaCreateComment
 		}
 
 		if data.Module == "blog" {
-			blog, err := blogRepository.GetBlogBySlug(data.Slug)
+			blog, err := blogRepository.GetBlogBySlug(&userId, data.Slug)
 			if err != nil {
 				return err
 			}

@@ -51,6 +51,11 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 			profileRouter.GET("/", userHandler.GetProfile)
 			profileRouter.PUT("/setup", userHandler.ProfileSetup)
 			profileRouter.PUT("/", userHandler.UpsertProfile)
+			profileRouter.GET("/followers", userHandler.GetFollowers)
+			profileRouter.GET("/following", userHandler.GetFollowing)
+			profileRouter.POST("/:slug/follow", userHandler.Follow)
+			profileRouter.DELETE("/:slug/follow", userHandler.Unfollow)
+			profileRouter.GET("/:slug/follow-status", userHandler.FollowStatus)
 		}
 	}
 
@@ -136,6 +141,9 @@ func setupRoutes(router *gin.RouterGroup, db *gorm.DB, api *API, globalConfig *c
 		blogRouter.DELETE("/:Id", api.requireAuthentication(), blogHandler.Delete)
 		blogRouter.GET("/metadata", api.requireAuthentication(), blogHandler.GetMetadata)
 		blogRouter.PUT("/metadata", api.requireAuthentication(), blogHandler.UpdateMetadata)
+		blogRouter.PUT("/:Id/reaction", api.requireAuthentication(), blogHandler.Reaction)
+		blogRouter.PUT("/:Id/bookmark", api.requireAuthentication(), blogHandler.Bookmark)
+		blogRouter.DELETE("/:Id/bookmark", api.requireAuthentication(), blogHandler.RemoveBookmark)
 	}
 
 	commentRouter := router.Group("/comments")

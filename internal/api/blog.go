@@ -83,10 +83,14 @@ func (h *handlerBlog) GetUserBlogs(ctx *gin.Context) {
 }
 
 func (h *handlerBlog) Get(ctx *gin.Context) {
-	userId := utilities.GetClaims(ctx).Subject
+	claims := utilities.GetClaims(ctx)
+	var userId *string
+	if claims != nil {
+		userId = &claims.Subject
+	}
 	id := ctx.Param("Id")
 
-	res, err := h.service.Get(userId, id)
+	res, err := h.service.Get(*userId, id)
 
 	if err != nil {
 		HandleResponseError(ctx, err)
@@ -97,10 +101,14 @@ func (h *handlerBlog) Get(ctx *gin.Context) {
 }
 
 func (h *handlerBlog) GetBlogBySlug(ctx *gin.Context) {
-	// userId := utilities.GetClaims(ctx).Subject
+	claims := utilities.GetClaims(ctx)
+	var userId *string
+	if claims != nil {
+		userId = &claims.Subject
+	}
 	slug := ctx.Param("slug")
 
-	res, err := h.service.GetBlogBySlug(slug)
+	res, err := h.service.GetBlogBySlug(userId, slug)
 
 	if err != nil {
 		HandleResponseError(ctx, err)
@@ -219,6 +227,62 @@ func (h *handlerBlog) UpdateMetadata(ctx *gin.Context) {
 	}
 
 	err := h.service.UpdateMetadata(userId, &data)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, nil)
+}
+
+func (h *handlerBlog) Reaction(ctx *gin.Context) {
+
+	userId := utilities.GetClaims(ctx).Subject
+	id := ctx.Param("Id")
+
+	var data schemas.SchemaReaction
+	if err := ctx.ShouldBindJSON(&data); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	if err := data.Validate(); err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	res, err := h.service.Reaction(id, userId, &data)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerBlog) Bookmark(ctx *gin.Context) {
+
+	userId := utilities.GetClaims(ctx).Subject
+	id := ctx.Param("Id")
+
+	res, err := h.service.Bookmark(id, userId)
+
+	if err != nil {
+		HandleResponseError(ctx, err)
+		return
+	}
+
+	sendJSON(ctx, http.StatusOK, res)
+}
+
+func (h *handlerBlog) RemoveBookmark(ctx *gin.Context) {
+
+	userId := utilities.GetClaims(ctx).Subject
+	id := ctx.Param("Id")
+
+	err := h.service.RemoveBookmark(id, userId)
 
 	if err != nil {
 		HandleResponseError(ctx, err)

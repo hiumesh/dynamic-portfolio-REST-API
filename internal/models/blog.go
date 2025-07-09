@@ -63,3 +63,15 @@ func (BlogReaction) TableName() string {
 }
 
 type BlogReactions []BlogReaction
+
+type BlogBookmark struct {
+	ID     uint      `json:"id" gorm:"primaryKey"`
+	BlogId uint      `json:"blog_id"`
+	UserId uuid.UUID `json:"user_id"`
+}
+
+func (BlogBookmark) TableName() string {
+	return "blog_bookmarks"
+}
+
+type BlogBookmarks []BlogBookmark

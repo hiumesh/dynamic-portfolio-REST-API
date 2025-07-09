@@ -34,3 +34,15 @@ func (UserProfile) TableName() string {
 }
 
 type UserProfiles []UserProfile
+
+type UserFollow struct {
+	ID          uint      `json:"id" gorm:"primaryKey"`
+	FollowerId  uuid.UUID `json:"follower_id"`
+	FollowingId uuid.UUID `json:"following_id"`
+}
+
+func (UserFollow) TableName() string {
+	return "user_follows"
+}
+
+type UserFollows []UserFollow

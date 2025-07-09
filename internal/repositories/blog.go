@@ -18,7 +18,7 @@ type RepositoryBlog interface {
 	GetAll(userId *string, query *string, cursor int, limit int) (any, error)
 	GetUserBlogs(userId *string, query *string, cursor int, limit int) (any, error)
 	Get(userId string, id string) (any, error)
-	GetBlogBySlug(slug string) (*schemas.SchemaBlog, error)
+	GetBlogBySlug(userId *string, slug string) (*schemas.SchemaBlog, error)
 	Create(userId string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Update(userId string, id string, tags *models.Tags, data *schemas.SchemaBlog, publish bool) (*models.Blog, error)
 	Unpublish(userId string, id string) error
@@ -26,6 +26,8 @@ type RepositoryBlog interface {
 	GetCommentBlog(id uint) (*models.BlogComment, error)
 	CreateComment(blogId uint, commentId uint) (any, error)
 	Reaction(blogId uint, userId uuid.UUID, data *schemas.SchemaReaction) (any, error)
+	Bookmark(blogId uint, userId uuid.UUID) (*models.BlogBookmark, error)
+	RemoveBookmark(blogId uint, userId uuid.UUID) error
 }
 
 type repositoryBlog struct {
@@ -46,7 +48,7 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 			user_profiles.avatar_url as publisher_avatar,
 			user_profiles.full_name as publisher_name,
 			blogs.attributes ->> 'comments_count' as comments_count,
-			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
+			blogs.attributes -> 'reaction_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
 			blogs.updated_at,
@@ -109,7 +111,7 @@ func (r *repositoryBlog) GetUserBlogs(userId string, query *string, cursor int, 
 			blogs.title,
 			blogs.slug,
 			blogs.attributes ->> 'comments_count' as comments_count,
-			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
+			blogs.attributes -> 'reaction_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
 			blogs.updated_at,	
@@ -173,7 +175,7 @@ func (r *repositoryBlog) Get(userId string, id string) (interface{}, error) {
 			blogs.body,
 			blogs.slug,
 			blogs.attributes ->> 'comments_count' as comments_count,
-			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
+			blogs.attributes -> 'reaction_metadata' as reactions_metadata,
 			blogs.published_at,
 			blogs.created_at,
 			blogs.updated_at,
@@ -208,38 +210,80 @@ func (r *repositoryBlog) Get(userId string, id string) (interface{}, error) {
 	return &blog, nil
 }
 
-func (r *repositoryBlog) GetBlogBySlug(slug string) (*schemas.SelectBlog, error) {
+func (r *repositoryBlog) GetBlogBySlug(userId *string, slug string) (*schemas.SelectBlog, error) {
 	var rows *sql.Rows
 	var err error
 
-	rows, err = r.db.Raw(`
+	var args []any
+
+	baseQuery := `
 		select
-			blogs.id,
-			blogs.cover_image,
-			blogs.title,
-			blogs.body,
-			blogs.slug,
-			user_profiles.user_id as publisher_id,
-			user_profiles.avatar_url as publisher_avatar,
-			user_profiles.full_name as publisher_name,
-			blogs.attributes ->> 'comments_count' as comments_count,
-			blogs.attributes -> 'reactions_metadata' as reactions_metadata,
-			blogs.published_at,
-			blogs.created_at,
-			blogs.updated_at,
-			array_remove(array_agg(tags.name), NULL) AS tags
-		from
-			blogs
-			inner join user_profiles on user_profiles.user_id = blogs.user_id
-			left join blog_tags on blog_tags.blog_id = blogs.id
-			left join tags on tags.id = blog_tags.tag_id
-		where
-			blogs.published_at is not null
-			and blogs.slug = ?
-		group by
-			blogs.id,
-			user_profiles.user_id
-			`, slug).Rows()
+				blogs.id,
+				blogs.cover_image,
+				blogs.title,
+				blogs.body,
+				blogs.slug,
+				user_profiles.user_id as publisher_id,
+				user_profiles.avatar_url as publisher_avatar,
+				user_profiles.full_name as publisher_name,
+				blogs.attributes ->> 'comments_count' as comments_count,
+				blogs.attributes -> 'reaction_metadata' as reactions_metadata,
+				blogs.published_at,
+	`
+
+	if userId != nil {
+		baseQuery += `
+			CASE 
+				WHEN b.blog_id IS NOT NULL THEN TRUE 
+				ELSE FALSE 
+			END AS is_bookmarked,
+			array_remove(array_agg(blog_reactions.type), NULL) as reactions,
+		`
+
+	} else {
+		baseQuery += `
+			FALSE AS is_bookmarked,
+			null as reactions,
+		`
+	}
+
+	baseQuery += `
+		blogs.created_at,
+				blogs.updated_at,
+				array_remove(array_agg(tags.name), NULL) AS tags
+			from
+				blogs
+				inner join user_profiles on user_profiles.user_id = blogs.user_id
+				left join blog_tags on blog_tags.blog_id = blogs.id
+				left join tags on tags.id = blog_tags.tag_id
+	`
+
+	if userId != nil {
+		baseQuery += `
+				left join blog_bookmarks b on b.blog_id = blogs.id and b.user_id = ?
+				left join blog_reactions on blog_reactions.blog_id = blogs.id and blog_reactions.user_id = ?
+		`
+		args = append(args, *userId, *userId)
+	}
+
+	baseQuery += `
+			where
+				blogs.published_at is not null
+				and blogs.slug = ?
+			group by
+				blogs.id,
+				user_profiles.user_id
+	`
+
+	if userId != nil {
+		baseQuery += `
+				, b.blog_id
+		`
+	}
+
+	args = append(args, slug)
+
+	rows, err = r.db.Raw(baseQuery, args...).Rows()
 
 	if err != nil {
 		return nil, err
@@ -248,7 +292,7 @@ func (r *repositoryBlog) GetBlogBySlug(slug string) (*schemas.SelectBlog, error)
 
 	var blog schemas.SelectBlog
 	for rows.Next() {
-		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Body, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.IsBookmarked, &blog.Reactions, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
 		if err != nil {
 			return nil, err
 		}
@@ -428,11 +472,38 @@ func (r *repositoryBlog) Reaction(blogId uint, userId uuid.UUID, data *schemas.S
 		Type:   data.Reaction,
 	}
 
-	if err := r.db.Create(&reaction).Error; err != nil {
-		return nil, err
+	if data.Action == "remove" {
+		if err := r.db.Delete(&models.BlogReaction{}, "blog_id = ? and user_id = ? and type = ?", blogId, userId, data.Reaction).Error; err != nil {
+			return nil, err
+		}
+	}
+
+	if data.Action == "add" {
+		if err := r.db.Create(&reaction).Error; err != nil {
+			return nil, err
+		}
+
 	}
 
 	return reaction, nil
+}
+
+func (r *repositoryBlog) Bookmark(blogId uint, userId uuid.UUID) (*models.BlogBookmark, error) {
+
+	blogBookmark := models.BlogBookmark{
+		BlogId: blogId,
+		UserId: userId,
+	}
+
+	if err := r.db.Create(&blogBookmark).Error; err != nil {
+		return nil, err
+	}
+
+	return &blogBookmark, nil
+}
+
+func (r *repositoryBlog) RemoveBookmark(blogId uint, userId uuid.UUID) error {
+	return r.db.Where("blog_id = ? and user_id = ?", blogId, userId).Delete(&models.BlogBookmark{}).Error
 }
 
 func NewBlogRepository(db *gorm.DB) *repositoryBlog {

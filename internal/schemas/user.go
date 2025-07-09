@@ -99,3 +99,21 @@ func (s *SchemaProfileAttachment) Validate() error {
 	validate := validator.New()
 	return validate.Struct(s)
 }
+
+type SelectFollowers struct {
+	ID      string  `json:"id"`
+	Name    string  `json:"name"`
+	Email   string  `json:"email"`
+	Avatar  *string `json:"avatar"`
+	Slug    string  `json:"slug"`
+	Tagline *string `json:"tagline"`
+}
+
+type SelectFollowing struct {
+	ID      string  `json:"id"`
+	Name    string  `json:"name"`
+	Email   string  `json:"email"`
+	Avatar  *string `json:"avatar"`
+	Slug    string  `json:"slug"`
+	Tagline *string `json:"tagline"`
+}
