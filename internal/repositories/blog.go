@@ -37,6 +37,7 @@ type repositoryBlog struct {
 func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit int) (*[]schemas.SelectBlog, error) {
 	var rows *sql.Rows
 	var err error
+	var args []any
 
 	baseQuery := `
 		select
@@ -50,6 +51,26 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 			blogs.attributes ->> 'comments_count' as comments_count,
 			blogs.attributes -> 'reaction_metadata' as reactions_metadata,
 			blogs.published_at,
+
+	`
+
+	if userId != nil {
+		baseQuery += `
+			CASE 
+				WHEN b.blog_id IS NOT NULL THEN TRUE 
+				ELSE FALSE 
+			END AS is_bookmarked,
+			array_remove(array_agg(blog_reactions.type), NULL) as reactions,
+		`
+
+	} else {
+		baseQuery += `
+			FALSE AS is_bookmarked,
+			null as reactions,
+		`
+	}
+
+	baseQuery += `
 			blogs.created_at,
 			blogs.updated_at,
 			array_remove(array_agg(tags.name), NULL) AS tags
@@ -58,11 +79,24 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 			inner join user_profiles on user_profiles.user_id = blogs.user_id
 			left join blog_tags on blog_tags.blog_id = blogs.id
 			left join tags on tags.id = blog_tags.tag_id
+
+	`
+	if userId != nil {
+		baseQuery += `
+				left join blog_bookmarks b on b.blog_id = blogs.id and b.user_id = ?
+				left join blog_reactions on blog_reactions.blog_id = blogs.id and blog_reactions.user_id = ?
+		`
+		args = append(args, *userId, *userId)
+	}
+
+	baseQuery += `
 		where
 			blogs.published_at is not null
+			group by
+				blogs.id,
+				user_profiles.user_id
 	`
 
-	var args []any
 	args = append(args, limit, cursor)
 
 	if query != nil && *query != "" {
@@ -70,10 +104,20 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 		args = append([]interface{}{*query}, args...)
 	}
 
+	// baseQuery += `
+	// 	group by
+	// 		blogs.id,
+	// 		user_profiles.user_id
+
+	// `
+
+	if userId != nil {
+		baseQuery += `
+				, b.blog_id
+		`
+	}
+
 	baseQuery += `
-		group by
-			blogs.id,
-			user_profiles.user_id
 		ORDER BY blogs.updated_at DESC
 		LIMIT ? OFFSET ?
 	`
@@ -89,7 +133,7 @@ func (r *repositoryBlog) GetAll(userId *string, query *string, cursor int, limit
 	for rows.Next() {
 		var blog schemas.SelectBlog
 
-		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
+		err = rows.Scan(&blog.ID, &blog.CoverImage, &blog.Title, &blog.Slug, &blog.PublisherId, &blog.PublisherAvatar, &blog.PublisherName, &blog.CommentsCount, &blog.ReactionsMetadata, &blog.PublishedAt, &blog.IsBookmarked, &blog.Reactions, &blog.CreatedAt, &blog.UpdatedAt, &blog.Tags)
 		if err != nil {
 			return nil, err
 		}

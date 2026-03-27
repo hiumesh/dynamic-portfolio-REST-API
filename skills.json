@@ -1,0 +1,4057 @@
+[
+  {
+    "id": 0,
+    "title": "Windsurf",
+    "category": ["Software", "AI"],
+    "route": "https://svgl.app/library/windsurf-logo.svg",
+    "url": "https://codeium.com/windsurf"
+  },
+  {
+    "id": 1,
+    "title": "daisyUI",
+    "category": "Library",
+    "route": "https://svgl.app/library/daisyui.svg",
+    "url": "https://daisyui.com/"
+  },
+  {
+    "id": 2,
+    "title": "PayPal",
+    "category": "Payment",
+    "route": "https://svgl.app/library/paypal.svg",
+    "wordmark": "https://svgl.app/library/paypal-wordmark.svg",
+    "url": "https://paypal.com"
+  },
+  {
+    "id": 3,
+    "title": "Google Drive",
+    "category": "Google",
+    "route": "https://svgl.app/library/drive.svg",
+    "url": "https://www.google.com/drive/"
+  },
+  {
+    "id": 4,
+    "title": "Milanote",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/milanote-light.svg",
+      "dark": "https://svgl.app/library/milanote-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/milanote-wordmark-light.svg",
+      "dark": "https://svgl.app/library/milanote-wordmark-dark.svg"
+    },
+    "url": "https://milanote.com"
+  },
+  {
+    "id": 5,
+    "title": "Together AI",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/togetherai_light.svg",
+      "dark": "https://svgl.app/library/togetherai_dark.svg"
+    },
+    "url": "https://www.together.ai/"
+  },
+  {
+    "id": 6,
+    "title": "Suno",
+    "category": "AI",
+    "route": "https://svgl.app/library/suno.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/suno_wordmark_light.svg",
+      "dark": "https://svgl.app/library/suno_wordmark_dark.svg"
+    },
+    "url": "https://suno.com/"
+  },
+  {
+    "id": 7,
+    "title": "Groq",
+    "category": "AI",
+    "route": "https://svgl.app/library/groq.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/groq_wordmark_light.svg",
+      "dark": "https://svgl.app/library/groq_wordmark_dark.svg"
+    },
+    "url": "https://groq.com/"
+  },
+  {
+    "id": 8,
+    "title": "Cohere",
+    "category": "AI",
+    "route": "https://svgl.app/library/cohere.svg",
+    "wordmark": "https://svgl.app/library/cohere_wordmark.svg",
+    "url": "https://cohere.com/"
+  },
+  {
+    "id": 9,
+    "title": "Ollama",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/ollama_light.svg",
+      "dark": "https://svgl.app/library/ollama_dark.svg"
+    },
+    "url": "https://www.ollama.com/"
+  },
+  {
+    "id": 10,
+    "title": "Cisco",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/cisco_light.svg",
+      "dark": "https://svgl.app/library/cisco_dark.svg"
+    },
+    "url": "https://www.cisco.com/"
+  },
+  {
+    "id": 11,
+    "title": "Animate",
+    "category": ["Software", "Design"],
+    "route": "https://svgl.app/library/animate.svg",
+    "url": "https://www.adobe.com/products/animate"
+  },
+  {
+    "id": 12,
+    "title": "Apollo.io",
+    "category": "Software",
+    "route": "https://svgl.app/library/apollo.io.svg",
+    "url": "https://www.apollo.io/"
+  },
+  {
+    "id": 13,
+    "title": "Blender",
+    "category": ["Software", "Design"],
+    "route": "https://svgl.app/library/blender.svg",
+    "url": "https://blender.org/",
+    "brandUrl": "https://www.blender.org/about/logo/"
+  },
+  {
+    "id": 14,
+    "title": "Lua",
+    "category": "Language",
+    "route": "https://svgl.app/library/lua.svg",
+    "url": "https://lua.org/"
+  },
+  {
+    "id": 15,
+    "title": "Mercado Pago",
+    "category": "Payment",
+    "route": "https://svgl.app/library/mercado-pago.svg",
+    "wordmark": "https://svgl.app/library/mercado-pago-wordmark.svg",
+    "url": "https://www.mercadopago.com/developers/"
+  },
+  {
+    "id": 16,
+    "title": "Basewell",
+    "category": ["AI", "Software"],
+    "route": "https://svgl.app/library/basewell.svg",
+    "url": "https://www.basewell.com/"
+  },
+  {
+    "id": 17,
+    "title": "ahooks",
+    "category": "Library",
+    "route": "https://svgl.app/library/ahooks.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/ahooks-wordmark-light.svg",
+      "dark": "https://svgl.app/library/ahooks-wordmark-dark.svg"
+    },
+    "url": "https://ahooks.js.org/"
+  },
+  {
+    "id": 18,
+    "title": "Discord",
+    "category": "Software",
+    "route": "https://svgl.app/library/discord.svg",
+    "url": "https://discord.com/",
+    "brandUrl": "https://discord.com/branding"
+  },
+  {
+    "id": 19,
+    "title": "Aliexpress",
+    "category": "Software",
+    "route": "https://svgl.app/library/aliexpress-icon.svg",
+    "wordmark": "https://svgl.app/library/aliexpress-logo.svg",
+    "url": "https://aliexpress.com/"
+  },
+  {
+    "id": 20,
+    "title": "Preact",
+    "category": "Library",
+    "route": "https://svgl.app/library/preact.svg",
+    "url": "https://preactjs.com/"
+  },
+  {
+    "id": 21,
+    "title": "React",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/react_light.svg",
+      "dark": "https://svgl.app/library/react_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/react_wordmark_light.svg",
+      "dark": "https://svgl.app/library/react_wordmark_dark.svg"
+    },
+    "url": "https://react.dev/"
+  },
+  {
+    "id": 22,
+    "title": "Svelte",
+    "category": "Library",
+    "route": "https://svgl.app/library/svelte.svg",
+    "url": "https://svelte.dev/"
+  },
+  {
+    "id": 23,
+    "title": "Vue",
+    "category": "Framework",
+    "route": "https://svgl.app/library/vue.svg",
+    "url": "https://vuejs.org/"
+  },
+  {
+    "id": 24,
+    "title": "Vuetify",
+    "category": "Library",
+    "route": "https://svgl.app/library/vuetify.svg",
+    "url": "https://vuetifyjs.com/",
+    "brandUrl": "https://vuetifyjs.com/en/resources/brand-kit/"
+  },
+  {
+    "id": 25,
+    "title": "Nuxt",
+    "category": "Framework",
+    "route": "https://svgl.app/library/nuxt.svg",
+    "url": "https://nuxtjs.org/",
+    "brandUrl": "https://nuxt.com/design-kit"
+  },
+  {
+    "id": 26,
+    "title": "Visual Studio Code",
+    "category": "Software",
+    "route": "https://svgl.app/library/vscode.svg",
+    "url": "https://code.visualstudio.com/",
+    "brandUrl": "https://code.visualstudio.com/brand"
+  },
+  {
+    "id": 27,
+    "title": "Ton",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/ton.svg",
+    "url": "https://ton.org/"
+  },
+  {
+    "id": 28,
+    "title": "Locofy",
+    "category": "AI",
+    "route": "https://svgl.app/library/locofy.svg",
+    "url": "https://www.locofy.ai/"
+  },
+  {
+    "id": 29,
+    "title": "Runway",
+    "category": "AI",
+    "route": "https://svgl.app/library/runway.svg",
+    "url": "https://runwayml.com/"
+  },
+  {
+    "id": 30,
+    "title": "Yarn",
+    "category": "Software",
+    "route": "https://svgl.app/library/yarn.svg",
+    "url": "https://yarnpkg.com/"
+  },
+  {
+    "id": 31,
+    "title": "JWT",
+    "category": ["Library", "Authentication"],
+    "route": "https://svgl.app/library/jwt.svg",
+    "url": "https://jwt.io/"
+  },
+  {
+    "id": 32,
+    "title": "Strapi",
+    "category": "CMS",
+    "route": "https://svgl.app/library/strapi.svg",
+    "url": "https://strapi.io/",
+    "brandUrl": "https://handbook.strapi.io/strapi-brand-book-2022"
+  },
+  {
+    "id": 33,
+    "title": "Figma",
+    "category": "Design",
+    "route": "https://svgl.app/library/figma.svg",
+    "url": "https://www.figma.com/",
+    "brandUrl": "https://www.figma.com/using-the-figma-brand/"
+  },
+  {
+    "id": 34,
+    "title": "Spotify",
+    "category": "Music",
+    "route": "https://svgl.app/library/spotify.svg",
+    "wordmark": "https://svgl.app/library/spotify_wordmark.svg",
+    "url": "https://www.spotify.com/"
+  },
+  {
+    "id": 35,
+    "title": "WorkOS",
+    "category": ["Software", "Authentication"],
+    "route": {
+      "light": "https://svgl.app/library/workos.svg",
+      "dark": "https://svgl.app/library/workos-light.svg"
+    },
+    "url": "https://workos.com/"
+  },
+  {
+    "id": 36,
+    "title": "Whop",
+    "category": "Marketplace",
+    "route": {
+      "light": "https://svgl.app/library/whop.svg",
+      "dark": "https://svgl.app/library/whop-light.svg"
+    },
+    "url": "https://whop.com/"
+  },
+  {
+    "id": 37,
+    "title": "Postman",
+    "category": "Software",
+    "route": "https://svgl.app/library/postman.svg",
+    "url": "https://www.getpostman.com/"
+  },
+  {
+    "id": 38,
+    "title": "Discord.js",
+    "category": "Library",
+    "route": "https://svgl.app/library/djs.svg",
+    "url": "https://discord.js.org/"
+  },
+  {
+    "id": 39,
+    "title": "OpenSea",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/opensea.svg",
+    "url": "https://opensea.io/"
+  },
+  {
+    "id": 40,
+    "title": "Algolia",
+    "category": "Library",
+    "route": "https://svgl.app/library/algolia.svg",
+    "url": "https://www.algolia.com/"
+  },
+  {
+    "id": 41,
+    "title": "Bootstrap",
+    "category": "Framework",
+    "route": "https://svgl.app/library/bootstrap.svg",
+    "url": "https://getbootstrap.com/",
+    "brandUrl": "https://getbootstrap.com/docs/4.0/about/brand/"
+  },
+  {
+    "id": 42,
+    "title": "Facebook",
+    "category": "Social",
+    "route": "https://svgl.app/library/facebook.svg",
+    "url": "https://www.facebook.com/",
+    "brandUrl": "https://about.meta.com/brand/resources/facebook/logo/"
+  },
+  {
+    "id": 43,
+    "title": "Twitter",
+    "category": "Social",
+    "route": "https://svgl.app/library/twitter.svg",
+    "url": "https://twitter.com/"
+  },
+  {
+    "id": 44,
+    "title": "Esbuild",
+    "category": "Compiler",
+    "route": "https://svgl.app/library/esbuild.svg",
+    "url": "https://esbuild.github.io/"
+  },
+  {
+    "id": 45,
+    "title": "Deno",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/deno.svg",
+      "dark": "https://svgl.app/library/deno_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/deno_wordmark.svg",
+      "dark": "https://svgl.app/library/deno_wordmark_dark.svg"
+    },
+    "brandUrl": "https://deno.com/brand",
+    "url": "https://deno.com/"
+  },
+  {
+    "id": 46,
+    "title": "Gatsby",
+    "category": "Framework",
+    "route": "https://svgl.app/library/gatsby.svg",
+    "url": "https://www.gatsbyjs.org/"
+  },
+  {
+    "id": 47,
+    "title": "NPM",
+    "category": "Software",
+    "route": "https://svgl.app/library/npm.svg",
+    "url": "https://www.npmjs.com/"
+  },
+  {
+    "id": 48,
+    "title": "Nuget",
+    "category": "Software",
+    "route": "https://svgl.app/library/nuget.svg",
+    "url": "https://www.nuget.org/"
+  },
+  {
+    "id": 49,
+    "title": "Homebrew",
+    "category": "Software",
+    "route": "https://svgl.app/library/homebrew.svg",
+    "url": "https://brew.sh/"
+  },
+  {
+    "id": 50,
+    "title": "Sublime Text",
+    "category": "Software",
+    "route": "https://svgl.app/library/sublimetext.svg",
+    "url": "https://www.sublimetext.com/"
+  },
+  {
+    "id": 51,
+    "title": "Turborepo",
+    "category": ["Library", "Vercel", "Monorepo"],
+    "route": "https://svgl.app/library/turborepo.svg",
+    "url": "https://turborepo.org/"
+  },
+  {
+    "id": 52,
+    "title": "Tailwind CSS",
+    "category": "Framework",
+    "route": "https://svgl.app/library/tailwindcss.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/tailwindcss-wordmark.svg",
+      "dark": "https://svgl.app/library/tailwindcss-wordmark-dark.svg"
+    },
+    "brandUrl": "https://tailwindcss.com/brand",
+    "url": "https://tailwindcss.com/"
+  },
+  {
+    "id": 53,
+    "title": "Styled Components",
+    "category": "Library",
+    "route": "https://svgl.app/library/styledcomponents.svg",
+    "url": "https://styled-components.com/"
+  },
+  {
+    "id": 54,
+    "title": "Angular",
+    "category": "Framework",
+    "route": "https://svgl.app/library/angular.svg",
+    "url": "https://angular.dev/",
+    "brandUrl": "https://angular.dev/press-kit"
+  },
+  {
+    "id": 55,
+    "title": "Blitz",
+    "category": "Framework",
+    "route": "https://svgl.app/library/blitzjs.svg",
+    "url": "https://blitzjs.com/"
+  },
+  {
+    "id": 56,
+    "title": "Lit",
+    "category": "Library",
+    "route": "https://svgl.app/library/lit.svg",
+    "url": "https://lit.dev/"
+  },
+  {
+    "id": 57,
+    "title": "Atom",
+    "category": "Software",
+    "route": "https://svgl.app/library/atom.svg",
+    "url": "https://atom.io/"
+  },
+  {
+    "id": 58,
+    "title": "YouTube",
+    "category": ["Google", "Social"],
+    "route": "https://svgl.app/library/youtube.svg",
+    "wordmark": "https://svgl.app/library/youtube-wordmark.svg",
+    "url": "https://www.youtube.com/"
+  },
+  {
+    "id": 59,
+    "title": "Astro",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/astro.svg",
+      "dark": "https://svgl.app/library/astro_dark.svg"
+    },
+    "url": "https://astro.build/",
+    "brandUrl": "https://astro.build/press/"
+  },
+  {
+    "id": 60,
+    "title": "Google",
+    "category": "Google",
+    "route": "https://svgl.app/library/google.svg",
+    "wordmark": "https://svgl.app/library/google-wordmark.svg",
+    "url": "https://www.google.com/"
+  },
+  {
+    "id": 61,
+    "title": "Framer",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/framer.svg",
+      "dark": "https://svgl.app/library/framer_dark.svg"
+    },
+    "url": "https://framer.com/"
+  },
+  {
+    "id": 62,
+    "title": "Netflix",
+    "category": "Entertainment",
+    "route": "https://svgl.app/library/netflix.svg",
+    "url": "https://www.netflix.com/",
+    "brandUrl": "https://brand.netflix.com/en/assets/logos"
+  },
+  {
+    "id": 63,
+    "title": "Firefox",
+    "category": "Browser",
+    "route": "https://svgl.app/library/firefox.svg",
+    "url": "https://www.mozilla.org/en-US/firefox/",
+    "brandUrl": "https://mozilla.design/firefox/"
+  },
+  {
+    "id": 64,
+    "title": "LinkedIn",
+    "category": "Social",
+    "route": "https://svgl.app/library/linkedin.svg",
+    "url": "https://www.linkedin.com/",
+    "brandUrl": "https://brand.linkedin.com/"
+  },
+  {
+    "id": 65,
+    "title": "Telegram",
+    "category": "Social",
+    "route": "https://svgl.app/library/telegram.svg",
+    "url": "https://web.telegram.org/"
+  },
+  {
+    "id": 66,
+    "title": "WhatsApp",
+    "category": "Social",
+    "route": "https://svgl.app/library/whatsapp.svg",
+    "url": "https://web.whatsapp.com/"
+  },
+  {
+    "id": 67,
+    "title": "Headless UI",
+    "category": "Library",
+    "route": "https://svgl.app/library/headlessui.svg",
+    "url": "https://headlessui.dev/"
+  },
+  {
+    "id": 68,
+    "title": "Kotlin",
+    "category": "Language",
+    "route": "https://svgl.app/library/kotlin.svg",
+    "url": "https://kotlinlang.org/"
+  },
+  {
+    "id": 69,
+    "title": "Storybook",
+    "category": "Software",
+    "route": "https://svgl.app/library/storybook.svg",
+    "url": "https://storybook.js.org/"
+  },
+  {
+    "id": 70,
+    "title": "Netlify",
+    "category": "Hosting",
+    "route": "https://svgl.app/library/netlify.svg",
+    "url": "https://www.netlify.com/"
+  },
+  {
+    "id": 71,
+    "title": "Solidjs",
+    "category": "Framework",
+    "route": "https://svgl.app/library/solidjs.svg",
+    "url": "https://www.solidjs.com/"
+  },
+  {
+    "id": 72,
+    "title": "MongoDB",
+    "category": "Database",
+    "route": "https://svgl.app/library/mongodb.svg",
+    "wordmark": "https://svgl.app/library/mongodb-wordmark.svg",
+    "url": "https://www.mongodb.com/",
+    "brandUrl": "https://www.mongodb.com/company/newsroom/brand-resources"
+  },
+  {
+    "id": 73,
+    "title": "Moon",
+    "category": "Framework",
+    "route": "https://svgl.app/library/moon.svg",
+    "url": "https://moonjs.org/"
+  },
+  {
+    "id": 74,
+    "title": "Payload CMS",
+    "category": "CMS",
+    "route": {
+      "light": "https://svgl.app/library/payload.svg",
+      "dark": "https://svgl.app/library/payload_dark.svg"
+    },
+    "url": "https://payloadcms.com"
+  },
+  {
+    "id": 75,
+    "title": "Fly",
+    "category": "Hosting",
+    "route": "https://svgl.app/library/fly.svg",
+    "url": "https://fly.io",
+    "brandUrl": "https://fly.io/docs/about/brand/"
+  },
+  {
+    "id": 76,
+    "title": "LearnThis",
+    "category": "Education",
+    "route": "https://svgl.app/library/learnthis.svg",
+    "url": "https://learnthisacademy.com"
+  },
+  {
+    "id": 77,
+    "title": "Visual Studio",
+    "category": "Software",
+    "route": "https://svgl.app/library/visual-studio.svg",
+    "url": "https://visualstudio.microsoft.com"
+  },
+  {
+    "id": 78,
+    "title": "Chakra UI",
+    "category": "Library",
+    "route": "https://svgl.app/library/chakra-ui.svg",
+    "url": "https://chakra-ui.com"
+  },
+  {
+    "id": 79,
+    "title": "Express.js",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/expressjs.svg",
+      "dark": "https://svgl.app/library/expressjs_dark.svg"
+    },
+    "url": "https://expressjs.com"
+  },
+  {
+    "id": 80,
+    "title": "Fastify",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/fastify.svg",
+      "dark": "https://svgl.app/library/fastify_dark.svg"
+    },
+    "url": "https://www.fastify.io"
+  },
+  {
+    "id": 81,
+    "title": "JavaScript",
+    "category": "Language",
+    "route": "https://svgl.app/library/javascript.svg",
+    "url": "https://developer.mozilla.org/docs/Web/JavaScript"
+  },
+  {
+    "id": 82,
+    "title": "jQuery",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/jquery.svg",
+      "dark": "https://svgl.app/library/jquery_dark.svg"
+    },
+    "url": "https://jquery.com"
+  },
+  {
+    "id": 83,
+    "title": "Rapid API",
+    "category": "Software",
+    "route": "https://svgl.app/library/rapidapi.svg",
+    "url": "https://rapidapi.com"
+  },
+  {
+    "id": 84,
+    "title": "TypeScript",
+    "category": "Language",
+    "route": "https://svgl.app/library/typescript.svg",
+    "url": "https://www.typescriptlang.org"
+  },
+  {
+    "id": 85,
+    "title": "Bun",
+    "category": "Library",
+    "route": "https://svgl.app/library/bun.svg",
+    "url": "https://bun.sh",
+    "brandUrl": "https://bun.sh/press-kit"
+  },
+  {
+    "id": 86,
+    "title": "BuildShip",
+    "category": "AI",
+    "route": "https://svgl.app/library/buildship.svg",
+    "url": "https://buildship.com/"
+  },
+  {
+    "id": 87,
+    "title": "Twilio",
+    "category": ["Software", "Authentication"],
+    "route": "https://svgl.app/library/twilio.svg",
+    "url": "https://twilio.com"
+  },
+  {
+    "id": 88,
+    "title": "Arc",
+    "category": "Social",
+    "route": {
+      "light": "https://svgl.app/library/arc.svg",
+      "dark": "https://svgl.app/library/arc_dark.svg"
+    },
+    "url": "https://arc.dev"
+  },
+  {
+    "id": 89,
+    "title": "Arc",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/arc_fintech_light.svg",
+      "dark": "https://svgl.app/library/arc_fintech_dark.svg"
+    },
+    "url": "https://arc.tech"
+  },
+  {
+    "id": 90,
+    "title": "Qwik",
+    "category": "Framework",
+    "route": "https://svgl.app/library/qwik.svg",
+    "url": "https://qwik.builder.io/"
+  },
+  {
+    "id": 91,
+    "title": "Coinbase",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/coinbase.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/coinbase-wordmark-light.svg",
+      "dark": "https://svgl.app/library/coinbase-wordmark-dark.svg"
+    },
+    "url": "https://www.coinbase.com/"
+  },
+  {
+    "id": 92,
+    "title": "Authy",
+    "category": ["Software", "Authentication"],
+    "route": "https://svgl.app/library/authy.svg",
+    "url": "https://authy.com/"
+  },
+  {
+    "id": 93,
+    "title": "NestJS",
+    "category": "Framework",
+    "route": "https://svgl.app/library/nestjs.svg",
+    "url": "https://nestjs.com/"
+  },
+  {
+    "id": 94,
+    "title": "GitHub Copilot",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/copilot.svg",
+      "dark": "https://svgl.app/library/copilot_dark.svg"
+    },
+    "url": "https://github.com/features/copilot"
+  },
+  {
+    "id": 95,
+    "title": "Railway",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/railway.svg",
+      "dark": "https://svgl.app/library/railway_dark.svg"
+    },
+    "url": "https://railway.app/"
+  },
+  {
+    "id": 96,
+    "title": "Docusaurus",
+    "category": "Software",
+    "route": "https://svgl.app/library/docusaurus.svg",
+    "url": "https://docusaurus.io/"
+  },
+  {
+    "id": 97,
+    "title": "Twitch",
+    "category": "Entertainment",
+    "route": "https://svgl.app/library/twitch.svg",
+    "url": "https://twitch.tv"
+  },
+  {
+    "id": 98,
+    "title": "GoDaddy",
+    "category": "Hosting",
+    "route": {
+      "light": "https://svgl.app/library/godaddy.svg",
+      "dark": "https://svgl.app/library/godaddy_dark.svg"
+    },
+    "url": "https://www.godaddy.com/"
+  },
+  {
+    "id": 99,
+    "title": "Udemy",
+    "category": "Education",
+    "route": {
+      "light": "https://svgl.app/library/udemy.svg",
+      "dark": "https://svgl.app/library/udemy_dark.svg"
+    },
+    "url": "https://www.udemy.com/"
+  },
+  {
+    "id": 100,
+    "title": "GraphQL",
+    "category": "Language",
+    "route": "https://svgl.app/library/graphql.svg",
+    "url": "https://graphql.org/"
+  },
+  {
+    "id": 101,
+    "title": "Grok",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/grok-light.svg",
+      "dark": "https://svgl.app/library/grok-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/grok-wordmark-light.svg",
+      "dark": "https://svgl.app/library/grok-wordmark-dark.svg"
+    },
+    "url": "https://grok.com/"
+  },
+  {
+    "id": 102,
+    "title": "GitLab",
+    "category": "Software",
+    "route": "https://svgl.app/library/gitlab.svg",
+    "url": "https://gitlab.com/"
+  },
+  {
+    "id": 103,
+    "title": "Prisma",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/prisma.svg",
+      "dark": "https://svgl.app/library/prisma_dark.svg"
+    },
+    "url": "https://prisma.io/"
+  },
+  {
+    "id": 104,
+    "title": "Go",
+    "category": "Language",
+    "route": {
+      "light": "https://svgl.app/library/golang.svg",
+      "dark": "https://svgl.app/library/golang_dark.svg"
+    },
+    "url": "https://go.dev/"
+  },
+  {
+    "id": 105,
+    "title": "Platzi",
+    "category": "Education",
+    "route": "https://svgl.app/library/platzi.svg",
+    "url": "https://platzi.com/"
+  },
+  {
+    "id": 106,
+    "title": "Coursera",
+    "category": "Education",
+    "route": "https://svgl.app/library/coursera.svg",
+    "url": "https://www.coursera.org/"
+  },
+  {
+    "id": 107,
+    "title": "Udacity",
+    "category": "Education",
+    "route": "https://svgl.app/library/udacity.svg",
+    "url": "https://www.udacity.com/"
+  },
+  {
+    "id": 108,
+    "title": "Kubernetes",
+    "category": "Software",
+    "route": "https://svgl.app/library/kubernetes.svg",
+    "url": "https://kubernetes.io/"
+  },
+  {
+    "id": 109,
+    "title": "Docker",
+    "category": "Software",
+    "route": "https://svgl.app/library/docker.svg",
+    "url": "https://www.docker.com/",
+    "brandUrl": "https://www.docker.com/company/newsroom/media-resources/"
+  },
+  {
+    "id": 110,
+    "title": "Amazon Web Services",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/aws_light.svg",
+      "dark": "https://svgl.app/library/aws_dark.svg"
+    },
+    "url": "https://aws.amazon.com/"
+  },
+  {
+    "id": 111,
+    "title": "Microsoft Azure",
+    "category": "Software",
+    "route": "https://svgl.app/library/azure.svg",
+    "url": "https://azure.microsoft.com/"
+  },
+  {
+    "id": 112,
+    "title": "Heroku",
+    "category": "Software",
+    "route": "https://svgl.app/library/heroku.svg",
+    "url": "https://www.heroku.com/"
+  },
+  {
+    "id": 113,
+    "title": "JetBrains",
+    "category": "Software",
+    "route": "https://svgl.app/library/jetbrains.svg",
+    "url": "https://www.jetbrains.com/",
+    "brandUrl": "https://www.jetbrains.com/company/brand/"
+  },
+  {
+    "id": 114,
+    "title": "JetBrains Rider",
+    "category": "Software",
+    "route": "https://svgl.app/library/rider.svg",
+    "url": "https://www.jetbrains.com/rider/"
+  },
+  {
+    "id": 115,
+    "title": "PlanetScale",
+    "category": "Database",
+    "route": {
+      "light": "https://svgl.app/library/planetscale.svg",
+      "dark": "https://svgl.app/library/planetscale_dark.svg"
+    },
+    "url": "https://planetscale.com/"
+  },
+  {
+    "id": 116,
+    "title": "Playwright",
+    "category": "Framework",
+    "route": "https://svgl.app/library/playwright.svg",
+    "url": "https://playwright.dev/"
+  },
+  {
+    "id": 117,
+    "title": "Atlassian",
+    "category": "Software",
+    "route": "https://svgl.app/library/atlassian.svg",
+    "url": "https://www.atlassian.com/"
+  },
+  {
+    "id": 118,
+    "title": "Discourse",
+    "category": "Software",
+    "route": "https://svgl.app/library/discourse.svg",
+    "url": "https://discourse.org/"
+  },
+  {
+    "id": 119,
+    "title": "Ember",
+    "category": "Framework",
+    "route": "https://svgl.app/library/ember.svg",
+    "url": "https://emberjs.com/"
+  },
+  {
+    "id": 120,
+    "title": "Expo",
+    "category": "Software",
+    "route": "https://svgl.app/library/expo.svg",
+    "url": "https://expo.dev/"
+  },
+  {
+    "id": 121,
+    "title": "Flutter",
+    "category": "Framework",
+    "route": "https://svgl.app/library/flutter.svg",
+    "url": "https://flutter.dev/",
+    "brandUrl": "https://flutter.dev/brand"
+  },
+  {
+    "id": 122,
+    "title": "Auth0",
+    "category": ["Library", "Authentication"],
+    "route": "https://svgl.app/library/auth0.svg",
+    "url": "https://auth0.com/"
+  },
+  {
+    "id": 123,
+    "title": "Fresh",
+    "category": "Framework",
+    "route": "https://svgl.app/library/fresh.svg",
+    "url": "https://fresh.deno.dev/"
+  },
+  {
+    "id": 124,
+    "title": "Git",
+    "category": "Software",
+    "route": "https://svgl.app/library/git.svg",
+    "url": "https://git-scm.com/"
+  },
+  {
+    "id": 125,
+    "title": "Hostgator",
+    "category": "Hosting",
+    "route": "https://svgl.app/library/hostgator.svg",
+    "url": "https://www.hostgator.com/"
+  },
+  {
+    "id": 126,
+    "title": "IntelliJ IDEA",
+    "category": "Software",
+    "route": "https://svgl.app/library/intellijidea.svg",
+    "url": "https://www.jetbrains.com/idea/"
+  },
+  {
+    "id": 127,
+    "title": "Jasmine",
+    "category": "Framework",
+    "route": "https://svgl.app/library/jasmine.svg",
+    "url": "https://jasmine.github.io/"
+  },
+  {
+    "id": 128,
+    "title": "Java",
+    "category": "Language",
+    "route": "https://svgl.app/library/java.svg",
+    "url": "https://www.java.com/"
+  },
+  {
+    "id": 129,
+    "title": "Jest",
+    "category": "Framework",
+    "route": "https://svgl.app/library/jest.svg",
+    "url": "https://jestjs.io/"
+  },
+  {
+    "id": 130,
+    "title": "JetBrains",
+    "category": "Software",
+    "route": "https://svgl.app/library/jetbrainsSolid.svg",
+    "url": "https://www.jetbrains.com/"
+  },
+  {
+    "id": 131,
+    "title": "KrakenJS",
+    "category": "Framework",
+    "route": "https://svgl.app/library/krakenjs.svg",
+    "url": "https://krakenjs.com/"
+  },
+  {
+    "id": 132,
+    "title": "Laravel",
+    "category": "Framework",
+    "route": "https://svgl.app/library/laravel.svg",
+    "url": "https://laravel.com/"
+  },
+  {
+    "id": 133,
+    "title": "MariaDB",
+    "category": "Database",
+    "route": "https://svgl.app/library/mariadb.svg",
+    "url": "https://mariadb.org/"
+  },
+  {
+    "id": 134,
+    "title": "Material UI",
+    "category": "Framework",
+    "route": "https://svgl.app/library/materialui.svg",
+    "url": "https://mui.com/"
+  },
+  {
+    "id": 135,
+    "title": "MySQL",
+    "category": "Database",
+    "route": "https://svgl.app/library/mysql.svg",
+    "url": "https://www.mysql.com/"
+  },
+  {
+    "id": 136,
+    "title": "Parcel",
+    "category": "Compiler",
+    "route": "https://svgl.app/library/parcel.svg",
+    "url": "https://parceljs.org/"
+  },
+  {
+    "id": 137,
+    "title": "PM2",
+    "category": "Framework",
+    "route": "https://svgl.app/library/pm2.svg",
+    "url": "https://pm2.io/"
+  },
+  {
+    "id": 138,
+    "title": "PostgreSQL",
+    "category": "Database",
+    "route": "https://svgl.app/library/postgresql.svg",
+    "url": "https://www.postgresql.org/"
+  },
+  {
+    "id": 139,
+    "title": "React Query",
+    "category": "Framework",
+    "route": "https://svgl.app/library/reactquery.svg",
+    "url": "https://tanstack.com/query/v4"
+  },
+  {
+    "id": 140,
+    "title": "Devto",
+    "category": "Community",
+    "route": {
+      "light": "https://svgl.app/library/devto-light.svg",
+      "dark": "https://svgl.app/library/devto-dark.svg"
+    },
+    "url": "https://dev.to/"
+  },
+  {
+    "id": 141,
+    "title": "Redis",
+    "category": "Database",
+    "route": "https://svgl.app/library/redis.svg",
+    "url": "https://redis.io/"
+  },
+  {
+    "id": 142,
+    "title": "RedwoodJS",
+    "category": "Framework",
+    "route": "https://svgl.app/library/redwoodjs.svg",
+    "url": "https://redwoodjs.com/"
+  },
+  {
+    "id": 143,
+    "title": "Ruby",
+    "category": "Language",
+    "route": "https://svgl.app/library/ruby.svg",
+    "url": "https://www.ruby-lang.org/"
+  },
+  {
+    "id": 144,
+    "title": "Scala",
+    "category": "Language",
+    "route": "https://svgl.app/library/scala.svg",
+    "url": "https://www.scala-lang.org/"
+  },
+  {
+    "id": 145,
+    "title": "Sequelize",
+    "category": "Framework",
+    "route": "https://svgl.app/library/sequelize.svg",
+    "url": "https://sequelize.org/"
+  },
+  {
+    "id": 146,
+    "title": "Spinnaker",
+    "category": "Software",
+    "route": "https://svgl.app/library/spinnaker.svg",
+    "url": "https://spinnaker.io/"
+  },
+  {
+    "id": 147,
+    "title": "SQLite",
+    "category": "Database",
+    "route": "https://svgl.app/library/sqlite.svg",
+    "url": "https://www.sqlite.org/"
+  },
+  {
+    "id": 148,
+    "title": "Swagger",
+    "category": "Software",
+    "route": "https://svgl.app/library/swagger.svg",
+    "url": "https://swagger.io/"
+  },
+  {
+    "id": 149,
+    "title": "Swift",
+    "category": "Language",
+    "route": "https://svgl.app/library/swift.svg",
+    "url": "https://swift.org/"
+  },
+  {
+    "id": 150,
+    "title": "TypeORM",
+    "category": "Database",
+    "route": "https://svgl.app/library/typeorm.svg",
+    "url": "https://typeorm.io/"
+  },
+  {
+    "id": 151,
+    "title": "Unity",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/unity.svg",
+      "dark": "https://svgl.app/library/unity_dark.svg"
+    },
+    "url": "https://unity.com/"
+  },
+  {
+    "id": 152,
+    "title": "Vim",
+    "category": "Software",
+    "route": "https://svgl.app/library/vim.svg",
+    "url": "https://www.vim.org/"
+  },
+  {
+    "id": 153,
+    "title": "Pocketbase",
+    "category": "Database",
+    "route": "https://svgl.app/library/pocket-base.svg",
+    "url": "https://pocketbase.io/"
+  },
+  {
+    "id": 154,
+    "title": "OpenBootcamp",
+    "category": "Education",
+    "route": "https://svgl.app/library/openbootcamp.svg",
+    "url": "https://open-bootcamp.com/"
+  },
+  {
+    "id": 155,
+    "title": "Digital Ocean",
+    "category": "Software",
+    "route": "https://svgl.app/library/digitalocean.svg",
+    "url": "https://www.digitalocean.com/"
+  },
+  {
+    "id": 156,
+    "title": "Disney+",
+    "category": "Entertainment",
+    "route": "https://svgl.app/library/disneyplus.svg",
+    "url": "https://www.disneyplus.com/"
+  },
+  {
+    "id": 157,
+    "title": "React Router",
+    "category": "Library",
+    "route": "https://svgl.app/library/reactrouter.svg",
+    "url": "https://reactrouter.com/en/main"
+  },
+  {
+    "id": 158,
+    "title": "AMP",
+    "category": "Library",
+    "route": "https://svgl.app/library/amp.svg",
+    "url": "https://amp.dev/"
+  },
+  {
+    "id": 159,
+    "title": "Developer Student Club",
+    "category": "Community",
+    "route": "https://svgl.app/library/gdsc.svg",
+    "url": "https://gdsc.community.dev/"
+  },
+  {
+    "id": 160,
+    "title": "Brave Browser",
+    "category": "Browser",
+    "route": "https://svgl.app/library/brave.svg",
+    "url": "https://brave.com/",
+    "brandUrl": "https://brave.com/brave-branding-assets/"
+  },
+  {
+    "id": 161,
+    "title": "Eclipse IDE",
+    "category": "Software",
+    "route": "https://svgl.app/library/eclipse.svg",
+    "url": "https://www.eclipse.org/"
+  },
+  {
+    "id": 162,
+    "title": "Three.js",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/threejs-light.svg",
+      "dark": "https://svgl.app/library/threejs-dark.svg"
+    },
+    "url": "https://threejs.org/"
+  },
+  {
+    "id": 163,
+    "title": "HTML5",
+    "category": "Language",
+    "route": "https://svgl.app/library/html5.svg",
+    "url": "https://es.wikipedia.org/wiki/HTML5"
+  },
+  {
+    "id": 164,
+    "title": "CSS (New)",
+    "category": "Language",
+    "route": "https://svgl.app/library/css.svg",
+    "url": "https://es.wikipedia.org/wiki/CSS"
+  },
+  {
+    "id": 165,
+    "title": "CSS",
+    "category": "Language",
+    "route": "https://svgl.app/library/css_old.svg",
+    "url": "https://es.wikipedia.org/wiki/CSS"
+  },
+  {
+    "id": 166,
+    "title": "midudev",
+    "category": "Community",
+    "route": "https://svgl.app/library/midudev.svg",
+    "url": "https://midu.dev"
+  },
+  {
+    "id": 167,
+    "title": "Apple",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/apple.svg",
+      "dark": "https://svgl.app/library/apple_dark.svg"
+    },
+    "url": "https://www.apple.com"
+  },
+  {
+    "id": 168,
+    "title": "Windows",
+    "category": "Software",
+    "route": "https://svgl.app/library/windows.svg",
+    "url": "https://www.microsoft.com/windows"
+  },
+  {
+    "id": 169,
+    "title": "Python",
+    "category": "Language",
+    "route": "https://svgl.app/library/python.svg",
+    "url": "https://www.python.org/"
+  },
+  {
+    "id": 170,
+    "title": "Solidity",
+    "category": "Language",
+    "route": "https://svgl.app/library/solidity.svg",
+    "url": "https://soliditylang.org/"
+  },
+  {
+    "id": 171,
+    "title": "Turbopack",
+    "category": "Software",
+    "route": "https://svgl.app/library/turbopack.svg",
+    "url": "https://turbo.build/"
+  },
+  {
+    "id": 172,
+    "title": "Builder",
+    "category": "CMS",
+    "route": "https://svgl.app/library/builder.svg",
+    "url": "https://builder.io/"
+  },
+  {
+    "id": 173,
+    "title": "Babel",
+    "category": "Compiler",
+    "route": "https://svgl.app/library/babel.svg",
+    "url": "https://babeljs.io/"
+  },
+  {
+    "id": 174,
+    "title": "Surrealdb",
+    "category": "Database",
+    "route": "https://svgl.app/library/surrealdb.svg",
+    "url": "https://surrealdb.com/"
+  },
+  {
+    "id": 175,
+    "title": "Jetbrains Space",
+    "category": "Software",
+    "route": "https://svgl.app/library/jetbrains-space.svg",
+    "url": "https://www.jetbrains.com/space/"
+  },
+  {
+    "id": 176,
+    "title": "Stimulus",
+    "category": "Framework",
+    "route": "https://svgl.app/library/stimulus.svg",
+    "url": "https://stimulus.hotwired.dev/"
+  },
+  {
+    "id": 177,
+    "title": "WindiCSS",
+    "category": "Framework",
+    "route": "https://svgl.app/library/windicss.svg",
+    "url": "https://windicss.org/"
+  },
+  {
+    "id": 178,
+    "title": "Mastodon",
+    "category": "Social",
+    "route": "https://svgl.app/library/mastodon.svg",
+    "url": "https://joinmastodon.org/"
+  },
+  {
+    "id": 179,
+    "title": "Upstash",
+    "category": "Database",
+    "route": "https://svgl.app/library/upstash.svg",
+    "url": "https://upstash.com/",
+    "brandUrl": "https://upstash.com/brand"
+  },
+  {
+    "id": 180,
+    "title": "Storyblok",
+    "category": "CMS",
+    "route": "https://svgl.app/library/storyblok.svg",
+    "url": "https://www.storyblok.com/"
+  },
+  {
+    "id": 181,
+    "title": "Cloudflare Workers",
+    "category": "Software",
+    "route": "https://svgl.app/library/cloudflare-workers.svg",
+    "url": "https://workers.cloudflare.com/"
+  },
+  {
+    "id": 182,
+    "title": "Cloudflare",
+    "category": "Software",
+    "route": "https://svgl.app/library/cloudflare.svg",
+    "url": "https://www.cloudflare.com/"
+  },
+  {
+    "id": 183,
+    "title": "Bing",
+    "category": "Browser",
+    "route": "https://svgl.app/library/bing.svg",
+    "url": "https://www.bing.com/"
+  },
+  {
+    "id": 184,
+    "title": "Cloudinary",
+    "category": "Software",
+    "route": "https://svgl.app/library/cloudinary.svg",
+    "url": "https://cloudinary.com/"
+  },
+  {
+    "id": 185,
+    "title": "Dart",
+    "category": "Language",
+    "route": "https://svgl.app/library/dart.svg",
+    "url": "https://dart.dev/"
+  },
+  {
+    "id": 186,
+    "title": "hCaptcha",
+    "category": "Software",
+    "route": "https://svgl.app/library/hcaptcha.svg",
+    "url": "https://www.hcaptcha.com/"
+  },
+  {
+    "id": 187,
+    "title": "Appwrite",
+    "category": "Software",
+    "route": "https://svgl.app/library/appwrite.svg",
+    "url": "https://appwrite.io/"
+  },
+  {
+    "id": 188,
+    "title": "Loom",
+    "category": "Software",
+    "route": "https://svgl.app/library/loom.svg",
+    "url": "https://www.loom.com/"
+  },
+  {
+    "id": 189,
+    "title": "Hulu",
+    "category": "Entertainment",
+    "route": {
+      "light": "https://svgl.app/library/hulu.svg",
+      "dark": "https://svgl.app/library/hulu-dark.svg"
+    },
+    "url": "https://www.hulu.com/"
+  },
+  {
+    "id": 190,
+    "title": "Stackblitz",
+    "category": "Software",
+    "route": "https://svgl.app/library/stackblitz.svg",
+    "url": "https://stackblitz.com/"
+  },
+  {
+    "id": 191,
+    "title": "Binance",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/binance.svg",
+    "url": "https://binance.com/"
+  },
+  {
+    "id": 192,
+    "title": "Messenger",
+    "category": "Social",
+    "route": "https://svgl.app/library/messenger.svg",
+    "url": "https://www.messenger.com/"
+  },
+  {
+    "id": 193,
+    "title": "NHost",
+    "category": "Hosting",
+    "route": "https://svgl.app/library/nhost.svg",
+    "url": "https://nhost.io/"
+  },
+  {
+    "id": 194,
+    "title": "Medusa",
+    "category": "Software",
+    "route": "https://svgl.app/library/medusa.svg",
+    "url": "https://medusajs.com/"
+  },
+  {
+    "id": 195,
+    "title": "WordPress",
+    "category": ["Software", "CMS"],
+    "route": "https://svgl.app/library/wordpress.svg",
+    "url": "https://wordpress.org/",
+    "brandUrl": "https://wordpress.org/about/logos/"
+  },
+  {
+    "id": 196,
+    "title": "Microsoft",
+    "category": "Software",
+    "route": "https://svgl.app/library/microsoft.svg",
+    "url": "https://www.microsoft.com/"
+  },
+  {
+    "id": 197,
+    "title": "Elementor",
+    "category": "Software",
+    "route": "https://svgl.app/library/elementor.svg",
+    "url": "https://elementor.com/"
+  },
+  {
+    "id": 198,
+    "title": "Kick",
+    "category": "Entertainment",
+    "route": {
+      "light": "https://svgl.app/library/kick-light.svg",
+      "dark": "https://svgl.app/library/kick-dark.svg"
+    },
+    "url": "https://kick.com/"
+  },
+  {
+    "id": 199,
+    "title": "Prime video",
+    "category": "Entertainment",
+    "route": "https://svgl.app/library/prime-video.svg",
+    "url": "https://primevideo.com/"
+  },
+  {
+    "id": 200,
+    "title": "Chrome",
+    "category": "Browser",
+    "route": "https://svgl.app/library/chrome.svg",
+    "url": "https://chrome.com/"
+  },
+  {
+    "id": 201,
+    "title": "RxJS",
+    "category": "Library",
+    "route": "https://svgl.app/library/rxjs.svg",
+    "url": "https://rxjs.dev/"
+  },
+  {
+    "id": 202,
+    "title": "Electron",
+    "category": "Library",
+    "route": "https://svgl.app/library/electron.svg",
+    "url": "https://www.electronjs.org"
+  },
+  {
+    "id": 203,
+    "title": "Redux",
+    "category": "Library",
+    "route": "https://svgl.app/library/redux.svg",
+    "url": "https://redux.js.org/"
+  },
+  {
+    "id": 204,
+    "title": "Trust Wallet",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/trust.svg",
+    "url": "https://trustwallet.com/"
+  },
+  {
+    "id": 205,
+    "title": "Php",
+    "category": "Language",
+    "route": {
+      "light": "https://svgl.app/library/php.svg",
+      "dark": "https://svgl.app/library/php_dark.svg"
+    },
+    "url": "https://www.php.net/"
+  },
+  {
+    "id": 206,
+    "title": "Hugo",
+    "category": "Framework",
+    "route": "https://svgl.app/library/hugo.svg",
+    "url": "https://gohugo.io/"
+  },
+  {
+    "id": 207,
+    "title": "Sass",
+    "category": "Language",
+    "route": "https://svgl.app/library/sass.svg",
+    "url": "https://sass-lang.com/"
+  },
+  {
+    "id": 208,
+    "title": "Arc",
+    "category": "Browser",
+    "route": "https://svgl.app/library/arc_browser.svg",
+    "url": "https://arc.net/"
+  },
+  {
+    "id": 209,
+    "title": "Pinia",
+    "category": "Library",
+    "route": "https://svgl.app/library/pinia.svg",
+    "url": "https://pinia.vuejs.org/"
+  },
+  {
+    "id": 210,
+    "title": "Neon",
+    "category": "Database",
+    "route": "https://svgl.app/library/neon.svg",
+    "url": "https://neon.tech/"
+  },
+  {
+    "id": 211,
+    "title": "Infojobs",
+    "category": "Social",
+    "route": "https://svgl.app/library/infojobs-logo.svg",
+    "url": "https://www.infojobs.net/"
+  },
+  {
+    "id": 212,
+    "title": "Linear",
+    "category": "Software",
+    "route": "https://svgl.app/library/linear.svg",
+    "url": "https://linear.app/"
+  },
+  {
+    "id": 213,
+    "title": "Tor",
+    "category": "Browser",
+    "route": "https://svgl.app/library/tor.svg",
+    "url": "https://www.torproject.org/"
+  },
+  {
+    "id": 214,
+    "title": "Codesandbox",
+    "category": "Software",
+    "route": "https://svgl.app/library/codesandbox-square.svg",
+    "url": "https://codesandbox.io/"
+  },
+  {
+    "id": 215,
+    "title": "Skype",
+    "category": "Social",
+    "route": "https://svgl.app/library/skype.svg",
+    "url": "https://www.skype.com/"
+  },
+  {
+    "id": 216,
+    "title": "Tauri",
+    "category": "Library",
+    "route": "https://svgl.app/library/tauri.svg",
+    "url": "https://tauri.app/"
+  },
+  {
+    "id": 217,
+    "title": "WebKit",
+    "category": "Software",
+    "route": "https://svgl.app/library/webkit.svg",
+    "url": "https://webkit.org/"
+  },
+  {
+    "id": 218,
+    "title": "DuckDuckGo",
+    "category": ["Software", "Browser"],
+    "route": "https://svgl.app/library/duckduckgo.svg",
+    "wordmark": "https://svgl.app/library/duckduckgo-wordmark.svg",
+    "url": "https://duckduckgo.com/"
+  },
+  {
+    "id": 219,
+    "title": "Obsidian",
+    "category": "Software",
+    "route": "https://svgl.app/library/obsidian.svg",
+    "url": "https://obsidian.md/",
+    "brandUrl": "https://obsidian.md/brand"
+  },
+  {
+    "id": 220,
+    "title": "Zod",
+    "category": "Library",
+    "route": "https://svgl.app/library/zod.svg",
+    "url": "https://zod.dev/"
+  },
+  {
+    "id": 221,
+    "title": "Valibot",
+    "category": "Library",
+    "route": "https://svgl.app/library/valibot.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/valibot-wordmark-light.svg",
+      "dark": "https://svgl.app/library/valibot-wordmark-dark.svg"
+    },
+    "url": "https://valibot.dev"
+  },
+  {
+    "id": 222,
+    "title": "Dreamweaver",
+    "category": "Software",
+    "route": "https://svgl.app/library/dw.svg",
+    "url": "https://www.adobe.com/products/dreamweaver.html"
+  },
+  {
+    "id": 223,
+    "title": "OpenAI",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/openai.svg",
+      "dark": "https://svgl.app/library/openai_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/openai_wordmark_light.svg",
+      "dark": "https://svgl.app/library/openai_wordmark_dark.svg"
+    },
+    "url": "https://openai.com/",
+    "brandUrl": "https://openai.com/brand/"
+  },
+  {
+    "id": 224,
+    "title": "Threads",
+    "category": "Social",
+    "route": {
+      "light": "https://svgl.app/library/threads.svg",
+      "dark": "https://svgl.app/library/threads_dark.svg"
+    },
+    "url": "https://threads.net/"
+  },
+  {
+    "id": 225,
+    "title": "Instagram",
+    "category": "Social",
+    "route": {
+      "light": "https://svgl.app/library/instagram.svg",
+      "dark": "https://svgl.app/library/instagram_dark.svg"
+    },
+    "url": "https://www.instagram.com/",
+    "brandUrl": "https://about.instagram.com/brand"
+  },
+  {
+    "id": 226,
+    "title": "VueUse",
+    "category": "Library",
+    "route": "https://svgl.app/library/vueuse.svg",
+    "url": "https://vueuse.org/"
+  },
+  {
+    "id": 227,
+    "title": "Microsoft SQL Server ",
+    "category": "Database",
+    "route": "https://svgl.app/library/sql-server.svg",
+    "url": "https://www.microsoft.com/en-us/sql-server/"
+  },
+  {
+    "id": 228,
+    "title": "Hono",
+    "category": "Framework",
+    "route": "https://svgl.app/library/hono.svg",
+    "url": "https://hono.dev/"
+  },
+  {
+    "id": 229,
+    "title": "Million",
+    "category": "Library",
+    "route": "https://svgl.app/library/million.svg",
+    "url": "https://million.dev/"
+  },
+  {
+    "id": 230,
+    "title": "PandaCSS",
+    "category": "Library",
+    "route": "https://svgl.app/library/pandacss.svg",
+    "url": "https://panda-css.com/"
+  },
+  {
+    "id": 231,
+    "title": "Pulumi",
+    "category": "Software",
+    "route": "https://svgl.app/library/pulumi.svg",
+    "url": "https://www.pulumi.com/"
+  },
+  {
+    "id": 232,
+    "title": "FastAPI",
+    "category": "Framework",
+    "route": "https://svgl.app/library/fastapi.svg",
+    "url": "https://fastapi.tiangolo.com/"
+  },
+  {
+    "id": 233,
+    "title": "Codium",
+    "category": "AI",
+    "route": "https://svgl.app/library/codium.svg",
+    "url": "https://www.codium.ai/"
+  },
+  {
+    "id": 234,
+    "title": "Crossplane",
+    "category": "Framework",
+    "route": "https://svgl.app/library/crossplane.svg",
+    "url": "https://crossplane.io/"
+  },
+  {
+    "id": 235,
+    "title": "Volta",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/volta-dark.svg",
+      "dark": "https://svgl.app/library/volta-light.svg"
+    },
+    "url": "https://volta.net/"
+  },
+  {
+    "id": 236,
+    "title": "Typesense",
+    "category": "Software",
+    "route": "https://svgl.app/library/typesense.svg",
+    "url": "https://typesense.org/"
+  },
+  {
+    "id": 237,
+    "title": "Bitcoin",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/btc.svg",
+    "url": "https://bitcoin.org/"
+  },
+  {
+    "id": 238,
+    "title": "Ethereum",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/eth.svg",
+    "url": "https://ethereum.org/"
+  },
+  {
+    "id": 239,
+    "title": "Solana",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/sol.svg",
+    "url": "https://solana.com/"
+  },
+  {
+    "id": 240,
+    "title": "Dogecoin",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/doge.svg",
+    "url": "https://dogecoin.com/"
+  },
+  {
+    "id": 241,
+    "title": "XRP",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/xrp.svg",
+    "url": "https://xrpl.org/"
+  },
+  {
+    "id": 242,
+    "title": "BNB",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/bnb.svg",
+    "url": "https://www.bnbchain.org/"
+  },
+  {
+    "id": 243,
+    "title": "Link",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/link.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/link-wordmark-light.svg",
+      "dark": "https://svgl.app/library/link-wordmark-dark.svg"
+    },
+    "url": "https://chain.link/"
+  },
+  {
+    "id": 244,
+    "title": "Polygon",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/matic.svg",
+    "url": "https://polygon.technology/"
+  },
+  {
+    "id": 245,
+    "title": "Algorand",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/algorand.svg",
+    "url": "https://algorand.org/"
+  },
+  {
+    "id": 246,
+    "title": "Tether",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/tether.svg",
+    "url": "https://tether.to/"
+  },
+  {
+    "id": 247,
+    "title": "X (formerly Twitter)",
+    "category": "Social",
+    "route": {
+      "light": "https://svgl.app/library/x.svg",
+      "dark": "https://svgl.app/library/x_dark.svg"
+    },
+    "url": "https://x.com",
+    "brandUrl": "https://about.x.com/en/who-we-are/brand-toolkit"
+  },
+  {
+    "id": 248,
+    "title": "Adobe",
+    "category": "Design",
+    "route": "https://svgl.app/library/adobe.svg",
+    "url": "https://www.adobe.com/"
+  },
+  {
+    "id": 249,
+    "title": "After Effects",
+    "category": "Design",
+    "route": "https://svgl.app/library/after-effects.svg",
+    "url": "https://www.adobe.com/products/aftereffects"
+  },
+  {
+    "id": 250,
+    "title": "Canva",
+    "category": "Design",
+    "route": "https://svgl.app/library/canva.svg",
+    "url": "https://www.canva.com/"
+  },
+  {
+    "id": 251,
+    "title": "Illustrator",
+    "category": "Design",
+    "route": "https://svgl.app/library/illustrator.svg",
+    "url": "https://www.adobe.com/products/illustrator"
+  },
+  {
+    "id": 252,
+    "title": "InDesign",
+    "category": "Design",
+    "route": "https://svgl.app/library/indesign.svg",
+    "url": "https://www.adobe.com/products/indesign"
+  },
+  {
+    "id": 253,
+    "title": "Lightroom",
+    "category": "Design",
+    "route": "https://svgl.app/library/lightroom.svg",
+    "url": "https://www.adobe.com/products/photoshop-lightroom"
+  },
+  {
+    "id": 254,
+    "title": "Photoshop",
+    "category": "Design",
+    "route": "https://svgl.app/library/photoshop.svg",
+    "url": "https://www.adobe.com/products/photoshop"
+  },
+  {
+    "id": 255,
+    "title": "Premiere",
+    "category": "Design",
+    "route": "https://svgl.app/library/premiere.svg",
+    "url": "https://www.adobe.com/products/premiere"
+  },
+  {
+    "id": 256,
+    "title": "VK",
+    "category": "Social",
+    "route": "https://svgl.app/library/vk.svg",
+    "url": "https://vk.com"
+  },
+  {
+    "id": 257,
+    "title": "Hoppscotch",
+    "category": "Software",
+    "route": "https://svgl.app/library/hoppscotch.svg",
+    "url": "https://hoppscotch.com",
+    "brandUrl": "https://hoppscotch.com/brand"
+  },
+  {
+    "id": 258,
+    "title": "Opera",
+    "category": "Browser",
+    "route": "https://svgl.app/library/opera.svg",
+    "url": "https://www.opera.com",
+    "brandUrl": "https://brand.opera.com/"
+  },
+  {
+    "id": 259,
+    "title": "Salesforce",
+    "category": "Software",
+    "route": "https://svgl.app/library/salesforce.svg",
+    "url": "https://www.salesforce.com",
+    "brandUrl": "https://brand.salesforce.com/"
+  },
+  {
+    "id": 260,
+    "title": "Unreal Engine",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/unreal_engine.svg",
+      "dark": "https://svgl.app/library/unreal_engine_dark.svg"
+    },
+    "url": "https://www.unrealengine.com/"
+  },
+  {
+    "id": 261,
+    "title": "Godot Engine",
+    "category": "Software",
+    "route": "https://svgl.app/library/godot_engine.svg",
+    "url": "https://godotengine.org/"
+  },
+  {
+    "id": 262,
+    "title": "Datadog",
+    "category": "Software",
+    "route": "https://svgl.app/library/datadog.svg",
+    "url": "https://www.datadoghq.com/"
+  },
+  {
+    "id": 263,
+    "title": "Tron",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/tron.svg",
+    "url": "https://tron.network/"
+  },
+  {
+    "id": 264,
+    "title": "Randevum",
+    "category": "Software",
+    "route": "https://svgl.app/library/randevum.svg",
+    "url": "https://www.randevum.co"
+  },
+  {
+    "id": 265,
+    "title": "Chromium",
+    "category": "Browser",
+    "route": "https://svgl.app/library/chromium.svg",
+    "url": "https://www.chromium.org"
+  },
+  {
+    "id": 266,
+    "title": "Edge",
+    "category": "Browser",
+    "route": "https://svgl.app/library/edge.svg",
+    "url": "https://www.microsoft.com/en-us/edge"
+  },
+  {
+    "id": 267,
+    "title": "Safari",
+    "category": "Browser",
+    "route": "https://svgl.app/library/safari.svg",
+    "url": "https://www.apple.com/safari"
+  },
+  {
+    "id": 268,
+    "title": "Vivaldi",
+    "category": "Browser",
+    "route": "https://svgl.app/library/vivaldi.svg",
+    "url": "https://vivaldi.com"
+  },
+  {
+    "id": 269,
+    "title": "Beacon",
+    "category": "Software",
+    "route": "https://svgl.app/library/Beacon-Logo.svg",
+    "url": "https://www.beacon.com"
+  },
+  {
+    "id": 270,
+    "title": "Affinity Designer",
+    "category": "Design",
+    "route": "https://svgl.app/library/affinity_designer.svg",
+    "url": "https://affinity.serif.com/en-us/designer/"
+  },
+  {
+    "id": 271,
+    "title": "Affinity Photo",
+    "category": "Software",
+    "route": "https://svgl.app/library/affinity_photo.svg",
+    "url": "https://affinity.serif.com/en-us/photo/"
+  },
+  {
+    "id": 272,
+    "title": "Affinity Publisher",
+    "category": "Software",
+    "route": "https://svgl.app/library/affinity_publisher.svg",
+    "url": "https://affinity.serif.com/en-us/publisher/"
+  },
+  {
+    "id": 273,
+    "title": "Roblox",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/roblox_light.svg",
+      "dark": "https://svgl.app/library/roblox.svg"
+    },
+    "url": "https://www.roblox.com/"
+  },
+  {
+    "id": 274,
+    "title": "Stately.ai",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/stately.svg",
+      "dark": "https://svgl.app/library/stately_dark.svg"
+    },
+    "url": "https://stately.ai/"
+  },
+  {
+    "id": 275,
+    "title": "XState",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/xstate.svg",
+      "dark": "https://svgl.app/library/xstate_dark.svg"
+    },
+    "url": "https://github.com/statelyai/xstate"
+  },
+  {
+    "id": 276,
+    "title": "Hashnode",
+    "category": "Social",
+    "route": "https://svgl.app/library/hashnode.svg",
+    "url": "https://hashnode.com"
+  },
+  {
+    "id": 277,
+    "title": "Rowy",
+    "category": "CMS",
+    "route": "https://svgl.app/library/rowy.svg",
+    "url": "https://www.rowy.io/"
+  },
+  {
+    "id": 278,
+    "title": "Cal.com",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/cal.svg",
+      "dark": "https://svgl.app/library/cal_dark.svg"
+    },
+    "url": "https://cal.com",
+    "brandUrl": "https://design.cal.com/"
+  },
+  {
+    "id": 279,
+    "title": "Calendly",
+    "category": "Software",
+    "route": "https://svgl.app/library/calendly.svg",
+    "url": "https://calendly.com/"
+  },
+  {
+    "id": 280,
+    "title": "Mintlify",
+    "category": "Software",
+    "route": "https://svgl.app/library/mintlify.svg",
+    "url": "https://mintlify.com/"
+  },
+  {
+    "id": 281,
+    "title": "Patreon",
+    "category": "Social",
+    "route": {
+      "light": "https://svgl.app/library/patreon.svg",
+      "dark": "https://svgl.app/library/patreon_dark.svg"
+    },
+    "url": "https://www.patreon.com/"
+  },
+  {
+    "id": 282,
+    "title": "Peerlist",
+    "category": "Social",
+    "route": "https://svgl.app/library/peerlist.svg",
+    "url": "https://www.peerlist.io/"
+  },
+  {
+    "id": 283,
+    "title": "Product Hunt",
+    "category": "Software",
+    "route": "https://svgl.app/library/producthunt.svg",
+    "url": "https://www.producthunt.com/"
+  },
+  {
+    "id": 284,
+    "title": "Remotion",
+    "category": "Framework",
+    "route": "https://svgl.app/library/remotion.svg",
+    "url": "https://www.remotion.dev/"
+  },
+  {
+    "id": 285,
+    "title": "Warp",
+    "category": "Software",
+    "route": "https://svgl.app/library/warp.svg",
+    "url": "https://www.warp.dev/"
+  },
+  {
+    "id": 286,
+    "title": "SST",
+    "category": "Framework",
+    "route": "https://svgl.app/library/sst.svg",
+    "url": "https://sst.dev/"
+  },
+  {
+    "id": 287,
+    "title": "Documenso",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/documenso.svg",
+      "dark": "https://svgl.app/library/documenso_dark.svg"
+    },
+    "url": "https://documenso.com"
+  },
+  {
+    "id": 288,
+    "title": "Bash",
+    "category": "Language",
+    "route": {
+      "light": "https://svgl.app/library/bash.svg",
+      "dark": "https://svgl.app/library/bash_dark.svg"
+    },
+    "url": "https://www.gnu.org/software/bash/"
+  },
+  {
+    "id": 289,
+    "title": "C",
+    "category": "Language",
+    "route": "https://svgl.app/library/c.svg",
+    "url": "https://en.wikipedia.org/wiki/C_(programming_language)"
+  },
+  {
+    "id": 290,
+    "title": "C++",
+    "category": "Language",
+    "route": "https://svgl.app/library/c-plusplus.svg",
+    "url": "https://en.wikipedia.org/wiki/C%2B%2B"
+  },
+  {
+    "id": 291,
+    "title": "Cobol",
+    "category": "Language",
+    "route": "https://svgl.app/library/cobol.svg",
+    "url": "https://en.wikipedia.org/wiki/COBOL"
+  },
+  {
+    "id": 292,
+    "title": "Fortran",
+    "category": "Language",
+    "route": "https://svgl.app/library/fortran.svg",
+    "url": "https://fortran-lang.org/"
+  },
+  {
+    "id": 293,
+    "title": "Haskell",
+    "category": "Language",
+    "route": "https://svgl.app/library/haskell.svg",
+    "url": "https://www.haskell.org/"
+  },
+  {
+    "id": 294,
+    "title": "matlab",
+    "category": "Language",
+    "route": "https://svgl.app/library/matlab.svg",
+    "url": "https://www.mathworks.com/products/matlab.html"
+  },
+  {
+    "id": 295,
+    "title": "R",
+    "category": "Language",
+    "route": {
+      "light": "https://svgl.app/library/r.svg",
+      "dark": "https://svgl.app/library/r_dark.svg"
+    },
+    "url": "https://www.r-project.org/"
+  },
+  {
+    "id": 296,
+    "title": "Rust",
+    "category": "Language",
+    "route": {
+      "light": "https://svgl.app/library/rust.svg",
+      "dark": "https://svgl.app/library/rust_dark.svg"
+    },
+    "url": "https://www.rust-lang.org/"
+  },
+  {
+    "id": 297,
+    "title": "Zig",
+    "category": "Language",
+    "route": "https://svgl.app/library/zig.svg",
+    "url": "https://ziglang.org/"
+  },
+  {
+    "id": 298,
+    "title": "Instatus",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/instatus.svg",
+      "dark": "https://svgl.app/library/instatus_dark.svg"
+    },
+    "url": "https://instatus.com"
+  },
+  {
+    "id": 299,
+    "title": "Front",
+    "category": "Software",
+    "route": "https://svgl.app/library/front.svg",
+    "url": "https://front.com"
+  },
+  {
+    "id": 300,
+    "title": "Monero",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/monero.svg",
+    "url": "https://www.getmonero.org/"
+  },
+  {
+    "id": 301,
+    "title": "Axiom",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/axiom-light.svg",
+      "dark": "https://svgl.app/library/axiom-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/axiom-wordmark-light.svg",
+      "dark": "https://svgl.app/library/axiom-wordmark-dark.svg"
+    },
+    "url": "https://axiom.co/"
+  },
+  {
+    "id": 302,
+    "title": "Django",
+    "category": "Framework",
+    "route": "https://svgl.app/library/django.svg",
+    "url": "https://www.djangoproject.com/",
+    "brandUrl": "https://www.djangoproject.com/community/logos/"
+  },
+  {
+    "id": 303,
+    "title": "Zeabur",
+    "category": "Hosting",
+    "route": {
+      "light": "https://svgl.app/library/zeabur-light.svg",
+      "dark": "https://svgl.app/library/zeabur-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/zeabur_wordmark_light.svg",
+      "dark": "https://svgl.app/library/zeabur_wordmark_dark.svg"
+    },
+    "url": "https://zeabur.com/"
+  },
+  {
+    "id": 304,
+    "title": "MetaMask",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/metamask.svg",
+    "url": "https://metamask.io/"
+  },
+  {
+    "id": 305,
+    "title": "shadcn/ui",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/shadcn-ui.svg",
+      "dark": "https://svgl.app/library/shadcn-ui_dark.svg"
+    },
+    "url": "https://ui.shadcn.com/"
+  },
+  {
+    "id": 306,
+    "title": "putio",
+    "category": "Software",
+    "route": "https://svgl.app/library/putio.svg",
+    "url": "https://put.io/"
+  },
+  {
+    "id": 307,
+    "title": "Pinterest",
+    "category": "Social",
+    "route": "https://svgl.app/library/pinterest.svg",
+    "url": "https://pinterest.com/"
+  },
+  {
+    "id": 308,
+    "title": "Reflex",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/reflex-dark.svg",
+      "dark": "https://svgl.app/library/reflex-light.svg"
+    },
+    "url": "https://reflex.dev/"
+  },
+  {
+    "id": 309,
+    "title": "Stripe",
+    "category": ["Software", "Payment"],
+    "route": "https://svgl.app/library/stripe.svg",
+    "url": "https://stripe.com/"
+  },
+  {
+    "id": 310,
+    "title": "Linux",
+    "category": "Software",
+    "route": "https://svgl.app/library/linux.svg",
+    "url": "https://www.linux.org/"
+  },
+  {
+    "id": 311,
+    "title": "XD",
+    "category": "Design",
+    "route": "https://svgl.app/library/adobe-xd.svg",
+    "url": "https://www.adobe.com/products/xd"
+  },
+  {
+    "id": 312,
+    "title": "Axure",
+    "category": "Design",
+    "route": "https://svgl.app/library/axure.svg",
+    "url": "https://www.axure.com/"
+  },
+  {
+    "id": 313,
+    "title": "Penpot",
+    "category": "Design",
+    "route": {
+      "light": "https://svgl.app/library/penpot.svg",
+      "dark": "https://svgl.app/library/penpot_dark.svg"
+    },
+    "url": "https://penpot.app/"
+  },
+  {
+    "id": 314,
+    "title": "Sketch",
+    "category": "Design",
+    "route": {
+      "light": "https://svgl.app/library/sketch_light.svg",
+      "dark": "https://svgl.app/library/sketch.svg"
+    },
+    "url": "https://www.sketch.com/"
+  },
+  {
+    "id": 315,
+    "title": "Gimp",
+    "category": "Design",
+    "route": "https://svgl.app/library/gimp.svg",
+    "url": "https://www.gimp.org/"
+  },
+  {
+    "id": 316,
+    "title": "Ubuntu",
+    "category": "Software",
+    "route": "https://svgl.app/library/ubuntu.svg",
+    "url": "https://ubuntu.com/",
+    "brandUrl": "https://design.ubuntu.com/brand"
+  },
+  {
+    "id": 317,
+    "title": "Cypress",
+    "category": "Framework",
+    "route": "https://svgl.app/library/cypress.svg",
+    "url": "https://www.cypress.io/"
+  },
+  {
+    "id": 318,
+    "title": "Reddit",
+    "category": "Social",
+    "route": "https://svgl.app/library/reddit.svg",
+    "url": "https://www.reddit.com/",
+    "brandUrl": "https://redditinc.com/brand"
+  },
+  {
+    "id": 319,
+    "title": "JetBrains WebStorm",
+    "category": "Software",
+    "route": "https://svgl.app/library/webstorm.svg",
+    "url": "https://www.jetbrains.com/webstorm/"
+  },
+  {
+    "id": 320,
+    "title": "JetBrains PyCharm",
+    "category": "Software",
+    "route": "https://svgl.app/library/pycharm.svg",
+    "url": "https://www.jetbrains.com/pycharm/"
+  },
+  {
+    "id": 321,
+    "title": "JetBrains Fleet",
+    "category": "Software",
+    "route": "https://svgl.app/library/fleet.svg",
+    "url": "https://www.jetbrains.com/fleet/"
+  },
+  {
+    "id": 322,
+    "title": "JetBrains RubyMine",
+    "category": "Software",
+    "route": "https://svgl.app/library/rubymine.svg",
+    "url": "https://www.jetbrains.com/ruby/"
+  },
+  {
+    "id": 323,
+    "title": "JetBrains PhpStorm",
+    "category": "Software",
+    "route": "https://svgl.app/library/phpstorm.svg",
+    "url": "https://www.jetbrains.com/phpstorm/"
+  },
+  {
+    "id": 324,
+    "title": "Monkeytype",
+    "category": "Software",
+    "route": "https://svgl.app/library/monkeytype.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/monkeytype-wordmark-light.svg",
+      "dark": "https://svgl.app/library/monkeytype-wordmark-dark.svg"
+    },
+    "url": "https://monkeytype.com/"
+  },
+  {
+    "id": 325,
+    "title": "PyCharm",
+    "category": "Software",
+    "route": "https://svgl.app/library/pycharm.svg",
+    "url": "https://www.jetbrains.com/pycharm/"
+  },
+  {
+    "id": 326,
+    "title": "Shopify",
+    "category": "CMS",
+    "route": "https://svgl.app/library/shopify.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/shopify-wordmark-light.svg",
+      "dark": "https://svgl.app/library/shopify-wordmark-dark.svg"
+    },
+    "url": "https://www.shopify.com",
+    "brandUrl": "https://www.shopify.com/brand-assets"
+  },
+  {
+    "id": 327,
+    "title": "Webflow",
+    "category": "CMS",
+    "route": "https://svgl.app/library/webflow.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/webflow-wordmark-light.svg",
+      "dark": "https://svgl.app/library/webflow-wordmark-dark.svg"
+    },
+    "url": "https://www.webflow.com",
+    "brandUrl": "https://brand-at.webflow.io/resources"
+  },
+  {
+    "id": 328,
+    "title": "Sanity",
+    "category": "CMS",
+    "route": "https://svgl.app/library/sanity.svg",
+    "url": "https://www.sanity.io"
+  },
+  {
+    "id": 329,
+    "title": "sky",
+    "category": "Entertainment",
+    "route": "https://svgl.app/library/sky.svg",
+    "url": "https://www.sky.com"
+  },
+  {
+    "id": 330,
+    "title": "Airbnb",
+    "category": "Software",
+    "route": "https://svgl.app/library/airbnb.svg",
+    "wordmark": "https://svgl.app/library/airbnb-wordmark.svg",
+    "url": "https://www.airbnb.com"
+  },
+  {
+    "id": 331,
+    "title": "Uber",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/uber_light.svg",
+      "dark": "https://svgl.app/library/uber_dark.svg"
+    },
+    "url": "https://www.uber.com",
+    "brandUrl": "https://brand.uber.com/"
+  },
+  {
+    "id": 332,
+    "title": "Gmail",
+    "category": ["Google", "Software"],
+    "route": "https://svgl.app/library/gmail.svg",
+    "url": "https://www.gmail.com"
+  },
+  {
+    "id": 333,
+    "title": "Outlook",
+    "category": "Software",
+    "route": "https://svgl.app/library/outlook.svg",
+    "url": "https://www.outlook.com"
+  },
+  {
+    "id": 334,
+    "title": "Slack",
+    "category": "Software",
+    "route": "https://svgl.app/library/slack.svg",
+    "wordmark": "https://svgl.app/library/slack-wordmark.svg",
+    "url": "https://www.slack.com"
+  },
+  {
+    "id": 335,
+    "title": "Snapchat",
+    "category": "Software",
+    "route": "https://svgl.app/library/snapchat.svg",
+    "url": "https://www.snapchat.com"
+  },
+  {
+    "id": 336,
+    "title": "Ebay",
+    "category": "Software",
+    "route": "https://svgl.app/library/ebay.svg",
+    "url": "https://www.ebay.com"
+  },
+  {
+    "id": 337,
+    "title": "IBM",
+    "category": "Software",
+    "route": "https://svgl.app/library/ibm.svg",
+    "url": "https://www.ibm.com"
+  },
+  {
+    "id": 338,
+    "title": "TrustPilot",
+    "category": "Software",
+    "route": "https://svgl.app/library/trustpilot.svg",
+    "url": "https://www.trustpilot.com"
+  },
+  {
+    "id": 339,
+    "title": "Raycast",
+    "category": "Software",
+    "route": "https://svgl.app/library/raycast.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/raycast-wordmark-light.svg",
+      "dark": "https://svgl.app/library/raycast-wordmark-dark.svg"
+    },
+    "url": "https://raycast.com/"
+  },
+  {
+    "id": 340,
+    "title": "Hack The Box",
+    "category": "Cybersecurity",
+    "route": "https://svgl.app/library/hack-the-box.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/hack-the-box-wordmark-light.svg",
+      "dark": "https://svgl.app/library/hack-the-box-wordmark-dark.svg"
+    },
+    "url": "https://www.hackthebox.com/"
+  },
+  {
+    "id": 341,
+    "title": "Procure",
+    "category": "Marketplace",
+    "route": "https://svgl.app/library/procure.svg",
+    "url": "https://procure.biz/"
+  },
+  {
+    "id": 342,
+    "title": "Julia",
+    "category": "Language",
+    "route": "https://svgl.app/library/julia.svg",
+    "url": "https://julialang.org/"
+  },
+  {
+    "id": 343,
+    "title": "SWC",
+    "category": "Compiler",
+    "route": "https://svgl.app/library/swc.svg",
+    "url": "https://swc.rs/"
+  },
+  {
+    "id": 344,
+    "title": "PlayStation",
+    "category": "Software",
+    "route": "https://svgl.app/library/playstation.svg",
+    "url": "https://www.playstation.com/"
+  },
+  {
+    "id": 345,
+    "title": "Xbox",
+    "category": "Software",
+    "route": "https://svgl.app/library/xbox.svg",
+    "url": "https://www.xbox.com/"
+  },
+  {
+    "id": 346,
+    "title": "Cody",
+    "category": "AI",
+    "route": "https://svgl.app/library/cody.svg",
+    "url": "https://about.sourcegraph.com/"
+  },
+  {
+    "id": 347,
+    "title": "Sourcegraph",
+    "category": "AI",
+    "route": "https://svgl.app/library/sourcegraph.svg",
+    "url": "https://about.sourcegraph.com/"
+  },
+  {
+    "id": 348,
+    "title": "Perplexity AI",
+    "category": "AI",
+    "route": "https://svgl.app/library/perplexity.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/perplexity_wordmark_light.svg",
+      "dark": "https://svgl.app/library/perplexity_wordmark_dark.svg"
+    },
+    "url": "https://perplexity.ai/"
+  },
+  {
+    "id": 349,
+    "title": "Spring",
+    "category": "Framework",
+    "route": "https://svgl.app/library/spring.svg",
+    "url": "https://spring.io/"
+  },
+  {
+    "id": 350,
+    "title": "Directus",
+    "category": "CMS",
+    "route": "https://svgl.app/library/directus.svg",
+    "url": "https://directus.io/"
+  },
+  {
+    "id": 351,
+    "title": "Pnpm",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/pnpm.svg",
+      "dark": "https://svgl.app/library/pnpm_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/pnpm_wordmark_light.svg",
+      "dark": "https://svgl.app/library/pnpm_wordmark_dark.svg"
+    },
+    "url": "https://pnpm.io/"
+  },
+  {
+    "id": 352,
+    "title": "Emacs",
+    "category": "Software",
+    "route": "https://svgl.app/library/emacs.svg",
+    "url": "https://www.gnu.org/software/emacs/"
+  },
+  {
+    "id": 353,
+    "title": "Svgl",
+    "category": "Library",
+    "route": "https://svgl.app/library/svgl.svg",
+    "url": "https://svgl.app"
+  },
+  {
+    "id": 354,
+    "title": "Google Idx",
+    "category": ["Software", "Google"],
+    "route": "https://svgl.app/library/google-idx.svg",
+    "url": "https://idx.dev/"
+  },
+  {
+    "id": 355,
+    "title": "Remix",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/remix_light.svg",
+      "dark": "https://svgl.app/library/remix_dark.svg"
+    },
+    "url": "https://remix.run/"
+  },
+  {
+    "id": 356,
+    "title": "Steam",
+    "category": "Software",
+    "route": "https://svgl.app/library/steam.svg",
+    "url": "https://store.steampowered.com/"
+  },
+  {
+    "id": 357,
+    "title": "Tabby",
+    "category": "Software",
+    "route": "https://svgl.app/library/tabby.svg",
+    "url": "https://tabby.sh/"
+  },
+  {
+    "id": 358,
+    "title": "1Password",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/1password-light.svg",
+      "dark": "https://svgl.app/library/1password-dark.svg"
+    },
+    "url": "https://1password.com"
+  },
+  {
+    "id": 359,
+    "title": "Flask",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/flask-light.svg",
+      "dark": "https://svgl.app/library/flask-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/flask-wordmark-light.svg",
+      "dark": "https://svgl.app/library/flask-wordmark-dark.svg"
+    },
+    "url": "https://flask.palletsprojects.com/"
+  },
+  {
+    "id": 360,
+    "title": "Alacritty",
+    "category": "Software",
+    "route": "https://svgl.app/library/alacritty.svg",
+    "url": "https://alacritty.org"
+  },
+  {
+    "id": 361,
+    "title": "Qt",
+    "category": "Software",
+    "route": "https://svgl.app/library/qt.svg",
+    "url": "https://www.qt.io/"
+  },
+  {
+    "id": 362,
+    "title": "Bitwarden",
+    "category": ["Software", "Authentication"],
+    "route": "https://svgl.app/library/bitwarden.svg",
+    "url": "https://bitwarden.com/",
+    "brandUrl": "https://bitwarden.com/brand/"
+  },
+  {
+    "id": 363,
+    "title": "Voicemod",
+    "category": "Entertainment",
+    "route": {
+      "light": "https://svgl.app/library/voicemod_light.svg",
+      "dark": "https://svgl.app/library/voicemod_dark.svg"
+    },
+    "url": "https://voicemod.net/"
+  },
+  {
+    "id": 364,
+    "title": "Neovim",
+    "category": "Software",
+    "route": "https://svgl.app/library/neovim.svg",
+    "url": "https://neovim.io/"
+  },
+  {
+    "id": 365,
+    "title": "Pitch",
+    "category": "Design",
+    "route": "https://svgl.app/library/pitch.svg",
+    "url": "https://pitch.com"
+  },
+  {
+    "id": 366,
+    "title": "Biomejs",
+    "category": "Compiler",
+    "route": "https://svgl.app/library/biomejs.svg",
+    "url": "https://biomejs.dev/"
+  },
+  {
+    "id": 367,
+    "title": "Gradio",
+    "category": "Software",
+    "route": "https://svgl.app/library/gradio.svg",
+    "url": "https://www.gradio.app/"
+  },
+  {
+    "id": 368,
+    "title": "Meta",
+    "category": "Social",
+    "route": "https://svgl.app/library/meta.svg",
+    "url": "https://about.meta.com/es/",
+    "brandUrl": "https://about.meta.com/brand/resources/"
+  },
+  {
+    "id": 369,
+    "title": "Stability AI",
+    "category": "AI",
+    "route": "https://svgl.app/library/stability-ai.svg",
+    "url": "https://stability.ai/"
+  },
+  {
+    "id": 370,
+    "title": "Google PaLM",
+    "category": ["AI", "Google"],
+    "route": "https://svgl.app/library/google-palm.svg",
+    "url": "https://ai.google/discover/palm2/"
+  },
+  {
+    "id": 371,
+    "title": "Android",
+    "category": "Software",
+    "route": "https://svgl.app/library/android-icon.svg",
+    "url": "https://www.android.com/"
+  },
+  {
+    "id": 372,
+    "title": "Sentry",
+    "category": "Software",
+    "route": "https://svgl.app/library/sentry.svg",
+    "url": "https://sentry.io/",
+    "brandUrl": "https://sentry.io/branding/"
+  },
+  {
+    "id": 373,
+    "title": "Grafana",
+    "category": "Software",
+    "route": "https://svgl.app/library/grafana.svg",
+    "url": "https://grafana.com/"
+  },
+  {
+    "id": 374,
+    "title": "Notion",
+    "category": "Software",
+    "route": "https://svgl.app/library/notion.svg",
+    "url": "https://notion.so/"
+  },
+  {
+    "id": 375,
+    "title": "Litecoin",
+    "category": "Crypto",
+    "route": "https://svgl.app/library/litecoin.svg",
+    "url": "https://litecoin.org/"
+  },
+  {
+    "id": 376,
+    "title": "ElysiaJS",
+    "category": "Framework",
+    "route": "https://svgl.app/library/elysiajs.svg",
+    "url": "https://elysiajs.com/"
+  },
+  {
+    "id": 377,
+    "title": "TensorFlow",
+    "category": "Library",
+    "route": "https://svgl.app/library/tensorflow.svg",
+    "url": "https://www.tensorflow.org/"
+  },
+  {
+    "id": 378,
+    "title": "Midday",
+    "category": "AI",
+    "route": "https://svgl.app/library/midday.svg",
+    "url": "https://midday.ai/"
+  },
+  {
+    "id": 379,
+    "title": "C#",
+    "category": "Language",
+    "route": "https://svgl.app/library/csharp.svg",
+    "url": "https://dotnet.microsoft.com/languages/csharp"
+  },
+  {
+    "id": 380,
+    "title": "Replicate",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/replicate_light.svg",
+      "dark": "https://svgl.app/library/replicate_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/replicate-wordmark_light.svg",
+      "dark": "https://svgl.app/library/replicate-wordmark_dark.svg"
+    },
+    "url": "https://replicate.com/"
+  },
+  {
+    "id": 381,
+    "title": "Markdown",
+    "category": "Language",
+    "route": {
+      "light": "https://svgl.app/library/markdown-light.svg",
+      "dark": "https://svgl.app/library/markdown-dark.svg"
+    },
+    "url": "https://www.markdownguide.org/"
+  },
+  {
+    "id": 382,
+    "title": "Radix UI",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/radix-ui_light.svg",
+      "dark": "https://svgl.app/library/radix-ui_dark.svg"
+    },
+    "url": "https://www.radix-ui.com/"
+  },
+  {
+    "id": 383,
+    "title": "Web.dev",
+    "category": "Education",
+    "route": "https://svgl.app/library/webdev.svg",
+    "url": "https://web.dev/"
+  },
+  {
+    "id": 384,
+    "title": "SWR",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/swr-light.svg",
+      "dark": "https://svgl.app/library/swr-dark.svg"
+    },
+    "url": "https://swr.vercel.app/"
+  },
+  {
+    "id": 385,
+    "title": "Refine",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/refine_dark.svg",
+      "dark": "https://svgl.app/library/refine_light.svg"
+    },
+    "url": "https://refine.dev/"
+  },
+  {
+    "id": 386,
+    "title": "Youtube Music",
+    "category": ["Google", "Music"],
+    "route": "https://svgl.app/library/youtube_music.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/youtube_music_wordmark_light.svg",
+      "dark": "https://svgl.app/library/youtube_music_wordmark_dark.svg"
+    },
+    "url": "https://music.youtube.com/"
+  },
+  {
+    "id": 387,
+    "title": "TIDAL",
+    "category": "Music",
+    "route": {
+      "light": "https://svgl.app/library/tidal_light.svg",
+      "dark": "https://svgl.app/library/tidal_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/tidal_wordmark_light.svg",
+      "dark": "https://svgl.app/library/tidal_wordmark_dark.svg"
+    },
+    "url": "https://tidal.com/"
+  },
+  {
+    "id": 388,
+    "title": "OBS",
+    "category": "Software",
+    "route": "https://svgl.app/library/obs.svg",
+    "url": "https://obsproject.com/"
+  },
+  {
+    "id": 389,
+    "title": "Stack Overflow",
+    "category": "Software",
+    "route": "https://svgl.app/library/stackoverflow.svg",
+    "wordmark": "https://svgl.app/library/stackoverflow_wordmark.svg",
+    "url": "https://stackoverflow.com/",
+    "brandUrl": "https://stackoverflow.design/brand/"
+  },
+  {
+    "id": 390,
+    "title": "TikTok",
+    "category": "Social",
+    "route": "https://svgl.app/library/tiktok.svg",
+    "url": "https://www.tiktok.com/"
+  },
+  {
+    "id": 391,
+    "title": "Ngrok",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/ngrok-light.svg",
+      "dark": "https://svgl.app/library/ngrok-dark.svg"
+    },
+    "url": "https://ngrok.com"
+  },
+  {
+    "id": 392,
+    "title": "Lemon Squeezy",
+    "category": "Software",
+    "route": "https://svgl.app/library/lemonsqueezy.svg",
+    "url": "https://www.lemonsqueezy.com"
+  },
+  {
+    "id": 393,
+    "title": "Asana",
+    "category": "Software",
+    "route": "https://svgl.app/library/asana-logo.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/asana-wordmark-light.svg",
+      "dark": "https://svgl.app/library/asana-wordmark-dark.svg"
+    },
+    "url": "https://asana.com"
+  },
+  {
+    "id": 394,
+    "title": "UpLeveled",
+    "category": "Education",
+    "route": "https://svgl.app/library/upleveled.svg",
+    "wordmark": "https://svgl.app/library/upleveled-wordmark.svg",
+    "url": "https://upleveled.io/"
+  },
+  {
+    "id": 395,
+    "title": "Zoom",
+    "category": "Software",
+    "route": "https://svgl.app/library/zoom.svg",
+    "url": "https://zoom.us/"
+  },
+  {
+    "id": 396,
+    "title": "Tina",
+    "category": "CMS",
+    "route": "https://svgl.app/library/tina.svg",
+    "wordmark": "https://svgl.app/library/tina_wordmark.svg",
+    "url": "https://tina.io/"
+  },
+  {
+    "id": 397,
+    "title": "Next.js",
+    "category": ["Framework", "Vercel"],
+    "route": "https://svgl.app/library/nextjs_icon_dark.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/nextjs_logo_light.svg",
+      "dark": "https://svgl.app/library/nextjs_logo_dark.svg"
+    },
+    "url": "https://nextjs.org/"
+  },
+  {
+    "id": 398,
+    "title": "Mistral AI",
+    "category": "AI",
+    "route": "https://svgl.app/library/mistral-ai_logo.svg",
+    "wordmark": "https://svgl.app/library/mistral-ai_wordmark.svg",
+    "url": "https://mistral.ai/"
+  },
+  {
+    "id": 399,
+    "title": "Hugging Face",
+    "category": "AI",
+    "route": "https://svgl.app/library/hugging_face.svg",
+    "url": "https://huggingface.co/",
+    "brandUrl": "https://huggingface.co/brand"
+  },
+  {
+    "id": 400,
+    "title": "Node.js",
+    "category": "Library",
+    "route": "https://svgl.app/library/nodejs.svg",
+    "url": "https://nodejs.org/",
+    "brandUrl": "https://nodejs.org/en/about/branding"
+  },
+  {
+    "id": 401,
+    "title": "Raindrop.io",
+    "category": "Software",
+    "route": "https://svgl.app/library/raindrop.svg",
+    "url": "https://raindrop.io/"
+  },
+  {
+    "id": 402,
+    "title": "Microsoft Todo",
+    "category": "Software",
+    "route": "https://svgl.app/library/microsoft-todo.svg",
+    "url": "https://to-do.office.com/"
+  },
+  {
+    "id": 403,
+    "title": "Supabase",
+    "category": "Database",
+    "route": "https://svgl.app/library/supabase.svg",
+    "url": "https://supabase.com/",
+    "wordmark": {
+      "light": "https://svgl.app/library/supabase_wordmark_light.svg",
+      "dark": "https://svgl.app/library/supabase_wordmark_dark.svg"
+    },
+    "brandUrl": "https://supabase.com/brand-assets"
+  },
+  {
+    "id": 404,
+    "title": "Gleam",
+    "category": "Language",
+    "route": "https://svgl.app/library/gleam.svg",
+    "url": "https://gleam.run/"
+  },
+  {
+    "id": 405,
+    "title": "Flowbite",
+    "category": "Framework",
+    "route": "https://svgl.app/library/flowbite.svg",
+    "url": "https://flowbite.com/"
+  },
+  {
+    "id": 406,
+    "title": "Hume AI",
+    "category": "AI",
+    "route": "https://svgl.app/library/hume-ai.svg",
+    "url": "https://hume.ai/"
+  },
+  {
+    "id": 407,
+    "title": "Resend",
+    "category": "Software",
+    "url": "https://resend.com/",
+    "route": {
+      "light": "https://svgl.app/library/resend-icon-black.svg",
+      "dark": "https://svgl.app/library/resend-icon-white.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/resend-wordmark-black.svg",
+      "dark": "https://svgl.app/library/resend-wordmark-white.svg"
+    },
+    "brandUrl": "https://resend.com/brand"
+  },
+  {
+    "id": 408,
+    "title": "Layers",
+    "category": "Design",
+    "route": {
+      "light": "https://svgl.app/library/layers_light.svg",
+      "dark": "https://svgl.app/library/layers_dark.svg"
+    },
+    "url": "https://layers.to/"
+  },
+  {
+    "id": 409,
+    "title": "Exome",
+    "category": "Library",
+    "route": "https://svgl.app/library/exome.svg",
+    "url": "https://exome.dev/"
+  },
+  {
+    "id": 410,
+    "title": "Poper",
+    "category": "AI",
+    "route": "https://svgl.app/library/poper.svg",
+    "url": "https://www.poper.ai"
+  },
+  {
+    "id": 411,
+    "title": "Dub",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/dub.svg",
+      "dark": "https://svgl.app/library/dub_dark_logo.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/dub_light_wordmark.svg",
+      "dark": "https://svgl.app/library/dub_dark_wordmark.svg"
+    },
+    "url": "https://dub.co",
+    "brandUrl": "https://dub.co/brand"
+  },
+  {
+    "id": 412,
+    "title": "Turso",
+    "category": ["Database", "Software"],
+    "route": {
+      "light": "https://svgl.app/library/turso-light.svg",
+      "dark": "https://svgl.app/library/turso-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/turso-wordmark-light.svg",
+      "dark": "https://svgl.app/library/turso-wordmark-dark.svg"
+    },
+    "url": "https://turso.tech"
+  },
+  {
+    "id": 413,
+    "title": "RelaGit",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/relagit-icon-light.svg",
+      "dark": "https://svgl.app/library/relagit-icon-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/relagit-wordmark-light.svg",
+      "dark": "https://svgl.app/library/relagit-wordmark-dark.svg"
+    },
+    "url": "https://rela.dev"
+  },
+  {
+    "id": 414,
+    "title": "T3 Stack",
+    "category": "Framework",
+    "route": {
+      "light": "https://svgl.app/library/t3-dark.svg",
+      "dark": "https://svgl.app/library/t3-light.svg"
+    },
+    "url": "https://create.t3.gg/"
+  },
+  {
+    "id": 415,
+    "title": "Apple Music",
+    "category": "Music",
+    "route": "https://svgl.app/library/apple-music-icon.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/apple-music-wordmark-light.svg",
+      "dark": "https://svgl.app/library/apple-music-wordmark-dark.svg"
+    },
+    "url": "https://music.apple.com/"
+  },
+  {
+    "id": 416,
+    "title": "YGeeker",
+    "category": "Software",
+    "route": "https://svgl.app/library/ygeeker.svg",
+    "url": "https://www.ygeeker.com"
+  },
+  {
+    "id": 417,
+    "title": "PostCSS",
+    "category": "Compiler",
+    "route": "https://svgl.app/library/postcss.svg",
+    "wordmark": "https://svgl.app/library/postcss_wordmark.svg",
+    "url": "https://postcss.org/"
+  },
+  {
+    "id": 418,
+    "title": "SVG",
+    "category": ["Language", "Design"],
+    "route": "https://svgl.app/library/svg.svg",
+    "wordmark": "https://svgl.app/library/svg_wordmark.svg",
+    "url": "https://www.w3.org/TR/SVG/"
+  },
+  {
+    "id": 419,
+    "title": "Todoist",
+    "category": "Software",
+    "route": "https://svgl.app/library/todoist.svg",
+    "wordmark": "https://svgl.app/library/todoist-wordmark.svg",
+    "url": "https://todoist.com/"
+  },
+  {
+    "id": 420,
+    "title": "Apidog",
+    "category": "Software",
+    "route": "https://svgl.app/library/apidog.svg",
+    "url": "https://apidog.com/"
+  },
+  {
+    "id": 421,
+    "title": "Chart.js",
+    "category": "Library",
+    "route": "https://svgl.app/library/chartjs.svg",
+    "url": "https://www.chartjs.org/"
+  },
+  {
+    "id": 422,
+    "title": "JSON Schema",
+    "category": "Library",
+    "route": "https://svgl.app/library/json-schema.svg",
+    "url": "https://json-schema.org/"
+  },
+  {
+    "id": 423,
+    "title": "v0",
+    "category": "Vercel",
+    "route": {
+      "light": "https://svgl.app/library/v0_light.svg",
+      "dark": "https://svgl.app/library/v0_dark.svg"
+    },
+    "url": "https://v0.dev/"
+  },
+  {
+    "id": 424,
+    "title": "Bento",
+    "category": "Software",
+    "route": "https://svgl.app/library/bento.svg",
+    "url": "https://bento.me/home"
+  },
+  {
+    "id": 425,
+    "title": "Firebase",
+    "category": ["Hosting", "Google"],
+    "route": "https://svgl.app/library/firebase.svg",
+    "wordmark": "https://svgl.app/library/firebase-wordmark.svg",
+    "url": "https://firebase.google.com/"
+  },
+  {
+    "id": 426,
+    "title": "Prettier",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/prettier-icon-light.svg",
+      "dark": "https://svgl.app/library/prettier-icon-dark.svg"
+    },
+    "url": "https://prettier.io/"
+  },
+  {
+    "id": 427,
+    "title": "Leap Wallet",
+    "category": ["Crypto", "Software", "Payment"],
+    "route": "https://svgl.app/library/leap-wallet.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/leap-wallet-wordmark-light.svg",
+      "dark": "https://svgl.app/library/leap-wallet-wordmark-dark.svg"
+    },
+    "url": "https://leapwallet.io/"
+  },
+  {
+    "id": 428,
+    "title": "Nx",
+    "category": ["Devtool", "Monorepo"],
+    "route": {
+      "light": "https://svgl.app/library/nx_light.svg",
+      "dark": "https://svgl.app/library/nx_dark.svg"
+    },
+    "url": "https://nx.dev"
+  },
+  {
+    "id": 429,
+    "title": "Google Colaboratory",
+    "category": ["Google", "Software"],
+    "route": "https://svgl.app/library/Google_Colaboratory.svg",
+    "url": "https://colab.research.google.com/"
+  },
+  {
+    "id": 430,
+    "title": "Raspberry PI",
+    "category": ["Hardware", "Software"],
+    "route": "https://svgl.app/library/raspberry_pi.svg",
+    "url": "https://www.raspberrypi.com/"
+  },
+  {
+    "id": 431,
+    "title": "Vite",
+    "category": ["Devtool", "VoidZero"],
+    "route": "https://svgl.app/library/vitejs.svg",
+    "url": "https://vitejs.dev"
+  },
+  {
+    "id": 432,
+    "title": "Vitest",
+    "category": ["Framework", "VoidZero"],
+    "route": "https://svgl.app/library/vitest.svg",
+    "url": "https://vitest.dev/"
+  },
+  {
+    "id": 433,
+    "title": "Oxc",
+    "category": ["Devtool", "VoidZero"],
+    "route": "https://svgl.app/library/oxc.svg",
+    "url": "https://oxc.rs/"
+  },
+  {
+    "id": 434,
+    "title": "Rolldown",
+    "category": ["Compiler", "VoidZero"],
+    "route": "https://svgl.app/library/rolldown.svg",
+    "url": "https://rolldown.rs/"
+  },
+  {
+    "id": 435,
+    "title": "ManzDev",
+    "category": ["Community"],
+    "route": "https://svgl.app/library/manzdev.svg",
+    "url": "https://manz.dev/"
+  },
+  {
+    "id": 436,
+    "title": "Afordin",
+    "category": ["Community"],
+    "route": {
+      "light": "https://svgl.app/library/afordin-light.svg",
+      "dark": "https://svgl.app/library/afordin-dark.svg"
+    },
+    "url": "https://github.com/Afordin"
+  },
+  {
+    "id": 437,
+    "title": "MediaWiki",
+    "category": ["Software", "CMS"],
+    "route": "https://svgl.app/library/mediawiki.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/mediawiki-wordmark-light.svg",
+      "dark": "https://svgl.app/library/mediawiki-wordmark-dark.svg"
+    },
+    "url": "https://www.mediawiki.org/"
+  },
+  {
+    "id": 438,
+    "title": "Carrd",
+    "category": ["Social"],
+    "route": "https://svgl.app/library/carrd.svg",
+    "url": "https://carrd.co/"
+  },
+  {
+    "id": 439,
+    "title": "Claude AI",
+    "category": "AI",
+    "route": "https://svgl.app/library/claude-ai-icon.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/claude-ai-wordmark-icon_light.svg",
+      "dark": "https://svgl.app/library/claude-ai-wordmark-icon_dark.svg"
+    },
+    "url": "https://claude.ai/"
+  },
+  {
+    "id": 440,
+    "title": "UnoCSS",
+    "category": "Devtool",
+    "route": "https://svgl.app/library/unocss.svg",
+    "url": "https://unocss.dev/"
+  },
+  {
+    "id": 441,
+    "title": "tRPC",
+    "category": "Framework",
+    "route": "https://svgl.app/library/trpc.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/trpc_wordmark_light.svg",
+      "dark": "https://svgl.applibrary/trpc_wordmark_dark.svg"
+    },
+    "url": "https://trpc.io/"
+  },
+  {
+    "id": 442,
+    "title": "Bluesky",
+    "category": "Social",
+    "route": "https://svgl.app/library/bluesky.svg",
+    "url": "https://blueskyweb.xyz/"
+  },
+  {
+    "id": 443,
+    "title": "Drizzle ORM",
+    "category": ["Library", "Database"],
+    "route": {
+      "light": "https://svgl.app/library/drizzle-orm_light.svg",
+      "dark": "https://svgl.app/library/drizzle-orm_dark.svg"
+    },
+    "url": "https://orm.drizzle.team/"
+  },
+  {
+    "id": 444,
+    "title": "daily.dev",
+    "category": ["Social", "Community"],
+    "route": {
+      "light": "https://svgl.app/library/daily-dev-ligth.svg",
+      "dark": "https://svgl.app/library/daily-dev-dark.svg"
+    },
+    "url": "https://daily.dev/"
+  },
+  {
+    "id": 445,
+    "title": "Polars",
+    "category": "Library",
+    "route": "https://svgl.app/library/polars-logo.svg",
+    "url": "https://pola.rs/"
+  },
+  {
+    "id": 446,
+    "title": "Zed",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/zed-logo.svg",
+      "dark": "https://svgl.app/library/zed-logo_dark.svg"
+    },
+    "url": "https://zed.dev/"
+  },
+  {
+    "id": 447,
+    "title": "Polar",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/polar-sh_light.svg",
+      "dark": "https://svgl.app/library/polar-sh_dark.svg"
+    },
+    "url": "https://polar.sh/"
+  },
+  {
+    "id": 448,
+    "title": "bolt",
+    "category": "Devtool",
+    "route": {
+      "light": "https://svgl.app/library/bolt-new.svg",
+      "dark": "https://svgl.app/library/bolt-new_dark.svg"
+    },
+    "url": "https://bolt.new/"
+  },
+  {
+    "id": 449,
+    "title": "JSON",
+    "category": "Language",
+    "route": "https://svgl.app/library/json.svg",
+    "url": "https://json.org/"
+  },
+  {
+    "id": 450,
+    "title": "nuqs",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/nuqs.svg",
+      "dark": "https://svgl.app/library/nuqs_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/nuqs-wordmark.svg",
+      "dark": "https://svgl.app/library/nuqs-wordmark_dark.svg"
+    },
+    "url": "https://nuqs.47ng.com/"
+  },
+  {
+    "id": 451,
+    "title": "SoundCloud",
+    "category": "Music",
+    "route": {
+      "light": "https://svgl.app/library/soundcloud-logo.svg",
+      "dark": "https://svgl.app/library/soundcloud-logo_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/soundcloud-wordmark.svg",
+      "dark": "https://svgl.applibrary/soundcloud-wordmark_dark.svg"
+    },
+    "url": "https://soundcloud.com/"
+  },
+  {
+    "id": 452,
+    "title": "Clerk",
+    "category": ["Software", "Authentication"],
+    "route": {
+      "light": "https://svgl.app/library/clerk-light.svg",
+      "dark": "https://svgl.app/library/clerk-dark.svg"
+    },
+    "url": "https://clerk.com/"
+  },
+  {
+    "id": 453,
+    "title": "Mermaid",
+    "category": ["Library"],
+    "route": {
+      "light": "https://svgl.app/library/mermaid-logo-light.svg",
+      "dark": "https://svgl.app/library/mermaid-logo-dark.svg"
+    },
+    "url": "https://mermaid.js.org/"
+  },
+  {
+    "id": 454,
+    "title": "Home Assistant",
+    "category": ["IoT", "Software"],
+    "route": "https://svgl.app/library/home-assistant.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/home-assistant-wordmark.svg",
+      "dark": "https://svgl.app/library/home-assistant-wordmark-dark.svg"
+    },
+    "url": "https://github.com/home-assistant/assets/tree/master/logo"
+  },
+  {
+    "id": 455,
+    "title": "UXAnaRangel",
+    "category": ["Community"],
+    "route": {
+      "light": "https://svgl.app/library/uxanarangel-light.svg",
+      "dark": "https://svgl.app/library/uxanarangel-dark.svg"
+    },
+    "url": "https://uxanarangel.com/"
+  },
+  {
+    "id": 456,
+    "title": "UXCorpRangel",
+    "category": ["Community"],
+    "route": {
+      "light": "https://svgl.app/library/uxcorprangel-light.svg",
+      "dark": "https://svgl.app/library/uxcorprangel-dark.svg"
+    },
+    "url": "https://github.com/UXCorpRangel/"
+  },
+  {
+    "id": 457,
+    "title": "PostHog",
+    "category": "Devtool",
+    "route": "https://svgl.app/library/posthog.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/posthog-wordmark.svg",
+      "dark": "https://svgl.app/library/posthog-wordmark_dark.svg"
+    },
+    "url": "https://posthog.com/",
+    "brandUrl": "https://posthog.com/handbook/company/brand-assets"
+  },
+  {
+    "id": 458,
+    "title": "PowerToys",
+    "category": "Software",
+    "route": "https://svgl.app/library/powertoys.svg",
+    "url": "https://learn.microsoft.com/en-us/windows/powertoys/"
+  },
+  {
+    "id": 459,
+    "title": "Lottielab",
+    "category": "Design",
+    "route": "https://svgl.app/library/lottielab.svg",
+    "url": "https://www.lottielab.com/"
+  },
+  {
+    "id": 460,
+    "title": "TanStack",
+    "category": ["Software", "Library"],
+    "route": "https://svgl.app/library/tanstack.svg",
+    "url": "https://tanstack.com/"
+  },
+  {
+    "id": 461,
+    "title": "TypeGPU",
+    "category": ["Software", "Library"],
+    "route": {
+      "light": "https://svgl.app/library/typegpu-light.svg",
+      "dark": "https://svgl.app/library/typegpu-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/typegpu-wordmark-light.svg",
+      "dark": "https://svgl.app/library/typegpu-wordmark-dark.svg"
+    },
+    "url": "https://typegpu.com"
+  },
+  {
+    "id": 462,
+    "title": "dotenv",
+    "category": ["Config", "Library", "Devtool"],
+    "route": "https://svgl.app/library/dotenv.svg",
+    "url": "https://github.com/motdotla/dotenv"
+  },
+  {
+    "id": 463,
+    "title": "dotenvx",
+    "category": ["Secrets", "Config", "Devtool"],
+    "route": "https://svgl.app/library/dotenvx.svg",
+    "url": "https://dotenvx.com"
+  },
+  {
+    "id": 464,
+    "title": "Motion",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/motion.svg",
+      "dark": "https://svgl.app/library/motion_dark.svg"
+    },
+    "url": "https://motion.dev/"
+  },
+  {
+    "id": 465,
+    "title": "Keycloak",
+    "category": "Authentication",
+    "route": "https://svgl.app/library/keycloak.svg",
+    "url": "https://keycloak.org"
+  },
+  {
+    "id": 466,
+    "title": "DeepSeek",
+    "category": "AI",
+    "route": "https://svgl.app/library/deepseek.svg",
+    "wordmark": "https://svgl.app/library/deepseek_wordmark.svg",
+    "url": "https://deepseek.com/"
+  },
+  {
+    "id": 467,
+    "title": "Shiki",
+    "category": "Library",
+    "route": "https://svgl.app/library/shiki.svg",
+    "url": "https://shiki.style/"
+  },
+  {
+    "id": 468,
+    "title": "Dropbox",
+    "category": ["Hosting", "Software"],
+    "route": "https://svgl.app/library/dropbox.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/dropbox_wordmark.svg",
+      "dark": "https://svgl.app/library/dropbox_wordmark_dark.svg"
+    },
+    "url": "https://www.dropbox.com/",
+    "brandUrl": "https://brand.dropbox.com/"
+  },
+  {
+    "id": 469,
+    "title": "Open WebUI",
+    "category": ["AI", "Software"],
+    "route": "https://svgl.app/library/openwebui.svg",
+    "url": "https://openwebui.com/"
+  },
+  {
+    "id": 470,
+    "title": "Base UI",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/base-ui.svg",
+      "dark": "https://svgl.app/library/base-ui-dark.svg"
+    },
+    "url": "https://base-ui.com/"
+  },
+  {
+    "id": 471,
+    "title": "Vercel",
+    "category": ["Hosting", "Vercel"],
+    "route": {
+      "light": "https://svgl.app/library/vercel.svg",
+      "dark": "https://svgl.app/library/vercel_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/vercel_wordmark.svg",
+      "dark": "https://svgl.app/library/vercel_wordmark_dark.svg"
+    },
+    "brandUrl": "https://vercel.com/geist/brands",
+    "url": "https://vercel.com/"
+  },
+  {
+    "id": 472,
+    "title": "Socket.io",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/socketio-light.svg",
+      "dark": "https://svgl.app/library/socketio-dark.svg"
+    },
+    "url": "https://socket.io/"
+  },
+  {
+    "id": 473,
+    "title": "Ant Design",
+    "category": "Library",
+    "route": "https://svgl.app/library/ant-design-dark-theme.svg",
+    "url": "https://ant.design/"
+  },
+  {
+    "id": 474,
+    "title": "VSCodium",
+    "category": "Software",
+    "route": "https://svgl.app/library/vscodium.svg",
+    "url": "https://vscodium.com/"
+  },
+  {
+    "id": 475,
+    "title": "Zen Browser",
+    "category": "Browser",
+    "route": {
+      "light": "https://svgl.app/library/zen-browser-light.svg",
+      "dark": "https://svgl.app/library/zen-browser-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/zen-browser-wordmark-light.svg",
+      "dark": "https://svgl.app/library/zen-browser-wordmark-dark.svg"
+    },
+    "url": "https://zen-browser.app/"
+  },
+  {
+    "id": 476,
+    "title": "Gemini",
+    "category": ["Google", "AI"],
+    "route": "https://svgl.app/library/gemini.svg",
+    "wordmark": "https://svgl.app/library/gemini_wordmark.svg",
+    "url": "https://gemini.google.com/"
+  },
+  {
+    "id": 477,
+    "title": "xAI (Grok)",
+    "category": ["AI"],
+    "route": {
+      "light": "https://svgl.app/library/xai_light.svg",
+      "dark": "https://svgl.app/library/xai_dark.svg"
+    },
+    "url": "https://grok.com/"
+  },
+  {
+    "id": 478,
+    "title": "Qwen",
+    "category": ["AI"],
+    "route": {
+      "light": "https://svgl.app/library/qwen_light.svg",
+      "dark": "https://svgl.app/library/qwen_dark.svg"
+    },
+    "url": "https://chat.qwenlm.ai/"
+  },
+  {
+    "id": 479,
+    "title": "Inflection AI",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/inflectionai_light.svg",
+      "dark": "https://svgl.app/library/inflectionai_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/inflectionai_wordmark_light.svg",
+      "dark": "https://svgl.app/library/inflectionai_wordmark_dark.svg"
+    },
+    "url": "https://inflection.ai/"
+  },
+  {
+    "id": 480,
+    "title": "D3.js",
+    "category": "Library",
+    "route": "https://svgl.app/library/D3.svg",
+    "url": "https://d3js.org/"
+  },
+  {
+    "id": 481,
+    "title": "Anthropic",
+    "category": "AI",
+    "route": {
+      "light": "https://svgl.app/library/anthropic_black.svg",
+      "dark": "https://svgl.app/library/anthropic_white.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/anthropic_black_wordmark.svg",
+      "dark": "https://svgl.app/library/anthropic_white_wordmark.svg"
+    },
+    "url": "https://www.anthropic.com/"
+  },
+  {
+    "id": 482,
+    "title": "Replit",
+    "category": "Software",
+    "route": "https://svgl.app/library/replit.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/replit-wordmark-light.svg",
+      "dark": "https://svgl.app/library/replit-wordmark-dark.svg"
+    },
+    "url": "https://replit.com/",
+    "brandUrl": "https://replit.com/brandkit"
+  },
+  {
+    "id": 483,
+    "title": "Magic UI",
+    "category": "Library",
+    "route": "https://svgl.app/library/magicui.svg",
+    "url": "https://magicui.design/"
+  },
+  {
+    "id": 484,
+    "title": "Web Components",
+    "category": "Library",
+    "route": "https://svgl.app/library/webcomponents.svg",
+    "url": "https://www.webcomponents.org/"
+  },
+  {
+    "id": 485,
+    "title": "Designali",
+    "category": ["Software", "Design"],
+    "route": "https://svgl.app/library/designali.svg",
+    "url": "https://designali.in"
+  },
+  {
+    "id": 486,
+    "title": "CurseForge",
+    "category": ["Marketplace", "Community"],
+    "route": {
+      "light": "https://svgl.app/library/curseforge.svg",
+      "dark": "https://svgl.app/library/curseforge-dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/curseforge-wordmark.svg",
+      "dark": "https://svgl.app/library/curseforge-wordmark-dark.svg"
+    },
+    "url": "https://curseforge.com/",
+    "brandUrl": "https://www.figma.com/file/YYn36CxVpcT6aPKDXIH9JG/CurseForge-Brandbook?type=design&node-id=0-1&t=dvC0gPtyP36PQdsi-0"
+  },
+  {
+    "id": 487,
+    "title": "Cursor",
+    "category": ["Software"],
+    "route": {
+      "light": "https://svgl.app/library/cursor_light.svg",
+      "dark": "https://svgl.app/library/cursor_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/cursor_wordmark_light.svg",
+      "dark": "https://svgl.app/library/cursor_wordmark_dark.svg"
+    },
+    "url": "https://www.cursor.com"
+  },
+  {
+    "id": 488,
+    "title": "Ghostty",
+    "category": ["Software"],
+    "route": "https://svgl.app/library/ghostty.svg",
+    "wordmark": {
+      "light": "https://svgl.app/library/ghostty_wordmark_light.svg",
+      "dark": "https://svgl.app/library/ghostty_wordmark_dark.svg"
+    },
+    "url": "https://ghostty.org/"
+  },
+  {
+    "id": 489,
+    "title": "Better Auth",
+    "category": ["Authentication", "Library"],
+    "route": {
+      "light": "https://svgl.app/library/better-auth_light.svg",
+      "dark": "https://svgl.app/library/better-auth_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/better-auth_wordmark_light.svg",
+      "dark": "https://svgl.app/library/better-auth_wordmark_dark.svg"
+    },
+    "url": "https://www.better-auth.com/"
+  },
+  {
+    "id": 490,
+    "title": "Buy Me a Coffee",
+    "category": ["Software"],
+    "route": "https://svgl.app/library/bmc.svg",
+    "brandUrl": "https://buymeacoffee.com/brand",
+    "url": "https://buymeacoffee.com/"
+  },
+  {
+    "id": 491,
+    "title": "GitHub",
+    "category": "Software",
+    "route": {
+      "light": "https://svgl.app/library/github_light.svg",
+      "dark": "https://svgl.app/library/github_dark.svg"
+    },
+    "wordmark": {
+      "light": "https://svgl.app/library/github_wordmark_light.svg",
+      "dark": "https://svgl.app/library/github_wordmark_dark.svg"
+    },
+    "url": "https://github.com/",
+    "brandUrl": "https://brand.github.com/"
+  },
+  {
+    "id": 492,
+    "title": "Firebase Studio",
+    "category": ["AI", "Google"],
+    "route": "https://svgl.app/library/firebase-studio.svg",
+    "url": "https://firebase.studio/"
+  },
+  {
+    "id": 493,
+    "title": "HeroUI",
+    "category": "Library",
+    "route": {
+      "light": "https://svgl.app/library/heroui_black.svg",
+      "dark": "https://svgl.app/library/heroui_light.svg"
+    },
+    "url": "https://www.heroui.com/"
+  }
+]
